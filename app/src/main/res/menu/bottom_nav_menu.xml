@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:title="@string/home_txt_bottom_nav"
+        android:icon="@drawable/ic_home"
+        android:enabled="true"/>
+
+    <item
+        android:id="@+id/launchesFragment"
+        android:title="Launches"
+        android:icon="@drawable/rocket"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/searchFragment"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        android:enabled="true"/>
+
+    <item
+        android:id="@+id/notificationsFragment"
+        android:title="Notifications"
+        android:icon="@drawable/ic_notifications"
+        android:enabled="true"/>
+
+
+</menu>
