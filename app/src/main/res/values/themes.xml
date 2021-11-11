@@ -28,6 +28,22 @@
         <item name ="android:fontFamily">@font/ubuntu_light</item>
     </style>
 
+    <style name="Theme.SayariProject.TextAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/ubuntu</item>
+        <item name="android:textColor">@color/primaryLightColor</item>
+    </style>
+
+    <style name="Theme.SayariProject.TextAppearanceBottomAppBar" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/ubuntu</item>
+    </style>
+
+    <style name="Theme.SayariProject.Widget.App.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemIconTint">@color/navigation_item_color</item>
+        <item name="itemTextColor">@color/navigation_item_color</item>
+        <item name="itemShapeFillColor">@color/navigation_item_background_color</item>
+    </style>
+
 
 
 </resources>

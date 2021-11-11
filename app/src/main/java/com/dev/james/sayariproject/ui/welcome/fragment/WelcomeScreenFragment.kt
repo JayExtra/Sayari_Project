@@ -36,7 +36,6 @@ class WelcomeScreenFragment : BaseFragment<FragmentWelcomeScreenBinding>(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.window?.statusBarColor = Color.WHITE
 
         checkOnBoardingStatus()
         setUpUi()
