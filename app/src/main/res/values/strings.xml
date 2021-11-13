@@ -7,4 +7,10 @@
     <!--- nav drawer actions-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="top_news_heading">Top News</string>
+    <string name="latest_news_heading">Latest News</string>
+    <string name="fake_top_heading_text">Ofcos some fake news title containing information about some spaceflight information on either a mission, launch or an upcoming event.</string>
+    <string name="learn_more_button_text">learn more</string>
+    <string name="fake_news_sub_heading">Some fake heading title about some launch , event or news coming up.</string>
+    <string name="fake_days_subheading">4 days ago</string>
 </resources>

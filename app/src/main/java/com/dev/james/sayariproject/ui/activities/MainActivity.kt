@@ -79,8 +79,7 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setNavigationOnClickListener {
             binding.drawerLayout.open()
         }
-        binding.topAppBar.elevation = 0f
-
+        
     }
 
     private fun styleBottomNavBar() {
