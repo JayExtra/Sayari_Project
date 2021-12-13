@@ -5,6 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
 import com.dev.james.sayariproject.models.Article
+import com.dev.james.sayariproject.utilities.ARTICLE_SEARCH_LOAD_SIZE
 import com.dev.james.sayariproject.utilities.ARTICLE_STARTING_INDEX
 import retrofit2.HttpException
 import java.io.IOException
@@ -16,18 +17,18 @@ class ArticlePagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val start = params.key ?: ARTICLE_STARTING_INDEX
-        val limit = params.loadSize
 
+        val limit = if(queryString == null) params.loadSize else ARTICLE_SEARCH_LOAD_SIZE
         return try {
             val articles = articlesApi.getNewsArticles(
-                queryString,
-                start,
-                limit
-            )
+                    queryString,
+                    start,
+                    limit
+                )
             LoadResult.Page(
                 data = articles,
                 prevKey = if(start == ARTICLE_STARTING_INDEX) null else start - limit,
-                nextKey = if(articles.isEmpty()) null else start
+                nextKey = if(articles.isEmpty()) null else start + limit
             )
 
         }catch (e : IOException){

@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface SpaceFlightApiDataSource {
 
     //returns news article data stream
-    fun getArticlesResultStream(query : String) : Flow<PagingData<Article>>
+    fun getArticlesResultStream(query : String?) : Flow<PagingData<Article>>
 
 }

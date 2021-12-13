@@ -15,7 +15,7 @@ class ArticlesDataSource @Inject constructor(
 ) : SpaceFlightApiDataSource {
 
     //returns a flow of articles wrapped around a PagingData object
-    override fun getArticlesResultStream(query: String): Flow<PagingData<Article>> {
+    override fun getArticlesResultStream(query: String?): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(
                 pageSize = ARTICLE_NETWORK_PAGE_SIZE,
