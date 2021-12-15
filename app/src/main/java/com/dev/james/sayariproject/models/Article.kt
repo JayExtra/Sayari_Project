@@ -1,7 +1,11 @@
 package com.dev.james.sayariproject.models
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.*
 
 data class Article(
@@ -15,16 +19,14 @@ data class Article(
     val date : String,
     val featured : Boolean,
     val summary : String,
-    val launches : List<ArticlesLaunches>,
     val events : List<ArticleEvents>
 ){
-    private val dateFormat : SimpleDateFormat
-        get() =
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 
-    private val newDate : Date get() = dateFormat.parse(date)
-    val createdDateFormatted : String
-        get() = dateFormat.format(newDate)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val dateFormat = ZonedDateTime.parse(date)
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
 }
 
 

@@ -2,11 +2,14 @@ package com.dev.james.sayariproject.di.modules
 
 import android.content.Context
 import com.dev.james.sayariproject.data.datasources.ArticlesDataSource
+import com.dev.james.sayariproject.data.datasources.BaseTopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.SpaceFlightApiDataSource
+import com.dev.james.sayariproject.data.datasources.TopArticlesDataSource
 import com.dev.james.sayariproject.data.local.datastore.DataStoreManager
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.repository.MainRepository
+import com.dev.james.sayariproject.repository.TopArticlesBaseRepo
 import com.dev.james.sayariproject.utilities.ARTICLE_BASE_URL
 import com.dev.james.sayariproject.utilities.LAUNCH_BASE_URL
 import dagger.Module
@@ -82,9 +85,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRepository(
-        articlesDataSource: ArticlesDataSource
+        articlesDataSource: SpaceFlightApiDataSource,
+        topArticlesDataSource: BaseTopArticlesDataSource
     ) : BaseMainRepository {
-        return MainRepository(articlesDataSource)
+        return MainRepository(articlesDataSource , topArticlesDataSource)
     }
 
     //provide articles datasource
@@ -92,6 +96,12 @@ object AppModule {
     @Singleton
     fun provideSpaceFlightApiDataSource(api : NewsApiService) : SpaceFlightApiDataSource {
         return ArticlesDataSource(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTopNewsDataSource(api : NewsApiService) : BaseTopArticlesDataSource {
+        return TopArticlesDataSource(api)
     }
 
 }

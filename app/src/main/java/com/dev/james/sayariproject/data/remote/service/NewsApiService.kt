@@ -17,4 +17,10 @@ interface NewsApiService {
         @Query("_limit")limit : Int
         ) : List<Article>
 
+    @GET("articles")
+    suspend fun getTopArticles(
+        @Query("_featured") featured : Boolean,
+        @Query("_limit")limit : Int
+    ) : List<Article>
+
 }

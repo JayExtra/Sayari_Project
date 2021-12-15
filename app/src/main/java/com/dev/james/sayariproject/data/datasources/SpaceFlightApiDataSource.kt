@@ -9,4 +9,5 @@ interface SpaceFlightApiDataSource {
     //returns news article data stream
     fun getArticlesResultStream(query : String?) : Flow<PagingData<Article>>
 
+
 }

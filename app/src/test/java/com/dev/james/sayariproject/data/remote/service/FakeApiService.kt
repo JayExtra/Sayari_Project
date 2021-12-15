@@ -4,6 +4,7 @@ import android.util.Log
 import com.dev.james.sayariproject.models.Article
 import com.dev.james.sayariproject.models.ArticleEvents
 import com.dev.james.sayariproject.models.ArticlesLaunches
+import java.lang.Exception
 
 class FakeApiService : NewsApiService {
 
@@ -65,7 +66,6 @@ class FakeApiService : NewsApiService {
 
 
    }
-
 
 }
 

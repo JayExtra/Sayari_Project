@@ -16,15 +16,17 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/rocket.xml" value="0.2786458333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/splash_image.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/welcome_screen_2.xml" value="0.21666666666666667" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout-v23/single_top_news_item.xml" value="0.2625" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/drawer_header.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_launches.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_notifications.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_search.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_welcome_screen.xml" value="0.259375" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_news_item.xml" value="0.536" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_top_news_item.xml" value="0.2625" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_news_item.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_top_news_item.xml" value="0.4" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/top_news_item.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/welcome_screen_1.xml" value="0.2484375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/welcome_screen_2.xml" value="0.24680851063829787" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/menu/app_bar_menu.xml" value="0.2625" />

@@ -13,4 +13,6 @@
     <string name="learn_more_button_text">learn more</string>
     <string name="fake_news_sub_heading">Some fake heading title about some launch , event or news coming up.</string>
     <string name="fake_days_subheading">4 days ago</string>
+    <string name="net_err_message">Seems like your network is down. Please check your network!</string>
+    <string name="retry_button_text">retry</string>
 </resources>
