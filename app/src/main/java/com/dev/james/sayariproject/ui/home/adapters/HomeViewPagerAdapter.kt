@@ -13,7 +13,8 @@ import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.models.Article
 
 class HomeViewPagerAdapter(
-    val article : List<Article>
+    val article : List<Article>,
+    val action : (String?) -> Unit
 ) : RecyclerView.Adapter<HomeViewPagerAdapter.ViewPagerViewHolder>() {
 
     inner class ViewPagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -40,6 +41,9 @@ class HomeViewPagerAdapter(
 
         topNewsTitle.text = articleItem.title
 
+        topNewsButton.setOnClickListener {
+            action.invoke(articleItem.url)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
     private fun getResults(queryString : String) : Flow<PagingData<Article>> =
         repository.getArticlesStream(queryString).cachedIn(viewModelScope)
 
-    private fun getTopArticles() = viewModelScope.launch {
+    fun getTopArticles() = viewModelScope.launch {
         _topArticlesLiveData.value = Event(NetworkResource.Loading)
         _topArticlesLiveData.value = Event(repository.getTopArticles())
     }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/welcomeScreenFragment">
+    app:startDestination="@id/redirectorFragment">
 
     <fragment
         android:id="@+id/welcomeScreenFragment"
@@ -35,4 +35,18 @@
         android:name="com.dev.james.sayariproject.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/redirectorFragment"
+        android:name="com.dev.james.sayariproject.ui.welcome.fragment.RedirectorFragment"
+        android:label="fragmnt_redirector"
+        tools:layout="@layout/fragmnt_redirector" >
+        <action
+            android:id="@+id/action_redirectorFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph" />
+        <action
+            android:id="@+id/action_redirectorFragment_to_welcomeScreenFragment"
+            app:destination="@id/welcomeScreenFragment"
+            app:popUpTo="@id/nav_graph" />
+    </fragment>
 </navigation>

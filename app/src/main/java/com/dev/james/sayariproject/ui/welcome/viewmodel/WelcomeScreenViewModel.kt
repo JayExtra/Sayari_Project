@@ -1,11 +1,14 @@
 package com.dev.james.sayariproject.ui.welcome.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.dev.james.sayariproject.repository.DatastoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
@@ -18,7 +21,9 @@ class WelcomeScreenViewModel @Inject constructor(
     //get on boarding status
     val onBoardingValue : StateFlow<Boolean> get() =
         datastoreRepository.getOnBoardingStatus()
-            .stateIn(viewModelScope , SharingStarted.Lazily , false )
+            .stateIn(viewModelScope , SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000) , false )
+
+    val onBrdingValue = datastoreRepository.getOnBoardingStatus().asLiveData()
 
     //set on boarding value
     fun setOnBoardingValue(value : Boolean) = viewModelScope.launch {

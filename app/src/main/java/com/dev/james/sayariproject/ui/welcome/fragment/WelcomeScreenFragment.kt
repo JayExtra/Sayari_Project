@@ -3,6 +3,7 @@ package com.dev.james.sayariproject.ui.welcome.fragment
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -11,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -32,25 +34,13 @@ class WelcomeScreenFragment : BaseFragment<FragmentWelcomeScreenBinding>(){
 
     private var pagePosition : Int = 0
 
-    private val viewModel : WelcomeScreenViewModel by viewModels()
+    private val viewModel : WelcomeScreenViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        checkOnBoardingStatus()
         setUpUi()
         setUpButtonListeners()
         initMaterialTransitions()
-    }
-
-    private fun checkOnBoardingStatus() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.onBoardingValue.collectLatest { value ->
-                if (value){
-                    findNavController().navigate(R.id.action_welcomeScreenFragment_to_homeFragment)
-                }
-            }
-        }
     }
 
 
@@ -135,6 +125,7 @@ class WelcomeScreenFragment : BaseFragment<FragmentWelcomeScreenBinding>(){
                 nexBtn.setOnClickListener {
                     if(pagePosition == 1){
                         viewModel.setOnBoardingValue(true)
+                        Log.d("WelcomeFrag", "setUpButtonListeners: on boarding result set to true ")
                         findNavController().navigate(R.id.action_welcomeScreenFragment_to_homeFragment)
                     }else{
                         welcomeScreenViewPager.currentItem = pagePosition+1

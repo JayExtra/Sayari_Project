@@ -1,9 +1,17 @@
 package com.dev.james.sayariproject.ui.home
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.transition.Slide
+import android.transition.Transition
+import android.transition.TransitionManager
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -11,7 +19,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -21,11 +28,14 @@ import com.dev.james.sayariproject.ui.base.BaseFragment
 import com.dev.james.sayariproject.ui.home.adapters.ArticlesRecyclerAdapter
 import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
 import com.dev.james.sayariproject.utilities.NetworkResource
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -34,7 +44,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val homeViewModel : HomeViewModel by viewModels()
 
-    private val articlesRecyclerAdapter : ArticlesRecyclerAdapter = ArticlesRecyclerAdapter()
+    private val articlesRecyclerAdapter = ArticlesRecyclerAdapter { url ->
+        launchBrowser(url)
+    }
+
+    private fun launchBrowser(url: String?) {
+        url?.let {
+            Toast.makeText(requireContext() , "Opening browser..." , Toast.LENGTH_LONG).show()
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+        }?: Toast.makeText(requireContext() , "No news site available" , Toast.LENGTH_LONG).show()
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,12 +63,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         setUpTopNewsViewPager()
 
+        setupUi()
+
+        startButtonToggleTimer()
+
         binding.bindState(
             uiState = homeViewModel.uiState,
             pagingData = homeViewModel.pagingDataFlow,
             uiActions = homeViewModel.accept
         )
 
+    }
+
+    fun setupUi(){
+        binding.apply {
+            buttonMoveUp.setOnClickListener {
+                lifecycleScope.launch {
+                    latesNewsRecyclerView.scrollToPosition(0)
+                    delay(100)
+                    buttonMoveUp.toggle(false)
+                }
+            }
+
+            btnRefresh.setOnClickListener {
+                refresh()
+                it.toggle(false)
+                startButtonToggleTimer()
+            }
+        }
     }
 
     private fun FragmentHomeBinding.bindState(
@@ -58,6 +101,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         latesNewsRecyclerView.adapter = articlesRecyclerAdapter
         latesNewsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL , false)
+
+        latesNewsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val scrolledPosition =
+                    (recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
+
+                if (scrolledPosition != null){
+                    if(scrolledPosition >= 1){
+                        buttonMoveUp.toggle(true)
+                    } else {
+                        buttonMoveUp.toggle(false)
+                    }
+                }
+            }
+        })
 
         bindList(
             uiState = uiState,
@@ -87,6 +146,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 retryButton.setOnClickListener {
                     articlesRecyclerAdapter.retry()
+                    homeViewModel.getTopArticles()
+
                 }
 
                 netErrorMess.isVisible = loadState.refresh is LoadState.Error && articlesRecyclerAdapter.itemCount == 0
@@ -98,12 +159,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     ?: loadState.prepend as? LoadState.Error
 
                 errorState?.let {
-
-                    Toast.makeText(requireContext(),
-                        "Woops: ${it.error}",
-                        Toast.LENGTH_SHORT)
-                        .show()
-
+                    Log.d("HomeFragment", "bindList: whoops! : ${it.error} ")
                 }
 
             }
@@ -125,7 +181,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     is NetworkResource.Success -> {
                         makeVisible()
                         val topArticles =  resource.value
-                        val adapter = HomeViewPagerAdapter(topArticles)
+                        val adapter = HomeViewPagerAdapter(topArticles) { url ->
+                            launchBrowser(url)
+                        }
                         binding.topNewsViewPager.adapter = adapter
                         setUpPageIndicatorDots()
                     }
@@ -165,6 +223,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun setUpPageIndicatorDots() {
         binding.apply {
             dotsIndicator.setViewPager2(topNewsViewPager)
+        }
+    }
+
+    //toggles the scroll up or down button
+    fun View.toggle(show : Boolean){
+        val transition : Transition = Slide(Gravity.RIGHT)
+        transition.duration = 200
+        transition.addTarget(this)
+        TransitionManager.beginDelayedTransition(this.parent as ViewGroup? , transition)
+        this.isVisible = show
+    }
+
+    private fun refresh(){
+        Snackbar.make(binding.root , "Fetching new articles...", Snackbar.LENGTH_SHORT).show()
+        makeInvisible()
+        articlesRecyclerAdapter.refresh()
+        homeViewModel.getTopArticles()
+    }
+
+    private fun startButtonToggleTimer(){
+        lifecycleScope.launch {
+            Handler().postDelayed({
+                binding.btnRefresh.toggle(true)
+            }
+                ,300000)
         }
     }
 }

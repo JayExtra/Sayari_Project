@@ -1,9 +1,11 @@
 package com.dev.james.sayariproject.ui.home.adapters
 
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -17,15 +19,27 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleNewsItemBinding
 import com.dev.james.sayariproject.models.Article
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.ofPattern
+import java.util.*
+import kotlin.time.milliseconds
 
-class ArticlesRecyclerAdapter : PagingDataAdapter<Article,ArticlesRecyclerAdapter.ArticlesViewHolder>(DiffCallback()) {
+class ArticlesRecyclerAdapter(
+    private val action : (String?) -> Unit
+) : PagingDataAdapter<Article,ArticlesRecyclerAdapter.ArticlesViewHolder>(DiffCallback()) {
 
+    private val formatter : DateFormat
+        get() =
+            SimpleDateFormat("dd-MMM-yyy")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesViewHolder {
         val binding = SingleNewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ArticlesViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ArticlesViewHolder, position: Int) {
         val currentItem = getItem(position)
 
@@ -39,17 +53,30 @@ class ArticlesRecyclerAdapter : PagingDataAdapter<Article,ArticlesRecyclerAdapte
 
 
     inner class ArticlesViewHolder(private val binding : SingleNewsItemBinding) : RecyclerView.ViewHolder(binding.root){
+        @RequiresApi(Build.VERSION_CODES.O)
         fun binding(article : Article) {
            binding.apply {
                newsSubHeadingTxt.text = article.title
                setUpImage(article , binding)
-              // setUpDate(article , binding)
+               setUpDate(article , binding)
+
+               root.setOnClickListener {
+                   action.invoke(article.url)
+               }
            }
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         private fun setUpDate(article: Article, binding: SingleNewsItemBinding) {
             binding.apply {
-                daysIndicatorTxt.text = article.createdDateFormatted.toString()
+                val zonedTime = article.createdDateFormatted
+
+                zonedTime?.let {
+                    val date = Date.from(zonedTime.toInstant())
+                    val formatedDate = formatter.format(date)
+                    binding.daysIndicatorTxt.text = formatedDate
+                }
+
             }
         }
 

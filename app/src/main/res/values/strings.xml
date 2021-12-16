@@ -7,7 +7,7 @@
     <!--- nav drawer actions-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="top_news_heading">Top News</string>
+    <string name="top_news_heading">Featured</string>
     <string name="latest_news_heading">Latest News</string>
     <string name="fake_top_heading_text">Ofcos some fake news title containing information about some spaceflight information on either a mission, launch or an upcoming event.</string>
     <string name="learn_more_button_text">learn more</string>
@@ -15,4 +15,5 @@
     <string name="fake_days_subheading">4 days ago</string>
     <string name="net_err_message">Seems like your network is down. Please check your network!</string>
     <string name="retry_button_text">retry</string>
+    <string name="move_up_button">start</string>
 </resources>
