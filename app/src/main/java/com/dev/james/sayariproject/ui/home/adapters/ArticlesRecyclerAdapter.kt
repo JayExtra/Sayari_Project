@@ -19,20 +19,18 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleNewsItemBinding
 import com.dev.james.sayariproject.models.Article
+import java.lang.reflect.Array.get
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatter.ofPattern
 import java.util.*
-import kotlin.time.milliseconds
 
 class ArticlesRecyclerAdapter(
     private val action : (String?) -> Unit
 ) : PagingDataAdapter<Article,ArticlesRecyclerAdapter.ArticlesViewHolder>(DiffCallback()) {
 
-    private val formatter : DateFormat
-        get() =
-            SimpleDateFormat("dd-MMM-yyy")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesViewHolder {
         val binding = SingleNewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -68,16 +66,25 @@ class ArticlesRecyclerAdapter(
 
         @RequiresApi(Build.VERSION_CODES.O)
         private fun setUpDate(article: Article, binding: SingleNewsItemBinding) {
-            binding.apply {
-                val zonedTime = article.createdDateFormatted
+            val dateFormat = ZonedDateTime.parse(article.date)
 
-                zonedTime?.let {
-                    val date = Date.from(zonedTime.toInstant())
-                    val formatedDate = formatter.format(date)
-                    binding.daysIndicatorTxt.text = formatedDate
-                }
+            val API_TIME_STAMP_PATTERN = "yyyy-MM-dd_HH:mm:ss.SSS"
 
-            }
+            val dateTimeFormatter : DateTimeFormatter =
+                DateTimeFormatter.ofPattern("EEE dd-M-yyyy", Locale.ROOT)
+
+
+            val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
+
+           // val formattedDate1 = createdDateFormatted.format(DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN))
+
+            val formattedDate2 = createdDateFormatted.format(dateTimeFormatter)
+
+            Log.d("ArticlesRv", "setUpDate: $formattedDate2 ")
+
+
+            binding.daysIndicatorTxt.text = formattedDate2
+
         }
 
         private fun setUpImage(article: Article, binding: SingleNewsItemBinding) {

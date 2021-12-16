@@ -6,8 +6,10 @@ import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 data class Article(
     val id : Int,
     val title : String,
@@ -20,13 +22,6 @@ data class Article(
     val featured : Boolean,
     val summary : String,
     val events : List<ArticleEvents>
-){
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private val dateFormat = ZonedDateTime.parse(date)
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
-}
+)
 
 

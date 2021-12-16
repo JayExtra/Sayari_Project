@@ -1,6 +1,7 @@
 package com.dev.james.sayariproject.di.modules
 
 import android.content.Context
+import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.data.datasources.ArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.BaseTopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.SpaceFlightApiDataSource
@@ -17,10 +18,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -32,10 +36,21 @@ object AppModule {
     private val loggingInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
-    //article client
-    private val articleClient = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
+
+    @ArticlesOkhttpClient
+    @Provides
+    @Singleton
+    fun providesArticleOkHttpClient(cache: Cache): OkHttpClient {
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(cacheInterceptor)
+            .cache(cache)
+        if (BuildConfig.DEBUG) okHttpClient.addInterceptor(loggingInterceptor)
+
+        return okHttpClient.build()
+    }
 
     //launch client
     private val launchClient = OkHttpClient.Builder()
@@ -47,12 +62,16 @@ object AppModule {
     @ArticleRetrofitResponse
     @Provides
     @Singleton
-    fun provideArticleRetrofit() : Retrofit =
+    fun provideArticleRetrofit(
+        @ArticlesOkhttpClient okHttpClient: OkHttpClient
+    ) : Retrofit =
         Retrofit.Builder()
             .baseUrl(ARTICLE_BASE_URL)
-            .client(articleClient)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+
 
     //TELL HILT HOW TO PROVIDE LAUNCH RETROFIT INSTANCE
     @LaunchRetrofitResponse
@@ -64,6 +83,8 @@ object AppModule {
             .client(launchClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+
 
     //PROVIDE ARTICLES API
     @Provides
@@ -104,6 +125,30 @@ object AppModule {
         return TopArticlesDataSource(api)
     }
 
+    /*Caching data */
+    @Provides
+    @Singleton
+    fun provideCache(@ApplicationContext appContext: Context): Cache {
+
+        return Cache(
+            File(appContext.applicationContext.cacheDir, "articles_cache"),
+            10 * 1024 * 1024
+        )
+    }
+
+    private val cacheInterceptor = object : Interceptor {
+        @Throws(IOException::class)
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val response: Response = chain.proceed(chain.request())
+            val cacheControl = CacheControl.Builder()
+                .maxAge(30, TimeUnit.DAYS)
+                .build()
+            return response.newBuilder()
+                .header("Cache-Control", cacheControl.toString())
+                .build()
+        }
+    }
+
 }
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -112,4 +157,8 @@ annotation class ArticleRetrofitResponse
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class LaunchRetrofitResponse
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ArticlesOkhttpClient
 
