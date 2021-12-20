@@ -220,6 +220,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
+
+
     private fun setUpPageIndicatorDots() {
         binding.apply {
             dotsIndicator.setViewPager2(topNewsViewPager)

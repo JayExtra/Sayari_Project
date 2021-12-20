@@ -2,7 +2,7 @@
 buildscript {
 
     ext {
-        navigationVersion = "2.4.0-alpha01"
+        navigationVersion = "2.4.0-beta02"
     }
 
     repositories {

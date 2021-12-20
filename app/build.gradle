@@ -48,7 +48,7 @@ android {
 }
 
 dependencies {
-    def nav_version = "2.4.0-alpha01"
+    def nav_version = "2.4.0-beta02"
     def recyclerview = "1.2.1"
     def lifecycle = "2.2.0"
     def roomVersion = "2.2.5"
@@ -128,7 +128,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
 
     // Fragment
-    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha01"
+    implementation "androidx.fragment:fragment-ktx:1.4.0"
 
 
     // Dagger Hilt

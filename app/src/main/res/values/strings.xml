@@ -16,4 +16,9 @@
     <string name="net_err_message">Seems like your network is down. Please check your network!</string>
     <string name="retry_button_text">retry</string>
     <string name="move_up_button">start</string>
+    <string name="watch_vutton_text">watch</string>
+    <string name="remind_me_button_text">remind me</string>
+    <string name="count_down_timer_text">T-00:00:00:00</string>
+    <string name="launch_card_title_text">some title</string>
+    <string name="launch_description_text">some description</string>
 </resources>
