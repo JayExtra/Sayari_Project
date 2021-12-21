@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.dev.james.sayariproject.databinding.FragmentHomeBinding
-import com.dev.james.sayariproject.models.Article
+import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.ui.base.BaseFragment
 import com.dev.james.sayariproject.ui.home.adapters.ArticlesRecyclerAdapter
 import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter

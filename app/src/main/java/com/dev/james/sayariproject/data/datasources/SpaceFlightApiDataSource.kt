@@ -1,7 +1,7 @@
 package com.dev.james.sayariproject.data.datasources
 
 import androidx.paging.PagingData
-import com.dev.james.sayariproject.models.Article
+import com.dev.james.sayariproject.models.articles.Article
 import kotlinx.coroutines.flow.Flow
 
 interface SpaceFlightApiDataSource {

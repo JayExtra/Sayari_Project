@@ -1,13 +1,8 @@
-package com.dev.james.sayariproject.models
+package com.dev.james.sayariproject.models.articles
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
-import java.text.SimpleDateFormat
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 data class Article(

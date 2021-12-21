@@ -1,4 +1,4 @@
-package com.dev.james.sayariproject.models
+package com.dev.james.sayariproject.models.articles
 
 
 data class ArticlesLaunches(

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
-import com.dev.james.sayariproject.models.Article
+import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.utilities.ARTICLE_SEARCH_LOAD_SIZE
 import com.dev.james.sayariproject.utilities.ARTICLE_STARTING_INDEX
 import retrofit2.HttpException

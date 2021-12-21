@@ -1,6 +1,6 @@
 package com.dev.james.sayariproject.data.remote.service
 
-import com.dev.james.sayariproject.models.Article
+import com.dev.james.sayariproject.models.articles.Article
 import retrofit2.http.GET
 import retrofit2.http.Query
 
