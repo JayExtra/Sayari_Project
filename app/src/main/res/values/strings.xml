@@ -3,6 +3,7 @@
     <string name="welcome_screen_1_message">Stay in touch with the latest news from the spaceflight industry</string>
     <string name="welcomeScreen2Txt">Get notified on upcoming launches and events on the go customised to your liking</string>
     <string name="home_txt_bottom_nav">Home</string>
+    <string name="updated_timer">   T-  %02d : %02d : %02d : %02d</string>
 
     <!--- nav drawer actions-->
     <string name="navigation_drawer_open">Open navigation drawer</string>

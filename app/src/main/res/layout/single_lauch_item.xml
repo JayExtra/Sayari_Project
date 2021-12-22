@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/secondaryColor"
                 android:text="@string/watch_vutton_text"
@@ -41,7 +41,7 @@
                 android:id="@+id/launchCardRemindBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/secondaryColor"
@@ -147,6 +147,18 @@
                         app:layout_constraintTop_toTopOf="@+id/launchImage" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/launchStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="status"
+                android:textColor="@color/secondaryColor"
+                app:layout_constraintEnd_toEndOf="@+id/launchCardTimerLabel"
+                app:layout_constraintStart_toStartOf="@+id/launchCardTimerLabel"
+                app:layout_constraintTop_toBottomOf="@+id/launchCardTimerLabel" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

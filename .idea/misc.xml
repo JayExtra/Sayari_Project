@@ -16,6 +16,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/page_indicators.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/rocket.xml" value="0.2786458333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/splash_image.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/tab_selector.xml" value="0.2630208333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/welcome_screen_2.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout-v23/single_top_news_item.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/activity_main.xml" value="0.264" />
@@ -25,6 +26,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_notifications.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_search.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_upcoming_launches.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_upcoming_previous_launches.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_welcome_screen.xml" value="0.259375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragmnt_redirector.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_lauch_item.xml" value="0.264" />
