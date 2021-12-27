@@ -1,25 +1,32 @@
 package com.dev.james.sayariproject.ui.launches
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.dev.james.sayariproject.databinding.FragmentLaunchesBinding
 import com.dev.james.sayariproject.ui.base.BaseFragment
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesViewpagerAdapter
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LaunchesFragment : BaseFragment<FragmentLaunchesBinding>() {
+
+    //private val launchesViewModel : LaunchesViewModel by viewModels()
     override val bindingInflater: (LayoutInflater) -> ViewBinding
         get() = FragmentLaunchesBinding::inflate
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fragmentList = arrayListOf(
+
+        //launchesViewModel.getLaunches(0)
+        val fragmentList = arrayListOf<Fragment>(
             UpcomingLaunchesFragment(),
             PreviousLaunchesFragment()
         )
@@ -44,7 +51,7 @@ class LaunchesFragment : BaseFragment<FragmentLaunchesBinding>() {
                 }
             }.attach()
 
-            makeInitialLoad()
+          /**  makeInitialLoad()
 
             launchesTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
                 override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -74,7 +81,7 @@ class LaunchesFragment : BaseFragment<FragmentLaunchesBinding>() {
                     }
                 }
 
-            })
+            })**/
         }
     }
 

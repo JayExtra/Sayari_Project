@@ -49,4 +49,14 @@
             app:destination="@id/welcomeScreenFragment"
             app:popUpTo="@id/nav_graph" />
     </fragment>
+    <fragment
+        android:id="@+id/upcomingLaunchesFragment"
+        android:name="com.dev.james.sayariproject.ui.launches.UpcomingLaunchesFragment"
+        android:label="fragment_upcoming_launches"
+        tools:layout="@layout/fragment_upcoming_launches" />
+    <fragment
+        android:id="@+id/previousLaunchesFragment"
+        android:name="com.dev.james.sayariproject.ui.launches.PreviousLaunchesFragment"
+        android:label="fragment_previous_launches"
+        tools:layout="@layout/fragment_previous_launches" />
 </navigation>

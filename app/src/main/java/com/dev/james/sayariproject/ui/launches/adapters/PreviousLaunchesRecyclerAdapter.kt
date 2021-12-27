@@ -3,12 +3,9 @@ package com.dev.james.sayariproject.ui.launches.adapters
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Build
-import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -22,85 +19,52 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleLauchItemBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.util.*
-import java.util.concurrent.TimeUnit
 
-@RequiresApi(Build.VERSION_CODES.O)
-class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerAdapter.LaunchViewHolder>(DiffCallback()) {
+class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousLaunchesRecyclerAdapter.PreviousLaunchesViewHolder>(DiffUtilCallback()) {
 
     private lateinit var  context : Context
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviousLaunchesViewHolder {
         val binding = SingleLauchItemBinding.inflate(LayoutInflater.from(parent.context) , parent , false)
-        return LaunchViewHolder(binding)
+        return PreviousLaunchesViewHolder(binding)
     }
-    override fun onBindViewHolder(holder: LaunchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PreviousLaunchesViewHolder, position: Int) {
         val currentItem = getItem(position)
         context = holder.itemView.context
-        if(holder.countDownTimer != null){
-            holder.countDownTimer!!.cancel()
-        }
         if (currentItem != null) {
             holder.binding(currentItem)
         }
     }
 
-    inner class LaunchViewHolder(
+    inner class PreviousLaunchesViewHolder(
         private val binding : SingleLauchItemBinding
     ) : RecyclerView.ViewHolder(binding.root){
 
-        var countDownTimer: CountDownTimer? = null
-
         fun binding(launch : LaunchList){
+
             binding.apply {
                 launchCardTitle.text = launch.name
                 launchCardDesc.text = launch.serviceProvider?.name
                 orbitTxt.text = launch.mission?.orbit?.abbrev
+
+                missionDesc.isVisible = true
+                missionDesc.text = launch.mission?.description
+
+                launchCountdownTimer.isInvisible = true
+                launchCardRemindBtn.isInvisible = true
+                watchStreamBtn.isInvisible = true
+                launchStatus.isInvisible = true
+                launchCardTimerLabel.isInvisible = true
+
                 val padName = launch.pad.name
                 val location = launch.pad.location.name
 
                 launchLocation.text = "$padName | $location "
             }
+
+
             setStatus(launch , binding)
             setUpImage(launch , binding)
-            setUpCountDownTimer(launch , binding)
-        }
-
-
-        private fun setUpCountDownTimer(launch: LaunchList, binding: SingleLauchItemBinding) {
-            val timeDiff = getLaunchDate(launch)
-
-            countDownTimer = object : CountDownTimer(timeDiff , 1000){
-                override fun onTick(millscUntilFinish: Long) {
-                   binding.launchCountdownTimer.text = context.getString(R.string.updated_timer,
-                   TimeUnit.MILLISECONDS.toDays(millscUntilFinish) , TimeUnit.MILLISECONDS.toHours(millscUntilFinish) %24 ,
-                   TimeUnit.MILLISECONDS.toMinutes(millscUntilFinish)%60 ,TimeUnit.MILLISECONDS.toSeconds(millscUntilFinish)%60)
-                }
-
-                override fun onFinish() {
-                    Log.d("LaunchesRv", "onFinish: timer has finished its work")
-
-                }
-
-            }
-
-            (countDownTimer as CountDownTimer).start()
-
-        }
-
-
-        private fun getLaunchDate(launch: LaunchList): Long {
-            val zonedDateTime = ZonedDateTime.parse(launch.date)
-            val createdDateFormatted =
-                zonedDateTime.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
-            val launchDate = Date.from(
-                createdDateFormatted.withZoneSameLocal(ZoneId.systemDefault()).toInstant()
-            ).time
-            val cDate = Calendar.getInstance().timeInMillis
-
-            return launchDate - cDate
-
         }
 
         private fun setUpImage(launch: LaunchList, binding: SingleLauchItemBinding) {
@@ -139,41 +103,42 @@ class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerA
         }
         private fun setStatus(launch: LaunchList, binding: SingleLauchItemBinding) {
             binding.apply {
-                launchStatus.text = launch.status?.name
+                launchStatus2.isVisible = true
+                launchStatus2.text = launch.status?.name
 
                 if(launch.status?.id == 2 ){
-                    launchStatus.setTextColor(Color.BLUE)
+                    launchStatus2.setTextColor(Color.BLUE)
 
                 }
                 if(launch.status?.id == 3 || launch.status?.id == 4  ){
 
-                    launchStatus.setTextColor(Color.GREEN)
+                    launchStatus2.setTextColor(Color.GREEN)
 
                 }
                 if(launch.status?.id == 4){
-                    launchStatus.setTextColor(Color.RED)
+                    launchStatus2.setTextColor(Color.RED)
                 }
                 if(launch.status?.id == 8 ){
-                    launchStatus.setTextColor(Color.MAGENTA)
+                    launchStatus2.setTextColor(Color.MAGENTA)
                 }
 
                 if(launch.status?.id == 1){
-                    launchStatus.setTextColor(Color.CYAN)
+                    launchStatus2.setTextColor(Color.CYAN)
 
                 }
             }
-        }
 
         }
 
+    }
 
-    class DiffCallback : DiffUtil.ItemCallback<LaunchList>(){
+    class DiffUtilCallback : DiffUtil.ItemCallback<LaunchList>() {
         override fun areItemsTheSame(oldItem: LaunchList, newItem: LaunchList): Boolean =
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: LaunchList, newItem: LaunchList): Boolean =
             oldItem == newItem
-
     }
+
 
 }

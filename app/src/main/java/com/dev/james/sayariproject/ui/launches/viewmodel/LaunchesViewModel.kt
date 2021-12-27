@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.launches.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ExperimentalPagingApi
+
 @HiltViewModel
 class LaunchesViewModel @Inject constructor(
     private val repository : BaseMainRepository ,
@@ -23,13 +24,15 @@ class LaunchesViewModel @Inject constructor(
     //private val
 
 
-    lateinit var uiState : StateFlow<UiState>
+     lateinit var uiState : StateFlow<UiState>
 
-    lateinit var pagingDataFlow : Flow<PagingData<LaunchList>>
+     lateinit var pagingDataFlow : Flow<PagingData<LaunchList>>
 
-    lateinit var accept: (UiAction) -> Unit
+     lateinit var accept: (UiAction) -> Unit
 
-    fun getLaunches(fragId: Int) = viewModelScope.launch {
+    fun getLaunches(fragId : Int) = viewModelScope.launch {
+
+        Log.d("LaunchesViewModel", "getLaunches: function called")
 
         val initialQuery: String = savedStateHandle.get<String>(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
 
@@ -68,7 +71,7 @@ class LaunchesViewModel @Inject constructor(
         super.onCleared()
     }
 
-    @ExperimentalPagingApi
+
     private fun searchLaunches(queryString : String, fragId:Int) : Flow<PagingData<LaunchList>> =
         repository.getLaunchesStream(queryString , fragId).cachedIn(viewModelScope)
 

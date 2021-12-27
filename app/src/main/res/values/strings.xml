@@ -3,7 +3,7 @@
     <string name="welcome_screen_1_message">Stay in touch with the latest news from the spaceflight industry</string>
     <string name="welcomeScreen2Txt">Get notified on upcoming launches and events on the go customised to your liking</string>
     <string name="home_txt_bottom_nav">Home</string>
-    <string name="updated_timer">   T-  %02d : %02d : %02d : %02d</string>
+    <string name="updated_timer">   T-%02d:%02d:%02d:%02d</string>
 
     <!--- nav drawer actions-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -23,4 +23,5 @@
     <string name="launch_card_title_text">some title</string>
     <string name="launch_description_text">some description</string>
     <string name="launches_tab_layout">launches tab layout</string>
+    <string name="net_err_mess">Could not fetch the launch list. Please check your network or try again.</string>
 </resources>

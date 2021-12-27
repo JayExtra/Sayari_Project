@@ -22,7 +22,7 @@ class LaunchesPagingSource(
 
         return try {
             if(fragId == 1){
-                val launches = launchApi.getUpcomingLaunches(query, limit , offset)
+                val launches = launchApi.getPreviousLaunches(query, limit , offset)
                 Log.d(TAG, "load: ${launches.toString()}")
                 LoadResult.Page(
                     data = launches.launchList,
@@ -31,7 +31,7 @@ class LaunchesPagingSource(
 
                 )
             }else{
-                val launches = launchApi.getPreviousLaunches(query ,limit , offset)
+                val launches = launchApi.getUpcomingLaunches(query ,limit , offset)
                 Log.d(TAG, "load: ${launches.toString()}")
                 LoadResult.Page(
                     data = launches.launchList,
