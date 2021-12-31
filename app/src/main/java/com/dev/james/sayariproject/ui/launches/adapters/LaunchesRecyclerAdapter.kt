@@ -24,6 +24,7 @@ import com.dev.james.sayariproject.databinding.SingleLauchItemBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -57,6 +58,7 @@ class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerA
                 launchCardTitle.text = launch.name
                 launchCardDesc.text = launch.serviceProvider?.name
                 orbitTxt.text = launch.mission?.orbit?.abbrev
+                dateTxt.text = getLaunchDateString(launch)
                 val padName = launch.pad.name
                 val location = launch.pad.location.name
 
@@ -100,6 +102,21 @@ class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerA
             val cDate = Calendar.getInstance().timeInMillis
 
             return launchDate - cDate
+
+        }
+
+        private fun getLaunchDateString(launch: LaunchList): String {
+            val dateFormat = ZonedDateTime.parse(launch.date)
+
+            val dateTimeFormatter: DateTimeFormatter =
+                DateTimeFormatter.ofPattern("dd-M-yyyy", Locale.ROOT)
+
+
+            val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
+
+            // val formattedDate1 = createdDateFormatted.format(DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN))
+
+            return createdDateFormatted.format(dateTimeFormatter)
 
         }
 

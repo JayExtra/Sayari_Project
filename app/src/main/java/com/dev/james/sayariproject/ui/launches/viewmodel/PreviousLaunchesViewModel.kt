@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dev.james.sayariproject.models.launch.LaunchList
@@ -14,23 +13,20 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class LaunchesViewModel @Inject constructor(
-    private val repository : BaseMainRepository ,
+class PreviousLaunchesViewModel @Inject constructor(
+    private val repository: BaseMainRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    //private val
 
+    val uiState : StateFlow<UiState>
 
-     lateinit var uiState : StateFlow<UiState>
+    val pagingDataFlow : Flow<PagingData<LaunchList>>
 
-     lateinit var pagingDataFlow : Flow<PagingData<LaunchList>>
+    val accept: (UiAction) -> Unit
 
-     lateinit var accept: (UiAction) -> Unit
-
-    fun getLaunches(fragId : Int) = viewModelScope.launch {
+    init {
 
         Log.d("LaunchesViewModel", "getLaunches: function called")
 
@@ -45,7 +41,7 @@ class LaunchesViewModel @Inject constructor(
 
         pagingDataFlow = searches
             .flatMapLatest {
-                searchLaunches(queryString = it.query , fragId)
+                searchLaunches(queryString = it.query , 1)
             }
             .cachedIn(viewModelScope)
 
@@ -75,18 +71,7 @@ class LaunchesViewModel @Inject constructor(
     private fun searchLaunches(queryString : String, fragId:Int) : Flow<PagingData<LaunchList>> =
         repository.getLaunchesStream(queryString , fragId).cachedIn(viewModelScope)
 
-
-
 }
-
-sealed class UiAction {
-    data class Search(val query : String) : UiAction()
-}
-
-data class UiState(
-    val query : String = DEFAULT_QUERY,
-    val pagingData : PagingData<LaunchList> = PagingData.empty()
-)
 
 private const val LAST_SEARCH_QUERY = "last_search_query"
 private const val  DEFAULT_QUERY = ""

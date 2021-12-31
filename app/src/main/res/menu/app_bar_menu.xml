@@ -6,5 +6,13 @@
         android:title="settings"
         android:id="@+id/settingsFragment"
         app:showAsAction="collapseActionView"/>
+    <item
+        android:title="@string/search_app_bar_txt"
+        android:id="@+id/searchAction"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:icon="@drawable/ic_search"
+        android:visible="false"
+        android:iconTint="@color/primaryColor"/>
 
 </menu>

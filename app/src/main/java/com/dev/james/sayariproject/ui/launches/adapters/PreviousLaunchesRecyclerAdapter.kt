@@ -3,8 +3,10 @@ package com.dev.james.sayariproject.ui.launches.adapters
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -19,10 +21,16 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleLauchItemBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousLaunchesRecyclerAdapter.PreviousLaunchesViewHolder>(DiffUtilCallback()) {
 
     private lateinit var  context : Context
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviousLaunchesViewHolder {
         val binding = SingleLauchItemBinding.inflate(LayoutInflater.from(parent.context) , parent , false)
@@ -40,12 +48,14 @@ class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousL
         private val binding : SingleLauchItemBinding
     ) : RecyclerView.ViewHolder(binding.root){
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun binding(launch : LaunchList){
 
             binding.apply {
                 launchCardTitle.text = launch.name
                 launchCardDesc.text = launch.serviceProvider?.name
                 orbitTxt.text = launch.mission?.orbit?.abbrev
+                dateTxt.text = getLaunchDateString(launch)
 
                 missionDesc.isVisible = true
                 missionDesc.text = launch.mission?.description
@@ -99,6 +109,22 @@ class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousL
                     })
                     .into(launchImage)
             }
+
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        private fun getLaunchDateString(launch: LaunchList): String {
+            val dateFormat = ZonedDateTime.parse(launch.date)
+
+            val dateTimeFormatter: DateTimeFormatter =
+                DateTimeFormatter.ofPattern("dd-M-yyyy", Locale.ROOT)
+
+
+            val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
+
+            // val formattedDate1 = createdDateFormatted.format(DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN))
+
+            return createdDateFormatted.format(dateTimeFormatter)
 
         }
         private fun setStatus(launch: LaunchList, binding: SingleLauchItemBinding) {

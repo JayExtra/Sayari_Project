@@ -20,11 +20,9 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.james.sayariproject.databinding.FragmentPreviousLaunchesBinding
-import com.dev.james.sayariproject.databinding.FragmentUpcomingLaunchesBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
-import com.dev.james.sayariproject.ui.launches.adapters.LaunchesRecyclerAdapter
 import com.dev.james.sayariproject.ui.launches.adapters.PreviousLaunchesRecyclerAdapter
-import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
+import com.dev.james.sayariproject.ui.launches.viewmodel.PreviousLaunchesViewModel
 import com.dev.james.sayariproject.ui.launches.viewmodel.UiAction
 import com.dev.james.sayariproject.ui.launches.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +38,7 @@ import kotlinx.coroutines.launch
 class PreviousLaunchesFragment : Fragment() {
     private var _binding: FragmentPreviousLaunchesBinding? = null
     private val binding get() = _binding!!
-    private val launchesViewModel : LaunchesViewModel by viewModels()
+    private val launchesViewModel : PreviousLaunchesViewModel by viewModels()
     private val adapter = PreviousLaunchesRecyclerAdapter()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +46,6 @@ class PreviousLaunchesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPreviousLaunchesBinding.inflate(inflater , container , false)
-        launchesViewModel.getLaunches(1)
         binding.bindState(
             uiState = launchesViewModel.uiState,
             pagingData = launchesViewModel.pagingDataFlow,
@@ -148,5 +145,9 @@ class PreviousLaunchesFragment : Fragment() {
         this.isVisible = show
     }
 
+    fun receiveQuery(query : String){
+        Log.d("PreviousLaunches", "query RECEIVED: $query ")
+
+    }
 
 }

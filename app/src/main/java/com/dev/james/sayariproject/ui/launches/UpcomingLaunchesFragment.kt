@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.launches
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.transition.Slide
@@ -13,19 +14,16 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.james.sayariproject.databinding.FragmentUpcomingLaunchesBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesRecyclerAdapter
-import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
+import com.dev.james.sayariproject.ui.launches.viewmodel.UpcomingLaunchesViewModel
 import com.dev.james.sayariproject.ui.launches.viewmodel.UiAction
 import com.dev.james.sayariproject.ui.launches.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,8 +39,25 @@ import kotlinx.coroutines.launch
 class UpcomingLaunchesFragment : Fragment() {
     private var _binding: FragmentUpcomingLaunchesBinding? = null
     private val binding get() = _binding!!
-    private val launchesViewModel : LaunchesViewModel by viewModels()
+    private val mUpcomingLaunchesViewModel : UpcomingLaunchesViewModel by viewModels()
     private val adapter = LaunchesRecyclerAdapter()
+
+    var mCommunicator : QuerySelectedListenerPrevious? = null
+
+
+    interface QuerySelectedListenerPrevious {
+        fun sendQueryToPrevFrag(query : String)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mCommunicator = context as QuerySelectedListenerPrevious
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCommunicator = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,11 +65,11 @@ class UpcomingLaunchesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentUpcomingLaunchesBinding.inflate(inflater , container , false)
-        launchesViewModel.getLaunches(0)
+
         binding.bindState(
-            uiState = launchesViewModel.uiState,
-            pagingData = launchesViewModel.pagingDataFlow,
-            uiAction = launchesViewModel.accept
+            uiState = mUpcomingLaunchesViewModel.uiState,
+            pagingData = mUpcomingLaunchesViewModel.pagingDataFlow,
+            uiAction = mUpcomingLaunchesViewModel.accept
         )
 
         binding.scrollUpBtn.setOnClickListener { btnMoveUp ->
@@ -141,6 +156,7 @@ class UpcomingLaunchesFragment : Fragment() {
         }
     }
 
+
     fun View.toggle(show : Boolean){
         val transition : Transition = Slide(Gravity.BOTTOM)
         transition.duration = 200
@@ -148,6 +164,13 @@ class UpcomingLaunchesFragment : Fragment() {
         TransitionManager.beginDelayedTransition(this.parent as ViewGroup? , transition)
         this.isVisible = show
     }
+
+
+    fun receiveQuery(query : String){
+        Log.d("UpcomingLaunches", "query RECEIVED: $query ")
+        mCommunicator?.sendQueryToPrevFrag(query)
+    }
+
 
 
 }
