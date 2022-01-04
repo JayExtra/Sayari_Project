@@ -1,23 +1,20 @@
 package com.dev.james.sayariproject.ui.launches
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.room.RoomDatabase
-import androidx.viewbinding.ViewBinding
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentLaunchesBinding
-import com.dev.james.sayariproject.databinding.FragmentUpcomingLaunchesBinding
-import com.dev.james.sayariproject.ui.activities.viewmodels.SharedViewModel
-import com.dev.james.sayariproject.ui.base.BaseFragment
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesViewpagerAdapter
+import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,26 +25,9 @@ class LaunchesFragment : Fragment() {
     private var _binding: FragmentLaunchesBinding? = null
     private val binding get() = _binding!!
 
-
-    private val sharedViewModel : SharedViewModel by activityViewModels()
-
-    var mCommunicator : QuerySelectedListener? = null
-
-
-    interface QuerySelectedListener {
-        fun sendQueryToFragment(query : String)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mCommunicator = context as QuerySelectedListener
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mCommunicator = null
-    }
-
+    private lateinit var navController : NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val mLaunchesViewModel : LaunchesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,12 +36,18 @@ class LaunchesFragment : Fragment() {
     ): View? {
         _binding = FragmentLaunchesBinding.inflate(inflater , container , false)
 
-        sharedViewModel.queryPassed.observe(viewLifecycleOwner , Observer { event ->
-            event.getContentIfNotHandled()?.let { query ->
-                Log.d("LaunchFragment", "query received: $query")
-                mCommunicator?.sendQueryToFragment(query)
-            }
-        })
+        //setup controller and navHostFragment
+        navController = findNavController()
+        appBarConfiguration = AppBarConfiguration(
+            navController.graph,
+            binding.drawerLayout
+        )
+
+        binding.navigationView.setupWithNavController(navController)
+
+        binding.launchesTopAppBar.setNavigationOnClickListener {
+            binding.drawerLayout.open()
+        }
 
         //launchesViewModel.getLaunches(0)
         val fragmentList = arrayListOf<Fragment>(
@@ -122,12 +108,29 @@ class LaunchesFragment : Fragment() {
             })**/
         }
 
+        val searchToggle = binding.launchesTopAppBar.menu.findItem(R.id.searchAction)
+        val searchView = searchToggle.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                mLaunchesViewModel.receiveQuery(query)
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return true
+            }
+
+        })
+
         return binding.root
 
     }
 
 
-    private fun makeInitialLoad() {
+
+
+   /** private fun makeInitialLoad() {
         val currentTab = binding.launchesTabLayout.selectedTabPosition
         if(currentTab == 1){
             Log.d("LaunchFragment", "makeInitialLoad: previous tab selected ")
@@ -135,5 +138,5 @@ class LaunchesFragment : Fragment() {
             Log.d("LaunchFragment", "makeInitialLoad: upcoming tab selected ")
         }
     }
-
+**/
 }

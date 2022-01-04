@@ -1,19 +1,16 @@
 package com.dev.james.sayariproject.ui.launches
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.transition.Slide
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -23,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dev.james.sayariproject.databinding.FragmentUpcomingLaunchesBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesRecyclerAdapter
-import com.dev.james.sayariproject.ui.launches.viewmodel.UpcomingLaunchesViewModel
+import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
 import com.dev.james.sayariproject.ui.launches.viewmodel.UiAction
 import com.dev.james.sayariproject.ui.launches.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,37 +36,24 @@ import kotlinx.coroutines.launch
 class UpcomingLaunchesFragment : Fragment() {
     private var _binding: FragmentUpcomingLaunchesBinding? = null
     private val binding get() = _binding!!
-    private val mUpcomingLaunchesViewModel : UpcomingLaunchesViewModel by viewModels()
+    private val mLaunchesViewModel : LaunchesViewModel by activityViewModels()
     private val adapter = LaunchesRecyclerAdapter()
-
-    var mCommunicator : QuerySelectedListenerPrevious? = null
-
-
-    interface QuerySelectedListenerPrevious {
-        fun sendQueryToPrevFrag(query : String)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mCommunicator = context as QuerySelectedListenerPrevious
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mCommunicator = null
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        executeInitialLoad()
+
+        setHasOptionsMenu(true)
         _binding = FragmentUpcomingLaunchesBinding.inflate(inflater , container , false)
 
         binding.bindState(
-            uiState = mUpcomingLaunchesViewModel.uiState,
-            pagingData = mUpcomingLaunchesViewModel.pagingDataFlow,
-            uiAction = mUpcomingLaunchesViewModel.accept
+            uiState = mLaunchesViewModel.uiState,
+            pagingData = mLaunchesViewModel.pagingDataFlow,
+            uiAction = mLaunchesViewModel.accept
         )
 
         binding.scrollUpBtn.setOnClickListener { btnMoveUp ->
@@ -81,6 +65,11 @@ class UpcomingLaunchesFragment : Fragment() {
         }
         return binding.root
     }
+
+    private fun executeInitialLoad() {
+        mLaunchesViewModel.getLaunches(null , 0)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -116,6 +105,22 @@ class UpcomingLaunchesFragment : Fragment() {
             uiState = uiState,
             pagingData = pagingData
         )
+        bindSearch(
+            uiState = uiState,
+            onQueryChanged = uiAction
+        )
+    }
+
+    private fun bindSearch(
+        uiState: StateFlow<UiState>,
+        onQueryChanged: (UiAction.Search) -> Unit
+    ){
+        mLaunchesViewModel.queryPassed.observe(viewLifecycleOwner , { event ->
+            event.getContentIfNotHandled()?.let { query ->
+                Log.d("UpcomingFrag", "bindSearch: query received : $query")
+                updateLaunchListFromInput(onQueryChanged , query)
+            }
+        })
 
     }
 
@@ -165,12 +170,15 @@ class UpcomingLaunchesFragment : Fragment() {
         this.isVisible = show
     }
 
-
-    fun receiveQuery(query : String){
-        Log.d("UpcomingLaunches", "query RECEIVED: $query ")
-        mCommunicator?.sendQueryToPrevFrag(query)
+    private fun updateLaunchListFromInput(
+        onQueryChanged : (UiAction.Search) -> Unit,
+        query : String
+    ){
+        if(query.isNotEmpty()){
+            binding.upcomingPreviousRv.scrollToPosition(0)
+            onQueryChanged(UiAction.Search(query = query))
+        }
     }
-
 
 
 }

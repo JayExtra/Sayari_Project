@@ -1,10 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.launches.LaunchesFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/launches_main_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.launches.LaunchesFragment">
+
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/launchesAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/launchesTopAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primaryLightColor"
+            android:backgroundTint="@color/white"
+            app:elevation="0dp"
+            app:menu="@menu/launches_app_bar_menu"
+            app:navigationIcon="@drawable/ic_menu"
+            app:title="" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/launchesTabLayout"
@@ -13,13 +51,13 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:background="@color/white"
-        app:tabSelectedTextColor="@color/primaryColor"
         android:contentDescription="@string/launches_tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/launchesAppBarLayout"
         app:tabIndicatorColor="@color/primaryColor"
-        app:tabTextColor="@color/grey"/>
+        app:tabSelectedTextColor="@color/primaryColor"
+        app:tabTextColor="@color/grey" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/launchesViewPager"
@@ -31,3 +69,19 @@
         app:layout_constraintTop_toBottomOf="@+id/launchesTabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        style="@style/Theme.SayariProject.Widget.App.NavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/drawer_header"
+        app:itemIconTint="@drawable/bottom_navigation_selector"
+        app:itemTextAppearance="@style/Theme.SayariProject.TextAppearance"
+        app:menu="@menu/drawer_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -27,13 +27,11 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() , LaunchesFragment.QuerySelectedListener ,
-    UpcomingLaunchesFragment.QuerySelectedListenerPrevious{
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val viewModel : SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,34 +62,29 @@ class MainActivity : AppCompatActivity() , LaunchesFragment.QuerySelectedListene
                     hideBottomNav()
                     hideTopBar()
                     lockNavDrawer()
-                    hideSearchView()
                 }
                 R.id.homeFragment -> {
                     showBottomNav()
                     showTopBar()
                     unlockNavDrawer()
-                    hideSearchView()
 
                 }
                 R.id.launchesFragment -> {
+                    hideTopBar()
                     showBottomNav()
-                    showTopBar()
                     unlockNavDrawer()
-                    showSearchView()
 
                 }
                 R.id.searchFragment -> {
                     showBottomNav()
                     showTopBar()
                     unlockNavDrawer()
-                    hideSearchView()
 
                 }
                 R.id.notificationsFragment -> {
                     showBottomNav()
                     showTopBar()
                     unlockNavDrawer()
-                    hideSearchView()
 
                 }
             }
@@ -103,23 +96,6 @@ class MainActivity : AppCompatActivity() , LaunchesFragment.QuerySelectedListene
             binding.drawerLayout.open()
         }
 
-        val searchToggle = binding.topAppBar.menu.findItem(R.id.searchAction)
-        val searchView = searchToggle.actionView as SearchView
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.d("MainActivity", "onQueryTextSubmit: $query")
-                if (query != null) {
-                    viewModel.receiveQuery(query)
-                }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-
-        })
 
     }
 
@@ -160,32 +136,6 @@ class MainActivity : AppCompatActivity() , LaunchesFragment.QuerySelectedListene
 
     private fun unlockNavDrawer(){
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-    }
-
-    private fun showSearchView(){
-        invalidateOptionsMenu()
-        val searchToggle = binding.topAppBar.menu.findItem(R.id.searchAction)
-        searchToggle.isVisible = true
-    }
-
-    private fun hideSearchView(){
-
-        invalidateOptionsMenu()
-        val searchToggle = binding.topAppBar.menu.findItem(R.id.searchAction)
-        searchToggle.isVisible = false
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun sendQueryToPrevFrag(query: String) {
-        val upcomingFragment = UpcomingLaunchesFragment()
-        upcomingFragment.receiveQuery(query)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun sendQueryToFragment(query: String) {
-        val previousLaunchesFragment = PreviousLaunchesFragment()
-        previousLaunchesFragment.receiveQuery(query)
     }
 
 

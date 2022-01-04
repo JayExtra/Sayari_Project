@@ -1,14 +1,11 @@
 package com.dev.james.sayariproject.ui.launches.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.ExperimentalPagingApi
+import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.repository.BaseMainRepository
+import com.dev.james.sayariproject.utilities.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -16,25 +13,34 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class UpcomingLaunchesViewModel @Inject constructor(
+class LaunchesViewModel @Inject constructor(
     private val repository : BaseMainRepository ,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    //private val
+    private val _queryPassed = MutableLiveData<Event<String?>>()
+    val queryPassed: LiveData<Event<String?>> get() = _queryPassed
+
+    fun receiveQuery(query: String?) {
+        _queryPassed.value = Event(query)
+    }
 
 
-    val uiState : StateFlow<UiState>
+    lateinit var uiState : StateFlow<UiState>
 
-    val pagingDataFlow : Flow<PagingData<LaunchList>>
+    lateinit var pagingDataFlow : Flow<PagingData<LaunchList>>
 
-    val accept: (UiAction) -> Unit
+    lateinit var accept: (UiAction) -> Unit
 
-    init {
+    fun getLaunches(queryString: String?, fragId: Int) {
 
-        Log.d("LaunchesViewModel", "getLaunches: function called")
+  //      Log.d("LaunchesViewModel", "getLaunches: function called")
+        var queryPassed = ""
+        queryString?.let {
+            queryPassed = it
+        }
 
-        val initialQuery: String = savedStateHandle.get<String>(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
+        val initialQuery: String = savedStateHandle.get<String>(LAST_SEARCH_QUERY) ?: queryPassed
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
 
@@ -45,7 +51,7 @@ class UpcomingLaunchesViewModel @Inject constructor(
 
         pagingDataFlow = searches
             .flatMapLatest {
-                searchLaunches(queryString = it.query , 0)
+                searchLaunches(queryString = it.query , fragId)
             }
             .cachedIn(viewModelScope)
 

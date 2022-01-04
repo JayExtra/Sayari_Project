@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dev.james.sayariproject.databinding.FragmentPreviousLaunchesBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.ui.launches.adapters.PreviousLaunchesRecyclerAdapter
-import com.dev.james.sayariproject.ui.launches.viewmodel.PreviousLaunchesViewModel
+import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
 import com.dev.james.sayariproject.ui.launches.viewmodel.UiAction
 import com.dev.james.sayariproject.ui.launches.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,14 +39,17 @@ import kotlinx.coroutines.launch
 class PreviousLaunchesFragment : Fragment() {
     private var _binding: FragmentPreviousLaunchesBinding? = null
     private val binding get() = _binding!!
-    private val launchesViewModel : PreviousLaunchesViewModel by viewModels()
+    private val launchesViewModel : LaunchesViewModel by activityViewModels()
     private val adapter = PreviousLaunchesRecyclerAdapter()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentPreviousLaunchesBinding.inflate(inflater , container , false)
+
+        makeInitialLaunch()
         binding.bindState(
             uiState = launchesViewModel.uiState,
             pagingData = launchesViewModel.pagingDataFlow,
@@ -60,6 +64,10 @@ class PreviousLaunchesFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    private fun makeInitialLaunch() {
+        launchesViewModel.getLaunches(null , 1)
     }
 
     override fun onDestroyView() {
@@ -96,6 +104,10 @@ class PreviousLaunchesFragment : Fragment() {
         bindList(
             uiState = uiState,
             pagingData = pagingData
+        )
+        bindSearch(
+            uiState = uiState,
+            onQueryChanged = uiAction
         )
 
     }
@@ -137,6 +149,19 @@ class PreviousLaunchesFragment : Fragment() {
         }
     }
 
+    private fun bindSearch(
+        uiState: StateFlow<UiState>,
+        onQueryChanged: (UiAction.Search) -> Unit
+    ){
+        launchesViewModel.queryPassed.observe(viewLifecycleOwner , { event ->
+            event.getContentIfNotHandled()?.let { query ->
+                Log.d("PreviousFrag", "bindSearch: query received : $query")
+                updateLaunchListFromInput(onQueryChanged , query)
+            }
+        })
+
+    }
+
     fun View.toggle(show : Boolean){
         val transition : Transition = Slide(Gravity.BOTTOM)
         transition.duration = 200
@@ -148,6 +173,16 @@ class PreviousLaunchesFragment : Fragment() {
     fun receiveQuery(query : String){
         Log.d("PreviousLaunches", "query RECEIVED: $query ")
 
+    }
+
+    private fun updateLaunchListFromInput(
+        onQueryChanged : (UiAction.Search) -> Unit,
+        query : String
+    ){
+        if(query.isNotEmpty()){
+            binding.upcomingPreviousRv.scrollToPosition(0)
+            onQueryChanged(UiAction.Search(query = query))
+        }
     }
 
 }
