@@ -58,7 +58,14 @@ class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousL
                 dateTxt.text = getLaunchDateString(launch)
 
                 missionDesc.isVisible = true
-                missionDesc.text = launch.mission?.description
+                val missionDescription = launch.mission?.description
+                missionDescription?.let {
+                    if(it.isEmpty()){
+                        missionDesc.text = "No mission data available yet. Will be updated soon."
+                    }else{
+                        missionDesc.text = it
+                    }
+                }
 
                 launchCountdownTimer.isInvisible = true
                 launchCardRemindBtn.isInvisible = true

@@ -2,11 +2,13 @@ package com.dev.james.sayariproject.ui.launches
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,7 +29,7 @@ class LaunchesFragment : Fragment() {
 
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val mLaunchesViewModel : LaunchesViewModel by activityViewModels()
+    private val mLaunchesViewModel : LaunchesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,37 +77,6 @@ class LaunchesFragment : Fragment() {
                 }
             }.attach()
 
-            /**  makeInitialLoad()
-
-            launchesTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-            val tabposition = tab?.position
-
-            if(tabposition == 1){
-            Log.d("LaunchFragment", "onTabSelected: previous tab selected ")
-            }else {
-            Log.d("LaunchFragment", "onTabSelected: upcoming tab selected ")
-            }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            val tabposition = tab?.position
-            if(tabposition == 1){
-            Log.d("LaunchFragment", "onTabUnSelected: previous tab unselected ")
-            }else {
-            Log.d("LaunchFragment", "onTabUnSelected: upcoming tab unselected ")
-            }
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            val tabposition = tab?.position
-            if(tabposition == 1){
-            Log.d("LaunchFragment", "onTabReselected: previous tab selected ")
-            }else {
-            Log.d("LaunchFragment", "onTabReselected: upcoming tab selected ")
-            }
-            }
-
-            })**/
         }
 
         val searchToggle = binding.launchesTopAppBar.menu.findItem(R.id.searchAction)
@@ -114,6 +85,7 @@ class LaunchesFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 mLaunchesViewModel.receiveQuery(query)
+                mLaunchesViewModel.receivePreviousQuery(query)
                 return true
             }
 
@@ -122,6 +94,8 @@ class LaunchesFragment : Fragment() {
             }
 
         })
+
+
 
         return binding.root
 
@@ -138,5 +112,51 @@ class LaunchesFragment : Fragment() {
             Log.d("LaunchFragment", "makeInitialLoad: upcoming tab selected ")
         }
     }
+
+   searchToggle.setOnActionExpandListener(object : MenuItem.OnActionExpandListener{
+   override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+   Log.d("LaunchesFrag", "onCreateView: searchview opened ")
+   return true
+
+   }
+
+   override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+   Log.d("LaunchesFrag", "onCreateView: searchview closed ")
+   return true
+   }
+
+   })
+
+   makeInitialLoad()
+
+   launchesTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+   override fun onTabSelected(tab: TabLayout.Tab?) {
+   val tabposition = tab?.position
+
+   if(tabposition == 1){
+   Log.d("LaunchFragment", "onTabSelected: previous tab selected ")
+   }else {
+   Log.d("LaunchFragment", "onTabSelected: upcoming tab selected ")
+   }
+   }
+   override fun onTabUnselected(tab: TabLayout.Tab?) {
+   val tabposition = tab?.position
+   if(tabposition == 1){
+   Log.d("LaunchFragment", "onTabUnSelected: previous tab unselected ")
+   }else {
+   Log.d("LaunchFragment", "onTabUnSelected: upcoming tab unselected ")
+   }
+   }
+
+   override fun onTabReselected(tab: TabLayout.Tab?) {
+   val tabposition = tab?.position
+   if(tabposition == 1){
+   Log.d("LaunchFragment", "onTabReselected: previous tab selected ")
+   }else {
+   Log.d("LaunchFragment", "onTabReselected: upcoming tab selected ")
+   }
+   }
+
+   })
 **/
 }

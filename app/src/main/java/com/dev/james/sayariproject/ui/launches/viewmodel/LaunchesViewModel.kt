@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.launches.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -23,6 +24,17 @@ class LaunchesViewModel @Inject constructor(
 
     fun receiveQuery(query: String?) {
         _queryPassed.value = Event(query)
+    }
+
+    private val _queryPreviousPassed = MutableLiveData<Event<String?>>()
+    val queryPreviousPassed: LiveData<Event<String?>> get() = _queryPreviousPassed
+
+    fun receivePreviousQuery(query: String?) {
+        Log.d("LaunchesVm", "receivePreviousQuery: query : $query")
+        _queryPreviousPassed.value = Event(query)
+        Log.d("LaunchesVm", "receivePreviousQuery: observable value : ${_queryPreviousPassed.value?.getContentIfNotHandled().toString()}")
+
+
     }
 
 

@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 class UpcomingLaunchesFragment : Fragment() {
     private var _binding: FragmentUpcomingLaunchesBinding? = null
     private val binding get() = _binding!!
-    private val mLaunchesViewModel : LaunchesViewModel by activityViewModels()
+    private val mLaunchesViewModel : LaunchesViewModel by viewModels({requireParentFragment()})
     private val adapter = LaunchesRecyclerAdapter()
 
     override fun onCreateView(
@@ -63,6 +63,15 @@ class UpcomingLaunchesFragment : Fragment() {
                 btnMoveUp.toggle(false)
             }
         }
+
+        binding.upcomingSwipeToRefresh.setOnRefreshListener {
+
+            refreshList()
+
+            binding.upcomingSwipeToRefresh.isRefreshing = false
+
+        }
+
         return binding.root
     }
 
@@ -177,6 +186,17 @@ class UpcomingLaunchesFragment : Fragment() {
         if(query.isNotEmpty()){
             binding.upcomingPreviousRv.scrollToPosition(0)
             onQueryChanged(UiAction.Search(query = query))
+        }
+    }
+
+    fun refreshList(){
+        lifecycleScope.launch {
+            adapter.submitData(PagingData.empty())
+            mLaunchesViewModel.getLaunches(null , 0)
+            mLaunchesViewModel.pagingDataFlow.collectLatest {
+                adapter.submitData(it)
+            }
+            binding.upcomingPreviousRv.scrollToPosition(0)
         }
     }
 

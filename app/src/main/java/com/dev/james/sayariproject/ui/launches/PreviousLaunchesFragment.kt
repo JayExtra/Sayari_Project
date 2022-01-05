@@ -39,13 +39,14 @@ import kotlinx.coroutines.launch
 class PreviousLaunchesFragment : Fragment() {
     private var _binding: FragmentPreviousLaunchesBinding? = null
     private val binding get() = _binding!!
-    private val launchesViewModel : LaunchesViewModel by activityViewModels()
+    private val launchesViewModel : LaunchesViewModel by  viewModels({requireParentFragment()})
     private val adapter = PreviousLaunchesRecyclerAdapter()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
 
         _binding = FragmentPreviousLaunchesBinding.inflate(inflater , container , false)
 
@@ -62,6 +63,13 @@ class PreviousLaunchesFragment : Fragment() {
                 delay(100)
                 btnMoveUp.toggle(false)
             }
+        }
+        binding.previousSwipeToRefresh.setOnRefreshListener {
+
+            refreshList()
+
+            binding.previousSwipeToRefresh.isRefreshing = false
+
         }
         return binding.root
     }
@@ -141,7 +149,7 @@ class PreviousLaunchesFragment : Fragment() {
                     ?: loadState.prepend as? LoadState.Error
 
                 errorState?.let {
-                    Log.d("HomeFragment", "bindList: whoops! : ${it.error} ")
+                    Log.d("PreviousFrag", "bindList: whoops! : ${it.error} ")
                 }
 
             }
@@ -153,7 +161,8 @@ class PreviousLaunchesFragment : Fragment() {
         uiState: StateFlow<UiState>,
         onQueryChanged: (UiAction.Search) -> Unit
     ){
-        launchesViewModel.queryPassed.observe(viewLifecycleOwner , { event ->
+        Log.d("PreviousFrag", "bindSearch: called")
+        launchesViewModel.queryPreviousPassed.observe(viewLifecycleOwner , { event ->
             event.getContentIfNotHandled()?.let { query ->
                 Log.d("PreviousFrag", "bindSearch: query received : $query")
                 updateLaunchListFromInput(onQueryChanged , query)
@@ -170,11 +179,6 @@ class PreviousLaunchesFragment : Fragment() {
         this.isVisible = show
     }
 
-    fun receiveQuery(query : String){
-        Log.d("PreviousLaunches", "query RECEIVED: $query ")
-
-    }
-
     private fun updateLaunchListFromInput(
         onQueryChanged : (UiAction.Search) -> Unit,
         query : String
@@ -182,6 +186,17 @@ class PreviousLaunchesFragment : Fragment() {
         if(query.isNotEmpty()){
             binding.upcomingPreviousRv.scrollToPosition(0)
             onQueryChanged(UiAction.Search(query = query))
+        }
+    }
+
+    fun refreshList(){
+        lifecycleScope.launch {
+            adapter.submitData(PagingData.empty())
+            launchesViewModel.getLaunches(null , 1)
+            launchesViewModel.pagingDataFlow.collectLatest {
+                adapter.submitData(it)
+            }
+            binding.upcomingPreviousRv.scrollToPosition(0)
         }
     }
 

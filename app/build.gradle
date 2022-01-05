@@ -161,4 +161,7 @@ dependencies {
 
     //dots indicator
     implementation 'com.tbuonomo:dotsindicator:4.2'
+
+    //swipe to refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
