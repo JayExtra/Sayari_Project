@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -38,9 +39,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    override val bindingInflater: (LayoutInflater) -> ViewBinding
-        get() = FragmentHomeBinding::inflate
+class HomeFragment : Fragment() {
+    private var _binding : FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     private val homeViewModel : HomeViewModel by viewModels()
 
@@ -48,18 +49,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         launchBrowser(url)
     }
 
-    private fun launchBrowser(url: String?) {
-        url?.let {
-            Toast.makeText(requireContext() , "Opening browser..." , Toast.LENGTH_LONG).show()
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(url)
-            startActivity(intent)
-        }?: Toast.makeText(requireContext() , "No news site available" , Toast.LENGTH_LONG).show()
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentHomeBinding.inflate(inflater , container , false)
 
         setUpTopNewsViewPager()
 
@@ -73,6 +68,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             uiActions = homeViewModel.accept
         )
 
+        return binding.root
+
+    }
+
+    private fun launchBrowser(url: String?) {
+        url?.let {
+            Toast.makeText(requireContext() , "Opening browser..." , Toast.LENGTH_LONG).show()
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+        }?: Toast.makeText(requireContext() , "No news site available" , Toast.LENGTH_LONG).show()
     }
 
     fun setupUi(){
