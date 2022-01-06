@@ -8,6 +8,7 @@ import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,6 +18,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentUpcomingLaunchesBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesRecyclerAdapter
@@ -38,6 +40,7 @@ class UpcomingLaunchesFragment : Fragment() {
     private val binding get() = _binding!!
     private val mLaunchesViewModel : LaunchesViewModel by viewModels({requireParentFragment()})
     private val adapter = LaunchesRecyclerAdapter()
+    private var hasSearched : Boolean? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -128,6 +131,7 @@ class UpcomingLaunchesFragment : Fragment() {
             event.getContentIfNotHandled()?.let { query ->
                 Log.d("UpcomingFrag", "bindSearch: query received : $query")
                 updateLaunchListFromInput(onQueryChanged , query)
+                hasSearched = true
             }
         })
 
@@ -145,8 +149,16 @@ class UpcomingLaunchesFragment : Fragment() {
             adapter.loadStateFlow.collect { loadState->
                 val isEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
 
+                if(isEmpty && hasSearched == true) {
+                    Log.d("UpcomigFrag", "bindList: isEmpty : $isEmpty")
+                    searchErrorMessage.isVisible = true
+                    hasSearched = false
+                }else {
+                    searchErrorMessage.isVisible = false
+                }
 
                 launchedProgress.isVisible = loadState.refresh is LoadState.Loading
+                //netErrMess.isInvisible = loadState.refresh is LoadState.Loading
                 retryBtn.isVisible = loadState.refresh is LoadState.Error && adapter.itemCount == 0
 
                 retryBtn.setOnClickListener {
@@ -197,6 +209,7 @@ class UpcomingLaunchesFragment : Fragment() {
                 adapter.submitData(it)
             }
             binding.upcomingPreviousRv.scrollToPosition(0)
+            hasSearched = false
         }
     }
 

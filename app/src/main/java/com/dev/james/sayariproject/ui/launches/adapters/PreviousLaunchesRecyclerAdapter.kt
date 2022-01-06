@@ -68,7 +68,6 @@ class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousL
                 }
 
                 launchCountdownTimer.isInvisible = true
-                launchCardRemindBtn.isInvisible = true
                 watchStreamBtn.isInvisible = true
                 launchStatus.isInvisible = true
                 launchCardTimerLabel.isInvisible = true

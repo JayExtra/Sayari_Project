@@ -6,6 +6,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.launches.UpcomingLaunchesFragment">
 
+    <TextView
+        android:id="@+id/searchErrorMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/ubuntu"
+        android:text="@string/search_err_message"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/upcomingSwipeToRefresh"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.31" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/upcomingSwipeToRefresh"
         android:layout_width="match_parent"
@@ -84,6 +102,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_arrow_up"
+        app:tint="@color/white"
         android:visibility="gone"
         app:backgroundTint="@color/secondaryColor"
         app:layout_constraintBottom_toBottomOf="parent"

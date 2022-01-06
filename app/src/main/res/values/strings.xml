@@ -17,7 +17,7 @@
     <string name="net_err_message">Seems like your network is down. Please check your network!</string>
     <string name="retry_button_text">retry</string>
     <string name="move_up_button">start</string>
-    <string name="watch_vutton_text">watch</string>
+    <string name="watch_vutton_text">watch stream</string>
     <string name="remind_me_button_text">remind me</string>
     <string name="count_down_timer_text">T-00:00:00:00</string>
     <string name="launch_card_title_text">some title</string>
@@ -25,4 +25,11 @@
     <string name="launches_tab_layout">launches tab layout</string>
     <string name="net_err_mess">Could not fetch the launch list. Please check your network or try again.</string>
     <string name="search_app_bar_txt">search</string>
+    <string name="no_result_found_err">No results found</string>
+    <string name="search_err_message">No result found. Swipe down to refresh or retry your search again.</string>
+    <string name="launch_location">launch location</string>
+    <string name="date">date</string>
+    <string name="mission_orbit">mission orbit</string>
+    <string name="status">status</string>
+    <string name="mission_status">mission status</string>
 </resources>

@@ -23,5 +23,7 @@ data class LaunchList(
     val mission : Mission?,
     val pad : LaunchPad,
     val image : String,
-    val probability : Int?
+    val probability : Int?,
+    @SerializedName("webcast_live")
+    val stream : Boolean
 ):Parcelable

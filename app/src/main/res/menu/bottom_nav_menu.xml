@@ -15,7 +15,7 @@
         android:enabled="true"/>
     <item
         android:id="@+id/searchFragment"
-        android:title="Search"
+        android:title="Discover"
         android:icon="@drawable/ic_search"
         android:enabled="true"/>
 

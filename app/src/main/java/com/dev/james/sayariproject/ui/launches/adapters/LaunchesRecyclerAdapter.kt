@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -61,6 +62,10 @@ class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerA
                 dateTxt.text = getLaunchDateString(launch)
                 val padName = launch.pad.name
                 val location = launch.pad.location.name
+
+                if(launch.stream){
+                    watchStreamBtn.isVisible = true
+                }
 
                 launchLocation.text = "$padName | $location "
             }
