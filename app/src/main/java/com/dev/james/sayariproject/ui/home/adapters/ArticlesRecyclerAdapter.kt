@@ -18,10 +18,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleNewsItemBinding
-import com.dev.james.sayariproject.models.Article
-import java.lang.reflect.Array.get
-import java.text.DateFormat
-import java.text.SimpleDateFormat
+import com.dev.james.sayariproject.models.articles.Article
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter

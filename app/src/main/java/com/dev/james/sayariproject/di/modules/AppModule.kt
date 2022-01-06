@@ -2,11 +2,9 @@ package com.dev.james.sayariproject.di.modules
 
 import android.content.Context
 import com.dev.james.sayariproject.BuildConfig
-import com.dev.james.sayariproject.data.datasources.ArticlesDataSource
-import com.dev.james.sayariproject.data.datasources.BaseTopArticlesDataSource
-import com.dev.james.sayariproject.data.datasources.SpaceFlightApiDataSource
-import com.dev.james.sayariproject.data.datasources.TopArticlesDataSource
+import com.dev.james.sayariproject.data.datasources.*
 import com.dev.james.sayariproject.data.local.datastore.DataStoreManager
+import com.dev.james.sayariproject.data.remote.service.LaunchApiService
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.repository.MainRepository
@@ -52,6 +50,21 @@ object AppModule {
         return okHttpClient.build()
     }
 
+    @LaunchesOkhttpClient
+    @Singleton
+    @Provides
+    fun provideLaunchesOkHttpClient(cache: Cache):OkHttpClient {
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(cacheInterceptor)
+            .cache(cache)
+        if (BuildConfig.DEBUG) okHttpClient.addInterceptor(loggingInterceptor)
+
+        return okHttpClient.build()
+    }
+
     //launch client
     private val launchClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
@@ -77,13 +90,14 @@ object AppModule {
     @LaunchRetrofitResponse
     @Provides
     @Singleton
-    fun provideLaunchRetrofit() : Retrofit =
+    fun provideLaunchRetrofit(
+       @LaunchesOkhttpClient okHttpClient: OkHttpClient
+    ) : Retrofit =
         Retrofit.Builder()
             .baseUrl(LAUNCH_BASE_URL)
-            .client(launchClient)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
 
 
     //PROVIDE ARTICLES API
@@ -93,6 +107,13 @@ object AppModule {
         @ArticleRetrofitResponse retrofit : Retrofit
     ) : NewsApiService =
         retrofit.create(NewsApiService::class.java)
+
+    //provide launches api
+    @Provides
+    @Singleton
+    fun provideLaunchesApi(
+        @LaunchRetrofitResponse retrofit: Retrofit
+    ):LaunchApiService = retrofit.create(LaunchApiService::class.java)
 
     //provide datastore
     @Provides
@@ -107,9 +128,10 @@ object AppModule {
     @Singleton
     fun provideRepository(
         articlesDataSource: SpaceFlightApiDataSource,
-        topArticlesDataSource: BaseTopArticlesDataSource
+        topArticlesDataSource: BaseTopArticlesDataSource,
+        launchesDatasource: LaunchesBaseDatasource
     ) : BaseMainRepository {
-        return MainRepository(articlesDataSource , topArticlesDataSource)
+        return MainRepository(articlesDataSource , topArticlesDataSource,launchesDatasource)
     }
 
     //provide articles datasource
@@ -123,6 +145,12 @@ object AppModule {
     @Singleton
     fun provideTopNewsDataSource(api : NewsApiService) : BaseTopArticlesDataSource {
         return TopArticlesDataSource(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLaunchDataSource(api : LaunchApiService) : LaunchesBaseDatasource {
+        return LaunchesDataSource(api)
     }
 
     /*Caching data */
@@ -161,4 +189,8 @@ annotation class LaunchRetrofitResponse
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ArticlesOkhttpClient
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class LaunchesOkhttpClient
 

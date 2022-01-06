@@ -6,11 +6,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dev.james.sayariproject.R
-import com.dev.james.sayariproject.models.Article
+import com.dev.james.sayariproject.models.articles.Article
 
 class HomeViewPagerAdapter(
     val article : List<Article>,

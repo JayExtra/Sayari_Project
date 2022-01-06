@@ -1,29 +1,30 @@
 package com.dev.james.sayariproject.ui.activities
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SearchView
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
-import com.dev.james.sayariproject.ui.welcome.viewmodel.WelcomeScreenViewModel
-import com.google.android.material.navigation.NavigationBarView
+import com.dev.james.sayariproject.ui.activities.viewmodels.SharedViewModel
+import com.dev.james.sayariproject.ui.launches.LaunchesFragment
+import com.dev.james.sayariproject.ui.launches.PreviousLaunchesFragment
+import com.dev.james.sayariproject.ui.launches.QueryListener
+import com.dev.james.sayariproject.ui.launches.UpcomingLaunchesFragment
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val viewModel : WelcomeScreenViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_SayariProject)
@@ -66,21 +67,25 @@ class MainActivity : AppCompatActivity() {
                     showBottomNav()
                     showTopBar()
                     unlockNavDrawer()
+
                 }
                 R.id.launchesFragment -> {
+                    hideTopBar()
                     showBottomNav()
-                    showTopBar()
                     unlockNavDrawer()
+
                 }
                 R.id.searchFragment -> {
                     showBottomNav()
                     showTopBar()
                     unlockNavDrawer()
+
                 }
                 R.id.notificationsFragment -> {
                     showBottomNav()
                     showTopBar()
                     unlockNavDrawer()
+
                 }
             }
         }
@@ -91,7 +96,9 @@ class MainActivity : AppCompatActivity() {
             binding.drawerLayout.open()
         }
 
+
     }
+
 
 
     private fun styleBottomNavBar() {
@@ -105,6 +112,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 
     private fun hideBottomNav(){
         binding.bottomNavigation.visibility = View.GONE
@@ -123,9 +131,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun lockNavDrawer(){
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
     }
 
     private fun unlockNavDrawer(){
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
+
+
 }

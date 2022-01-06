@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.dev.james.sayariproject.models.Article
+import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.utilities.Event
 import com.dev.james.sayariproject.utilities.NetworkResource

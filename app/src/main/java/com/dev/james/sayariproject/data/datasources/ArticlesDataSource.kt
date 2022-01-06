@@ -5,8 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.dev.james.sayariproject.data.remote.paging.ArticlePagingSource
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
-import com.dev.james.sayariproject.models.Article
-import com.dev.james.sayariproject.repository.TopArticlesBaseRepo
+import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.utilities.ARTICLE_NETWORK_PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

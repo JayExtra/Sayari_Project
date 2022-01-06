@@ -52,14 +52,16 @@
                 android:id="@+id/bottom_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="48dp"
                 android:layout_marginBottom="10dp"
+                android:padding="1dp"
                 app:backgroundTint="@color/white"
                 app:itemIconTint="@drawable/bottom_navigation_selector"
                 app:itemTextAppearanceInactive="@style/Theme.SayariProject.TextAppearanceBottomAppBar"
                 app:itemTextColor="@color/secondaryColor"
-                app:menu="@menu/bottom_nav_menu" />
+                app:menu="@menu/bottom_nav_menu"
+                app:labelVisibilityMode="unlabeled"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

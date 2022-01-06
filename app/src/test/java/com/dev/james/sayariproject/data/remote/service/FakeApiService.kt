@@ -1,10 +1,8 @@
 package com.dev.james.sayariproject.data.remote.service
 
-import android.util.Log
-import com.dev.james.sayariproject.models.Article
-import com.dev.james.sayariproject.models.ArticleEvents
-import com.dev.james.sayariproject.models.ArticlesLaunches
-import java.lang.Exception
+import com.dev.james.sayariproject.models.articles.Article
+import com.dev.james.sayariproject.models.articles.ArticleEvents
+import com.dev.james.sayariproject.models.articles.ArticlesLaunches
 
 class FakeApiService : NewsApiService {
 
@@ -71,7 +69,7 @@ class FakeApiService : NewsApiService {
 
 data class FakeNetworkResponse(
     val articles : List<Article>,
-    val count : Int ,
+    val count : Int,
     val limit : Int,
     val next : Int?,
     val previous : Int?
