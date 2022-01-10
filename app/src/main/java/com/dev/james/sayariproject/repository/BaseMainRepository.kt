@@ -12,7 +12,11 @@ interface BaseMainRepository {
 
     suspend fun getTopArticles() : NetworkResource<List<Article>>
 
+    suspend fun getLatestArticles() : NetworkResource<List<Article>>
+
     fun getLaunchesStream(query: String , fragId : Int) : Flow<PagingData<LaunchList>>
+
+
 
 
 }

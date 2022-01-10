@@ -25,6 +25,10 @@ class HomeViewModel @Inject constructor(
         MutableLiveData()
     val topArticlesLiveData get() = _topArticlesLiveData
 
+    private val _latestArticlesLiveData : MutableLiveData<Event<NetworkResource<List<Article>>>> =
+        MutableLiveData()
+    val latestArticlesLiveData get() = _latestArticlesLiveData
+
 
     val uiState : StateFlow<UiState>
 
@@ -35,6 +39,8 @@ class HomeViewModel @Inject constructor(
     init {
         //on initialization get list of top articles
         getTopArticles()
+
+        getLatestArticles()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
 
@@ -68,6 +74,11 @@ class HomeViewModel @Inject constructor(
     fun getTopArticles() = viewModelScope.launch {
         _topArticlesLiveData.value = Event(NetworkResource.Loading)
         _topArticlesLiveData.value = Event(repository.getTopArticles())
+    }
+
+    fun getLatestArticles() = viewModelScope.launch {
+        _latestArticlesLiveData.value = Event(NetworkResource.Loading)
+        _latestArticlesLiveData.value = Event(repository.getLatestArticles())
     }
 
 }

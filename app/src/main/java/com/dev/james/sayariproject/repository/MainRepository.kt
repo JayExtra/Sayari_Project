@@ -26,6 +26,10 @@ class MainRepository @Inject constructor(
        return topArticlesDataSource.getTopArticles()
     }
 
+    override suspend fun getLatestArticles(): NetworkResource<List<Article>> {
+        return topArticlesDataSource.getLatestArticles()
+    }
+
     override fun getLaunchesStream(query: String, fragId: Int): Flow<PagingData<LaunchList>> {
         return launchesDataSource.getLaunches(query , fragId)
     }

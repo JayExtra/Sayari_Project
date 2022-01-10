@@ -47,7 +47,7 @@ class LaunchesFragment : Fragment() {
 
         binding.navigationView.setupWithNavController(navController)
 
-        binding.launchesTopAppBar.setNavigationOnClickListener {
+        binding.newsTopAppBar.setNavigationOnClickListener {
             binding.drawerLayout.open()
         }
 
@@ -79,7 +79,7 @@ class LaunchesFragment : Fragment() {
 
         }
 
-        val searchToggle = binding.launchesTopAppBar.menu.findItem(R.id.searchAction)
+        val searchToggle = binding.newsTopAppBar.menu.findItem(R.id.searchAction)
         val searchView = searchToggle.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
