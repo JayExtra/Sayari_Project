@@ -18,16 +18,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentHomeBinding
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.ui.base.BaseFragment
 import com.dev.james.sayariproject.ui.home.adapters.ArticlesRecyclerAdapter
 import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
+import com.dev.james.sayariproject.ui.home.adapters.LatestArticlesRecyclerAdapter
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +48,7 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel : HomeViewModel by viewModels()
 
-    private val articlesRecyclerAdapter = ArticlesRecyclerAdapter { url ->
+    private val articlesRecyclerAdapter = LatestArticlesRecyclerAdapter { url ->
         launchBrowser(url)
     }
 
@@ -58,15 +61,11 @@ class HomeFragment : Fragment() {
 
         setUpTopNewsViewPager()
 
+        setUpLatestNews()
+
         setupUi()
 
         startButtonToggleTimer()
-
-        binding.bindState(
-            uiState = homeViewModel.uiState,
-            pagingData = homeViewModel.pagingDataFlow,
-            uiActions = homeViewModel.accept
-        )
 
         return binding.root
 
@@ -83,12 +82,15 @@ class HomeFragment : Fragment() {
 
     fun setupUi(){
         binding.apply {
-            buttonMoveUp.setOnClickListener {
-                lifecycleScope.launch {
+            buttonReadMore.setOnClickListener {
+                /**lifecycleScope.launch {
                     latesNewsRecyclerView.scrollToPosition(0)
                     delay(100)
                     buttonMoveUp.toggle(false)
                 }
+                **/
+                //navigate to news fragment
+                findNavController().navigate(R.id.action_homeFragment_to_newsFragment)
             }
 
             btnRefresh.setOnClickListener {
@@ -96,85 +98,30 @@ class HomeFragment : Fragment() {
                 it.toggle(false)
                 startButtonToggleTimer()
             }
-        }
-    }
 
-    private fun FragmentHomeBinding.bindState(
-        uiState : StateFlow<UiState>,
-        pagingData: Flow<PagingData<Article>>,
-        uiActions : (UiAction) -> Unit
-    ){
+            latesNewsRecyclerView.adapter = articlesRecyclerAdapter
+            latesNewsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL , false)
 
-        latesNewsRecyclerView.adapter = articlesRecyclerAdapter
-        latesNewsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL , false)
+            latesNewsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    val scrolledPosition =
+                        (recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
 
-        latesNewsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                val scrolledPosition =
-                    (recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
-
-                if (scrolledPosition != null){
-                    if(scrolledPosition >= 1){
-                        buttonMoveUp.toggle(true)
-                    } else {
-                        buttonMoveUp.toggle(false)
+                    if (scrolledPosition != null){
+                        if(scrolledPosition >= 1){
+                            buttonReadMore.toggle(true)
+                        } else {
+                            buttonReadMore.toggle(false)
+                        }
                     }
                 }
-            }
-        })
-
-        bindList(
-            uiState = uiState,
-            pagingData = pagingData
-        )
-    }
-
-    private fun FragmentHomeBinding.bindList(
-        uiState : StateFlow<UiState>,
-        pagingData: Flow<PagingData<Article>>
-    ){
-        lifecycleScope.launchWhenStarted {
-            pagingData.collectLatest(articlesRecyclerAdapter::submitData)
+            })
         }
-
-        lifecycleScope.launchWhenStarted {
-            articlesRecyclerAdapter.loadStateFlow.collect { loadState ->
-                val isEmpty = loadState.refresh is LoadState.NotLoading && articlesRecyclerAdapter.itemCount == 0
-
-                if(isEmpty) makeInvisible()
-
-                if(loadState.refresh is LoadState.Error && articlesRecyclerAdapter.itemCount == 0) makeInvisible()
-
-
-                homeProgressBar.isVisible = loadState.refresh is LoadState.Loading
-                retryButton.isVisible = loadState.refresh is LoadState.Error && articlesRecyclerAdapter.itemCount == 0
-
-                retryButton.setOnClickListener {
-                    articlesRecyclerAdapter.retry()
-                    homeViewModel.getTopArticles()
-
-                }
-
-                netErrorMess.isVisible = loadState.refresh is LoadState.Error && articlesRecyclerAdapter.itemCount == 0
-                networkErrorImage.isVisible = loadState.refresh is LoadState.Error && articlesRecyclerAdapter.itemCount == 0
-
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.append as? LoadState.Error
-                    ?: loadState.prepend as? LoadState.Error
-
-                errorState?.let {
-                    Log.d("HomeFragment", "bindList: whoops! : ${it.error} ")
-                }
-
-            }
-        }
-
     }
 
 
-    //all top news slider operations occur here
+      //all top news slider operations occur here
     private fun setUpTopNewsViewPager() {
         //set up the adapter
         homeViewModel.topArticlesLiveData.observe(viewLifecycleOwner , { event ->
@@ -205,6 +152,59 @@ class HomeFragment : Fragment() {
             }
         })
 
+    }
+
+    private fun setUpLatestNews(){
+        homeViewModel.latestArticlesLiveData.observe(viewLifecycleOwner , { event ->
+            event.getContentIfNotHandled()?.let { resource ->
+
+                when(resource){
+                    is NetworkResource.Loading -> {
+                        binding.homeProgressBar.isVisible = true
+                        makeInvisible()
+                    }
+
+                    is NetworkResource.Success -> {
+                        binding.homeProgressBar.isVisible = false
+                        binding.retryButton.isInvisible = true
+                        Log.d("HomeFrag", "setUpLatestNews: ${resource.value}")
+                        val latestArticles = resource.value
+                        articlesRecyclerAdapter.submitList(latestArticles)
+                    }
+
+                    is NetworkResource.Failure -> {
+                        binding.homeProgressBar.isVisible = false
+                        val errorCode = resource.errorCode
+                        val errorBody = resource.errorBody
+                        Toast.makeText(requireContext(), "error ($errorCode): ${errorBody.toString()} ", Toast.LENGTH_LONG).show()
+                        Log.d("HomeFragment", "setUpTopNewsViewPager: oh oh : $errorCode : ${errorBody.toString()}")
+
+                        if(articlesRecyclerAdapter.itemCount == 0 ){
+                            binding.apply {
+                                netErrorMess.isVisible = true
+                                networkErrorImage.isVisible = true
+                                retryButton.isVisible = true
+
+                                retryButton.setOnClickListener {
+                                    makeInvisible()
+                                    homeViewModel.getLatestArticles()
+                                    homeViewModel.getTopArticles()
+                                }
+                            }
+                        }else{
+                            binding.apply {
+                                netErrorMess.isVisible = false
+                                networkErrorImage.isVisible = false
+                            }
+                        }
+
+                    }
+                }
+
+
+            }
+
+        })
     }
 
     private fun makeVisible(){
@@ -246,7 +246,7 @@ class HomeFragment : Fragment() {
     private fun refresh(){
         Snackbar.make(binding.root , "Fetching new articles...", Snackbar.LENGTH_SHORT).show()
         makeInvisible()
-        articlesRecyclerAdapter.refresh()
+        homeViewModel.getLatestArticles()
         homeViewModel.getTopArticles()
     }
 
@@ -258,4 +258,6 @@ class HomeFragment : Fragment() {
                 ,300000)
         }
     }
+
+
 }

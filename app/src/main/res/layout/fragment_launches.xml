@@ -24,7 +24,7 @@
 
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/launchesAppBarLayout"
+        android:id="@+id/newsAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/launchesTopAppBar"
+            android:id="@+id/newsTopAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primaryLightColor"
@@ -54,7 +54,7 @@
         android:contentDescription="@string/launches_tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/launchesAppBarLayout"
+        app:layout_constraintTop_toBottomOf="@+id/newsAppBarLayout"
         app:tabIndicatorColor="@color/primaryColor"
         app:tabSelectedTextColor="@color/primaryColor"
         app:tabTextColor="@color/grey" />

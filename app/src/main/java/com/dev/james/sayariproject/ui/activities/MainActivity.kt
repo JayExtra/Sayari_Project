@@ -87,6 +87,11 @@ class MainActivity : AppCompatActivity() {
                     unlockNavDrawer()
 
                 }
+                R.id.newsFragment -> {
+                    hideBottomNav()
+                    hideTopBar()
+                    lockNavDrawer()
+                }
             }
         }
 

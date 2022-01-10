@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -17,7 +17,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
-import com.dev.james.sayariproject.databinding.SingleNewsCardBinding
 import com.dev.james.sayariproject.databinding.SingleNewsItemBinding
 import com.dev.james.sayariproject.models.articles.Article
 import java.time.ZoneId
@@ -25,45 +24,41 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class ArticlesRecyclerAdapter(
+class LatestArticlesRecyclerAdapter(
     private val action : (String?) -> Unit
-) : PagingDataAdapter<Article,ArticlesRecyclerAdapter.ArticlesViewHolder>(DiffCallback()) {
+) : ListAdapter<Article , LatestArticlesRecyclerAdapter.LatestArticlesViewHolder>(DiffUtilCallback()) {
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesViewHolder {
-        val binding = SingleNewsCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ArticlesViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LatestArticlesViewHolder {
+        val binding = SingleNewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return LatestArticlesViewHolder(binding)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: ArticlesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LatestArticlesViewHolder, position: Int) {
         val currentItem = getItem(position)
-
-        Log.i("RecyclerViewAdapter", "onBindViewHolder: Binding item at position ${position.toString()}")
-
         if (currentItem != null) {
             holder.binding(currentItem)
         }
-
     }
+    inner class LatestArticlesViewHolder(
+        private val binding: SingleNewsItemBinding
+    ) : RecyclerView.ViewHolder(binding.root){
 
-
-    inner class ArticlesViewHolder(private val binding : SingleNewsCardBinding) : RecyclerView.ViewHolder(binding.root){
         @RequiresApi(Build.VERSION_CODES.O)
         fun binding(article : Article) {
-           binding.apply {
-               newsSubHeadingTxt.text = article.title
-               setUpImage(article , binding)
-               setUpDate(article , binding)
+            binding.apply {
+                newsSubHeadingTxt.text = article.title
+                setUpImage(article , binding)
+                setUpDate(article , binding)
 
-               root.setOnClickListener {
-                   action.invoke(article.url)
-               }
-           }
+                root.setOnClickListener {
+                    action.invoke(article.url)
+                }
+            }
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
-        private fun setUpDate(article: Article, binding: SingleNewsCardBinding) {
+        private fun setUpDate(article: Article, binding: SingleNewsItemBinding) {
             val dateFormat = ZonedDateTime.parse(article.date)
 
             val API_TIME_STAMP_PATTERN = "yyyy-MM-dd_HH:mm:ss.SSS"
@@ -74,7 +69,7 @@ class ArticlesRecyclerAdapter(
 
             val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
 
-           // val formattedDate1 = createdDateFormatted.format(DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN))
+            // val formattedDate1 = createdDateFormatted.format(DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN))
 
             val formattedDate2 = createdDateFormatted.format(dateTimeFormatter)
 
@@ -85,7 +80,7 @@ class ArticlesRecyclerAdapter(
 
         }
 
-        private fun setUpImage(article: Article, binding: SingleNewsCardBinding) {
+        private fun setUpImage(article: Article, binding: SingleNewsItemBinding) {
 
             binding.apply {
                 Glide.with(binding.root)
@@ -122,8 +117,7 @@ class ArticlesRecyclerAdapter(
         }
     }
 
-
-    class DiffCallback : DiffUtil.ItemCallback<Article>(){
+    class DiffUtilCallback : DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean =
             oldItem.id == newItem.id
 
