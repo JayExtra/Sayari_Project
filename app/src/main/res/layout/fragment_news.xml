@@ -138,7 +138,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/newsSearchTextInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:focusableInTouchMode="true"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

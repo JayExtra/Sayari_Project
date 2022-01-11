@@ -2,6 +2,7 @@ package com.dev.james.sayariproject.ui.home
 
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: BaseMainRepository
+    private val repository: BaseMainRepository,
+    private val savedStateHandle: SavedStateHandle
 )  : ViewModel() {
 
 
@@ -30,24 +32,27 @@ class HomeViewModel @Inject constructor(
     val latestArticlesLiveData get() = _latestArticlesLiveData
 
 
-    val uiState : StateFlow<UiState>
+    lateinit var uiState : StateFlow<UiState>
 
-    val pagingDataFlow : Flow<PagingData<Article>>
+    lateinit var pagingDataFlow : Flow<PagingData<Article>>
 
-    val accept: (UiAction) -> Unit
+    lateinit var accept: (UiAction) -> Unit
 
-    init {
+    fun getAllNews(queryReceived: String?) {
+        var queryPassed = ""
+        queryReceived?.let {
+            queryPassed = it
+        }
         //on initialization get list of top articles
-        getTopArticles()
+        val initialQuery: String = savedStateHandle.get<String>(LAST_SEARCH_QUERY) ?: queryPassed
 
-        getLatestArticles()
 
         val actionStateFlow = MutableSharedFlow<UiAction>()
 
         val results = actionStateFlow
             .filterIsInstance<UiAction.Fetch>()
             .distinctUntilChanged()
-            .onStart { emit(UiAction.Fetch(query = DEFAULT_QUERY)) }
+            .onStart { emit(UiAction.Fetch(query = initialQuery)) }
 
         pagingDataFlow = results
             .flatMapLatest { getResults(queryString = it.query) }
@@ -81,6 +86,11 @@ class HomeViewModel @Inject constructor(
         _latestArticlesLiveData.value = Event(repository.getLatestArticles())
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        savedStateHandle[LAST_SEARCH_QUERY] = uiState.value.query
+    }
+
 }
 
 
@@ -95,3 +105,4 @@ data class UiState(
 )
 
 private const val  DEFAULT_QUERY = ""
+private const val LAST_SEARCH_QUERY = "last_search_query"
