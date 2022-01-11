@@ -16,29 +16,19 @@ import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentHomeBinding
-import com.dev.james.sayariproject.models.articles.Article
-import com.dev.james.sayariproject.ui.base.BaseFragment
-import com.dev.james.sayariproject.ui.home.adapters.ArticlesRecyclerAdapter
 import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
 import com.dev.james.sayariproject.ui.home.adapters.LatestArticlesRecyclerAdapter
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -46,7 +36,7 @@ class HomeFragment : Fragment() {
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val homeViewModel : HomeViewModel by viewModels()
+    private val homeViewModel : HomeViewModel by activityViewModels()
 
     private val articlesRecyclerAdapter = LatestArticlesRecyclerAdapter { url ->
         launchBrowser(url)
@@ -58,8 +48,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater , container , false)
-
-        setUpTopNewsViewPager()
 
         setUpLatestNews()
 
@@ -81,14 +69,11 @@ class HomeFragment : Fragment() {
     }
 
     fun setupUi(){
+        homeViewModel.getTopArticles()
+        homeViewModel.getLatestArticles()
+
         binding.apply {
             buttonReadMore.setOnClickListener {
-                /**lifecycleScope.launch {
-                    latesNewsRecyclerView.scrollToPosition(0)
-                    delay(100)
-                    buttonMoveUp.toggle(false)
-                }
-                **/
                 //navigate to news fragment
                 findNavController().navigate(R.id.action_homeFragment_to_newsFragment)
             }
@@ -120,6 +105,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
 
       //all top news slider operations occur here
     private fun setUpTopNewsViewPager() {
@@ -132,12 +122,13 @@ class HomeFragment : Fragment() {
                         Log.i("HomeFragment", "setUpTopNewsViewPager: loading content... ")
                     }
                     is NetworkResource.Success -> {
-                        makeVisible()
                         val topArticles =  resource.value
-                        val adapter = HomeViewPagerAdapter(topArticles) { url ->
+                        val viewPagerAdapter = HomeViewPagerAdapter(topArticles) { url ->
                             launchBrowser(url)
                         }
-                        binding.topNewsViewPager.adapter = adapter
+                        Log.i("HomeFragment", "setUpTopNewsViewPager: featured articles ${topArticles.toString()}... ")
+
+                        binding.topNewsViewPager.adapter = viewPagerAdapter
                         setUpPageIndicatorDots()
                     }
 
@@ -165,6 +156,8 @@ class HomeFragment : Fragment() {
                     }
 
                     is NetworkResource.Success -> {
+                        makeVisible()
+                        setUpTopNewsViewPager()
                         binding.homeProgressBar.isVisible = false
                         binding.retryButton.isInvisible = true
                         Log.d("HomeFrag", "setUpLatestNews: ${resource.value}")
