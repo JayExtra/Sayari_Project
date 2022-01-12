@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.james.sayariproject.R
@@ -98,6 +99,8 @@ class UpcomingLaunchesFragment : Fragment() {
         upcomingPreviousRv.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter{adapter.retry()}
         )
+
+
         upcomingPreviousRv.layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL,false)
 
         upcomingPreviousRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
