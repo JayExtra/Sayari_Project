@@ -25,6 +25,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.james.sayariproject.databinding.FragmentNewsBinding
+import com.dev.james.sayariproject.general_adapters.LoadingStateAdapter
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.ui.home.adapters.ArticlesRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -112,7 +113,9 @@ class NewsFragment : Fragment() {
         uiActions : (UiAction) -> Unit
     ){
 
-        newsRecyclerView.adapter = adapter
+        newsRecyclerView.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter{ adapter.retry()}
+        )
         newsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL , false)
 
         newsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){

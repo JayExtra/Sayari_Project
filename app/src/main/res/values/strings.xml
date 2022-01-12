@@ -37,4 +37,5 @@
     <string name="search_hint">search</string>
     <string name="news_error_text">could not fetch any article. please check your network.</string>
     <string name="news_search_error">search result not found. try again or try refreshing.</string>
+    <string name="news_heading">News</string>
 </resources>

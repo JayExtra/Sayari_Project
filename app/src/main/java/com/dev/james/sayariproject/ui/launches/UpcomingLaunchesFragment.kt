@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentUpcomingLaunchesBinding
+import com.dev.james.sayariproject.general_adapters.LoadingStateAdapter
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesRecyclerAdapter
 import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
@@ -94,7 +95,9 @@ class UpcomingLaunchesFragment : Fragment() {
         uiAction: (UiAction) -> Unit
     ){
 
-        upcomingPreviousRv.adapter = adapter
+        upcomingPreviousRv.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter{adapter.retry()}
+        )
         upcomingPreviousRv.layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL,false)
 
         upcomingPreviousRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
