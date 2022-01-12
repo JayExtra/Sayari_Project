@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/lsRetryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/secondaryColor"
+        android:text="@string/retry_button_text"
+        android:visibility="invisible"
+        app:cornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/txtErrorMess"
+        app:layout_constraintStart_toStartOf="@+id/txtErrorMess"
+        app:layout_constraintTop_toBottomOf="@+id/txtErrorMess" />
+
+    <ProgressBar
+        android:id="@+id/lsProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:indeterminateTint="@color/secondaryColor"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/lsRetryButton"
+        app:layout_constraintStart_toStartOf="@+id/lsRetryButton"
+        app:layout_constraintTop_toBottomOf="@+id/lsRetryButton" />
+
+    <TextView
+        android:id="@+id/txtErrorMess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/ubuntu"
+        android:text="@string/news_error_text"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
