@@ -66,6 +66,11 @@
         <item name="itemShapeFillColor">@color/navigation_item_background_color</item>
     </style>
 
+    <style name="CustomChipChoice" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/background_color_chip_state</item>
+        <item name="android:textColor">@color/text_color_chip_state</item>
+    </style>
+
 
 
 </resources>
