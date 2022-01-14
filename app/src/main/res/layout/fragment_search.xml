@@ -4,84 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="horizontal"
     tools:context=".ui.search.SearchFragment">
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:chipSpacingHorizontal="8dp"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:singleLine="true">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
-        <!-- Chips can be declared here, or added dynamically. -->
-        <com.google.android.material.chip.Chip
-            android:id="@+id/moonChip"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:fontFamily="@font/ubuntu"
-            android:text="Moon"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:paddingEnd="32dp"
+            app:singleSelection="true"
+            app:selectionRequired="true"
+            app:chipSpacingHorizontal="8dp"
+            app:singleLine="true">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/marsChip"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu"
-            android:text="Mars"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp" />
+            <!-- Chips can be declared here, or added dynamically. -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/moonChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:fontFamily="@font/ubuntu"
+                android:text="Moon"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/solarSystChip"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu"
-            android:text="Solar System"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/marsChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Mars"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/universeChip"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu"
-            android:text="Universe"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/solarSystChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Solar System"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/exoplntChip"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu"
-            android:text="Exoplanets"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/universeChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Universe"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/sunChip"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu"
-            android:text="Sun"
-            app:chipEndPadding="16dp"
-            app:chipStartPadding="16dp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/exoplntChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:text="Exoplanets"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
 
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sunChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Sun"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
 
     <TextView
         android:id="@+id/textView"
