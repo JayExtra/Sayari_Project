@@ -8,6 +8,7 @@
     tools:context=".ui.search.SearchFragment">
 
     <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
@@ -22,10 +23,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:paddingEnd="32dp"
-            app:singleSelection="true"
-            app:selectionRequired="true"
             app:chipSpacingHorizontal="8dp"
-            app:singleLine="true">
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true">
 
             <!-- Chips can be declared here, or added dynamically. -->
             <com.google.android.material.chip.Chip
@@ -44,10 +45,10 @@
                 style="@style/CustomChipChoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu"
                 android:checkable="true"
                 android:clickable="true"
                 android:focusable="true"
+                android:fontFamily="@font/ubuntu"
                 android:text="Mars"
                 app:chipEndPadding="16dp"
                 app:chipStartPadding="16dp" />
@@ -57,10 +58,10 @@
                 style="@style/CustomChipChoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu"
                 android:checkable="true"
                 android:clickable="true"
                 android:focusable="true"
+                android:fontFamily="@font/ubuntu"
                 android:text="Solar System"
                 app:chipEndPadding="16dp"
                 app:chipStartPadding="16dp" />
@@ -70,10 +71,10 @@
                 style="@style/CustomChipChoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu"
                 android:checkable="true"
                 android:clickable="true"
                 android:focusable="true"
+                android:fontFamily="@font/ubuntu"
                 android:text="Universe"
                 app:chipEndPadding="16dp"
                 app:chipStartPadding="16dp" />
@@ -93,10 +94,10 @@
                 style="@style/CustomChipChoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu"
                 android:checkable="true"
                 android:clickable="true"
                 android:focusable="true"
+                android:fontFamily="@font/ubuntu"
                 android:text="Sun"
                 app:chipEndPadding="16dp"
                 app:chipStartPadding="16dp" />
@@ -115,5 +116,63 @@
         android:text="Discover"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/discoverNewsHeading"
+        style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/ubuntu_light"
+        android:text="News"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/horizontalScrollView"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/discoverNewsHeading">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/discoverViewPager"
+                android:layout_width="377dp"
+                android:layout_height="178dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/discover_dots_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:dotsColor="@color/grey"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="12dp"
+                app:dotsSpacing="4dp"
+                app:dotsWidthFactor="3.5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:progressMode="true"
+                app:selectedDotColor="@color/secondaryColor" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,7 +14,10 @@ interface BaseMainRepository {
 
     suspend fun getLatestArticles() : NetworkResource<List<Article>>
 
+    suspend fun getFilteredNews(query : String) : NetworkResource<List<Article>>
+
     fun getLaunchesStream(query: String , fragId : Int) : Flow<PagingData<LaunchList>>
+
 
 
 

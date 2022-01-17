@@ -1,4 +1,4 @@
-package com.dev.james.sayariproject.data.datasources
+package com.dev.james.sayariproject.data.datasources.launches
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
