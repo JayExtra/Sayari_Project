@@ -1,4 +1,4 @@
-package com.dev.james.sayariproject.data.datasources
+package com.dev.james.sayariproject.data.datasources.home
 
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.utilities.NetworkResource

@@ -1,4 +1,4 @@
-package com.dev.james.sayariproject.data.datasources
+package com.dev.james.sayariproject.data.datasources.home
 
 import androidx.paging.PagingData
 import com.dev.james.sayariproject.models.articles.Article

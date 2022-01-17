@@ -162,6 +162,9 @@ class HomeFragment : Fragment() {
                         binding.retryButton.isInvisible = true
                         Log.d("HomeFrag", "setUpLatestNews: ${resource.value}")
                         val latestArticles = resource.value
+                        val listSize = latestArticles.size
+                        val topArticles = latestArticles.filter { it.featured }
+                        Log.d("HomeFrag", "filtered list: $topArticles , listtSize: ${listSize.toString()} ")
                         articlesRecyclerAdapter.submitList(latestArticles)
                     }
 

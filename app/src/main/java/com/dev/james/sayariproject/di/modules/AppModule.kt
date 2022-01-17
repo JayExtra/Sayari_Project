@@ -2,13 +2,19 @@ package com.dev.james.sayariproject.di.modules
 
 import android.content.Context
 import com.dev.james.sayariproject.BuildConfig
-import com.dev.james.sayariproject.data.datasources.*
+import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmentDatasource
+import com.dev.james.sayariproject.data.datasources.discover.DiscoverFragmentDatasource
+import com.dev.james.sayariproject.data.datasources.home.ArticlesDataSource
+import com.dev.james.sayariproject.data.datasources.home.BaseTopArticlesDataSource
+import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSource
+import com.dev.james.sayariproject.data.datasources.home.TopArticlesDataSource
+import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasource
+import com.dev.james.sayariproject.data.datasources.launches.LaunchesDataSource
 import com.dev.james.sayariproject.data.local.datastore.DataStoreManager
 import com.dev.james.sayariproject.data.remote.service.LaunchApiService
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.repository.MainRepository
-import com.dev.james.sayariproject.repository.TopArticlesBaseRepo
 import com.dev.james.sayariproject.utilities.ARTICLE_BASE_URL
 import com.dev.james.sayariproject.utilities.LAUNCH_BASE_URL
 import dagger.Module
@@ -129,9 +135,10 @@ object AppModule {
     fun provideRepository(
         articlesDataSource: SpaceFlightApiDataSource,
         topArticlesDataSource: BaseTopArticlesDataSource,
-        launchesDatasource: LaunchesBaseDatasource
+        launchesDatasource: LaunchesBaseDatasource,
+        discoverFragmentDatasource: BaseDiscoverFragmentDatasource
     ) : BaseMainRepository {
-        return MainRepository(articlesDataSource , topArticlesDataSource,launchesDatasource)
+        return MainRepository(articlesDataSource , topArticlesDataSource,launchesDatasource , discoverFragmentDatasource)
     }
 
     //provide articles datasource
@@ -151,6 +158,12 @@ object AppModule {
     @Singleton
     fun provideLaunchDataSource(api : LaunchApiService) : LaunchesBaseDatasource {
         return LaunchesDataSource(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDiscoverFragDatasource(api: NewsApiService) : BaseDiscoverFragmentDatasource {
+        return DiscoverFragmentDatasource(api)
     }
 
     /*Caching data */
