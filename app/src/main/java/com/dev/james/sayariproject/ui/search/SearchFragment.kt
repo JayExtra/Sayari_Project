@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dev.james.sayariproject.databinding.FragmentSearchBinding
@@ -28,6 +30,7 @@ class SearchFragment : Fragment() {
 
     private val discoverViewModel : DiscoverViewModel by viewModels()
 
+    private lateinit var observedQuery : String
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,9 +50,19 @@ class SearchFragment : Fragment() {
                 when(resource){
                     is NetworkResource.Loading -> {
                         Log.d("DiscFrag", "startObservingNewsList: loading... ")
+                        binding?.apply {
+                            netErrMessage.isInvisible = true
+                            buttonRetry.isInvisible = true
+                            searchProgressBar.isVisible = true
+                        }
                     }
                     is NetworkResource.Success -> {
                         binding?.apply {
+                            discoverViewPager.isVisible = true
+                            discoverDotsIndicator.isVisible=true
+                            searchProgressBar.isInvisible = true
+                            netErrMessage.isInvisible = true
+                            buttonRetry.isInvisible = true
                             val filteredArticles =  resource.value
                             val viewPagerAdapter = DiscoverViewPagerAdapter(filteredArticles) { url ->
                                 launchBrowser(url)
@@ -64,6 +77,18 @@ class SearchFragment : Fragment() {
                     }
                     is NetworkResource.Failure -> {
                         Log.d("DiscFrag", "startObservingNewsList: error: ${resource.errorBody.toString()} ")
+                       binding?.apply {
+                           discoverViewPager.isInvisible = true
+                           discoverDotsIndicator.isInvisible = true
+                           searchProgressBar.isInvisible = true
+                           netErrMessage.isVisible = true
+                           val error = resource.errorBody
+                           error?.let {
+                               netErrMessage.text = resource.errorBody.toString()
+                           }
+                           buttonRetry.isVisible = true
+
+                       }
                     }
 
                 }
@@ -86,6 +111,7 @@ class SearchFragment : Fragment() {
             event.getContentIfNotHandled()?.let { query ->
                 //trigger ui refresh and change the data
                 discoverViewModel.getFilteredResults(query)
+                observedQuery = query
                 Toast.makeText(requireContext(), "filter param : $query" , Toast.LENGTH_LONG).show()
             }
 
@@ -109,6 +135,11 @@ class SearchFragment : Fragment() {
  //                   Toast.makeText(requireContext(), filter, Toast.LENGTH_SHORT).show()
                 }
             }
+            }
+
+            buttonRetry.setOnClickListener {
+                Log.d("SearchFrag", "setUpUi: retry btn clicked ")
+                retryArticles()
             }
 
         }
@@ -136,5 +167,11 @@ class SearchFragment : Fragment() {
             intent.data = Uri.parse(url)
             startActivity(intent)
         }?: Toast.makeText(requireContext() , "No news site available" , Toast.LENGTH_LONG).show()
+    }
+
+    private fun retryArticles(){
+        Log.d("SearchFrag", "retryArticles: retry triggered with query: $observedQuery")
+        binding?.searchProgressBar?.isVisible = true
+        discoverViewModel.getFilteredResults(observedQuery)
     }
 }

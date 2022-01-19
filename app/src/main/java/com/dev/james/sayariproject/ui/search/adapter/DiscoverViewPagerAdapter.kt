@@ -43,7 +43,7 @@ class DiscoverViewPagerAdapter(
 
         topNewsTitle.text = articleItem.title
 
-        topNewsButton.setOnClickListener {
+        topNewsTitle.setOnClickListener {
             action.invoke(articleItem.url)
         }
     }
