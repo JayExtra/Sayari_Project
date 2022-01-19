@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.search.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.repository.BaseMainRepository
@@ -18,33 +19,47 @@ class DiscoverViewModel @Inject constructor(
     private var _stringParameter :  MutableLiveData<Event<String>> = MutableLiveData()
     val stringParameter get() = _stringParameter
 
-    private var _newsList :  MutableLiveData<Event<NetworkResource<List<Article>>>> = MutableLiveData()
+  private var _newsList :  MutableLiveData<Event<NetworkResource<List<Article>>>> = MutableLiveData()
     val newsList get() = _newsList
+
+    private lateinit var storedQuery : String
 
     fun updateStringParameter(param : String){
         _stringParameter.value = Event(param)
     }
 
+
     fun getFilteredResults(query : String?) = viewModelScope.launch {
         var queryPassed = ""
-        query?.let {
+       query?.let {
             queryPassed = it
-        }
+       }
 
         val initialQuery: String = savedStateHandle.get<String>(LAST_SEARCH_QUERY) ?: queryPassed
 
-        val articles = repository.getFilteredNews(initialQuery)
+        storedQuery = initialQuery
 
-        _newsList.value = Event(articles)
+        Log.d("DiscoverVm", "getFilteredResults: $initialQuery ")
 
-        saveQuery(initialQuery)
+       if(initialQuery == "Sun"){
+
+           val articles = repository.getFilteredNews(SUN_QUERY)
+           _newsList.value = Event(NetworkResource.Loading)
+           _newsList.value = Event(articles)
+       }else{
+           val articles = repository.getFilteredNews(initialQuery)
+           _newsList.value = Event(NetworkResource.Loading)
+           _newsList.value = Event(articles)
+       }
 
     }
 
-    private fun saveQuery(query : String){
-        savedStateHandle[LAST_SEARCH_QUERY] = query
+    override fun onCleared() {
+        super.onCleared()
+        savedStateHandle[LAST_SEARCH_QUERY] = storedQuery
     }
 }
 
 private const val LAST_SEARCH_QUERY = "last_search_query"
 private const val DEFAULT_QUERY =""
+private const val SUN_QUERY = "The sun"
