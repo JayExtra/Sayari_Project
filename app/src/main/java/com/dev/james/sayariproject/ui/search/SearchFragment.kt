@@ -150,6 +150,7 @@ class SearchFragment : Fragment() {
             val initialChipSelection = parentChipGroup.findViewById<Chip>(parentChipGroup.checkedChipId)
                 .text.toString()
             discoverViewModel.updateStringParameter(initialChipSelection)
+            binding?.searchProgressBar?.isVisible = true
             hasMadeInitialCall = true
   //          Toast.makeText(requireContext(), initialChipSelection, Toast.LENGTH_SHORT).show()
         }
