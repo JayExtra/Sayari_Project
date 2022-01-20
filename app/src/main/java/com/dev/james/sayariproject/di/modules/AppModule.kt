@@ -13,6 +13,7 @@ import com.dev.james.sayariproject.data.datasources.home.TopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesDataSource
 import com.dev.james.sayariproject.data.local.datastore.DataStoreManager
+import com.dev.james.sayariproject.data.local.room.Dao
 import com.dev.james.sayariproject.data.local.room.SayariDatabase
 import com.dev.james.sayariproject.data.remote.service.LaunchApiService
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
@@ -183,8 +184,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDiscoverFragDatasource(api: NewsApiService) : BaseDiscoverFragmentDatasource {
-        return DiscoverFragmentDatasource(api)
+    fun provideDiscoverFragDatasource(api: NewsApiService , dao : Dao) : BaseDiscoverFragmentDatasource {
+        return DiscoverFragmentDatasource(api , dao)
     }
 
     /*Caching data */

@@ -6,6 +6,7 @@ import com.dev.james.sayariproject.data.datasources.home.BaseTopArticlesDataSour
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasource
 import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSource
 import com.dev.james.sayariproject.models.articles.Article
+import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
@@ -37,6 +38,10 @@ class MainRepository @Inject constructor(
 
     override fun getLaunchesStream(query: String, fragId: Int): Flow<PagingData<LaunchList>> {
         return launchesDataSource.getLaunches(query , fragId)
+    }
+
+    override fun getMissions(category: String): Flow<List<ActiveMissions>> {
+        return discoverFragmentDatasource.getMission(category)
     }
 
 }
