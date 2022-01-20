@@ -1,6 +1,8 @@
 package com.dev.james.sayariproject.di.modules
 
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmentDatasource
 import com.dev.james.sayariproject.data.datasources.discover.DiscoverFragmentDatasource
@@ -11,6 +13,8 @@ import com.dev.james.sayariproject.data.datasources.home.TopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesDataSource
 import com.dev.james.sayariproject.data.local.datastore.DataStoreManager
+import com.dev.james.sayariproject.data.local.room.Dao
+import com.dev.james.sayariproject.data.local.room.SayariDatabase
 import com.dev.james.sayariproject.data.remote.service.LaunchApiService
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
 import com.dev.james.sayariproject.repository.BaseMainRepository
@@ -22,6 +26,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -130,6 +136,22 @@ object AppModule {
         return DataStoreManager(appContext)
     }
 
+    //provide database
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application , callback : SayariDatabase.Callback) =
+        Room.databaseBuilder(app , SayariDatabase::class.java, "sayari_database")
+            .fallbackToDestructiveMigration()
+            .addCallback(callback)
+            .build()
+
+    @Singleton
+    @Provides
+    fun provideDbDao(db : SayariDatabase) =
+        db.dbDao()
+
+
     @Provides
     @Singleton
     fun provideRepository(
@@ -162,8 +184,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDiscoverFragDatasource(api: NewsApiService) : BaseDiscoverFragmentDatasource {
-        return DiscoverFragmentDatasource(api)
+    fun provideDiscoverFragDatasource(api: NewsApiService , dao : Dao) : BaseDiscoverFragmentDatasource {
+        return DiscoverFragmentDatasource(api , dao)
     }
 
     /*Caching data */
@@ -176,6 +198,7 @@ object AppModule {
             10 * 1024 * 1024
         )
     }
+
 
     private val cacheInterceptor = object : Interceptor {
         @Throws(IOException::class)
@@ -190,7 +213,17 @@ object AppModule {
         }
     }
 
+    @ApplicationScope
+    @Provides
+    @Singleton
+    fun provideApplicationScope() = CoroutineScope(SupervisorJob())
+
 }
+
+@Retention(AnnotationRetention.RUNTIME)
+@Qualifier
+annotation class  ApplicationScope
+
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ArticleRetrofitResponse
@@ -206,4 +239,6 @@ annotation class ArticlesOkhttpClient
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class LaunchesOkhttpClient
+
+
 

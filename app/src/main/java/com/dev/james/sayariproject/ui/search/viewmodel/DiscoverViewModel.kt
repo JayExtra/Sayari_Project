@@ -3,11 +3,16 @@ package com.dev.james.sayariproject.ui.search.viewmodel
 import android.util.Log
 import androidx.lifecycle.*
 import com.dev.james.sayariproject.models.articles.Article
+import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.utilities.Event
 import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +27,12 @@ class DiscoverViewModel @Inject constructor(
   private var _newsList :  MutableLiveData<Event<NetworkResource<List<Article>>>> = MutableLiveData()
     val newsList get() = _newsList
 
+    private var _missionsList :  MutableLiveData<Event<List<ActiveMissions>>> = MutableLiveData()
+    val missionsList get() = _missionsList
+
     private lateinit var storedQuery : String
+
+  //  private lateinit var missionsFlow : LiveData<List<ActiveMissions>>
 
     fun updateStringParameter(param : String){
         _stringParameter.value = Event(param)
@@ -52,6 +62,22 @@ class DiscoverViewModel @Inject constructor(
            _newsList.value = Event(articles)
        }
 
+    }
+
+    //getting missions:
+    fun getMissionsByCategory(category : String) {
+        try {
+            val missions = repository.getMissions(category)
+            viewModelScope.launch {
+                missions.collect { missions ->
+                    _missionsList.value = Event(missions)
+                }
+            }
+  //          missionsFlow = repository.getMissions(category).asLiveData()
+
+        }catch (e : Exception){
+            Log.d("DiscoverVm", "getMissionsByCategory: ${e.toString()}")
+        }
     }
 
     override fun onCleared() {

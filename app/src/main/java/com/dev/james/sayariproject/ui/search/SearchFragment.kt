@@ -12,6 +12,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.dev.james.sayariproject.databinding.FragmentSearchBinding
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
@@ -40,6 +41,7 @@ class SearchFragment : Fragment() {
         setUpUi()
         startObservingFilters()
         startObservingNewsList()
+        observeMissions()
         return binding?.root
     }
 
@@ -111,6 +113,7 @@ class SearchFragment : Fragment() {
             event.getContentIfNotHandled()?.let { query ->
                 //trigger ui refresh and change the data
                 discoverViewModel.getFilteredResults(query)
+                collectMissions(query)
                 observedQuery = query
                 Toast.makeText(requireContext(), "filter param : $query" , Toast.LENGTH_LONG).show()
             }
@@ -143,6 +146,18 @@ class SearchFragment : Fragment() {
             }
 
         }
+    }
+
+    private fun collectMissions(category : String){
+        discoverViewModel.getMissionsByCategory(category)
+    }
+
+    private fun observeMissions(){
+        discoverViewModel.missionsList.observe(viewLifecycleOwner , { event ->
+            event.getContentIfNotHandled()?.let {
+                Log.d("SearchFrag", "observeMissions: $it ")
+            }
+        })
     }
 
     private fun getInitialChipSelected() {
