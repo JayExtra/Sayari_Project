@@ -75,7 +75,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:fontFamily="@font/ubuntu"
-                android:text="Universe"
+                android:text="Astronomy"
                 app:chipEndPadding="16dp"
                 app:chipStartPadding="16dp" />
 
