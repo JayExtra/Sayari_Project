@@ -43,13 +43,13 @@ abstract class SayariDatabase : RoomDatabase() {
                     ActiveMissions(5 , "Curiosity" , "https://mars.nasa.gov/system/resources/detail_files/24863_MSLCuriosityStickerTemplate-web.jpg","Mars" )
                 )
                 dao.addMissions(
-                    ActiveMissions(6 , "Persaverance" , "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Mars_2020_mission_patch.png/676px-Mars_2020_mission_patch.png","Mars" )
+                    ActiveMissions(6 , "Perseverance" , "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Mars_2020_mission_patch.png/676px-Mars_2020_mission_patch.png","Mars" )
                 )
                 dao.addMissions(
                     ActiveMissions(7 , "Inginuity" , "https://mars.nasa.gov/system/resources/list_images/24998_sticker-thm.jpg","Mars" )
                 )
                 dao.addMissions(
-                    ActiveMissions(8 , "Hope" , "http://www.collectspace.com/review/uae_hope_emirates_mars_mission_patch02-lg.jpg","Mars" )
+                    ActiveMissions(8 , "UAE HOPE" , "https://www.mbrsc.ae/application/files/5115/7164/2706/patch_-_hope_probe.jpg","Mars" )
                 )
                 dao.addMissions(
                     ActiveMissions(9 , "Tianwen1" , "https://pbs.twimg.com/media/EvCyB4xVIAcfLKT.jpg","Mars" )
@@ -67,7 +67,7 @@ abstract class SayariDatabase : RoomDatabase() {
                     ActiveMissions(13 , "MRO" , "https://upload.wikimedia.org/wikipedia/commons/2/26/Mars_Reconnaissance_Orbiter_-_MOI_Flight_Ops_Team_Patch.png","Mars" )
                 )
                 dao.addMissions(
-                    ActiveMissions(14 , "Mars Express" , " https://4.bp.blogspot.com/-VvVcQmD9zR0/UBAgaedn37I/AAAAAAAAHAI/pGC7ORdbGqo/s1600/marsexpress_logo_high.jpg","Mars" )
+                    ActiveMissions(14 , "Mars Express" , "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2013/02/mars_express_mission_logo/12519444-1-eng-GB/Mars_Express_mission_logo.jpg","Mars" )
                 )
                 dao.addMissions(
                     ActiveMissions(15 , "Mars Odyssey" , "https://en-academic.com/pictures/enwiki/50/2001_Mars_Odyssey_-_mars-odyssey-logo-sm.png","Mars" )
@@ -79,10 +79,10 @@ abstract class SayariDatabase : RoomDatabase() {
                     ActiveMissions(17 , "Lucy" , "https://blogs.nasa.gov/lucy/wp-content/uploads/sites/323/2021/10/Lucy-logo.jpg","Solar System" )
                 )
                 dao.addMissions(
-                    ActiveMissions(18 , "Osiris rex" , "https://www.asteroidmission.org/wp-content/uploads/2015/09/OSIRIS-REx-Mission-Logo1.png","Solar System" )
+                    ActiveMissions(18 , "Osiris REX" , "https://i.pinimg.com/originals/b9/98/22/b998222a21056d8bda857dd3a82ebedd.png","Solar System" )
                 )
                 dao.addMissions(
-                    ActiveMissions(19 , "JUNO" , "https://upload.wikimedia.org/wikipedia/commons/3/32/Juno_mission_insignia.svg","Solar System" )
+                    ActiveMissions(19 , "JUNO" , "https://ih1.redbubble.net/image.245467006.2708/st,small,845x845-pad,1000x1000,f8f8f8.u5.jpg","Solar System" )
                 )
                 dao.addMissions(
                     ActiveMissions(20 , "Cassini" , "https://i.etsystatic.com/10397404/r/il/473542/1554355909/il_fullxfull.1554355909_mevl.jpg","Solar System" )
@@ -106,13 +106,13 @@ abstract class SayariDatabase : RoomDatabase() {
                     ActiveMissions(26 , "Spitzer" , "https://astrobiology.nasa.gov/uploads/filer_public_thumbnails/filer_public/1a/5e/1a5e20c7-3026-465e-88d2-f04cfb49d7bc/spitzer-patch-500png230x0_q85.png__270x197_q85_crop_subsampling-2.png","Astronomy" )
                 )
                 dao.addMissions(
-                    ActiveMissions(27 , "Wise" , "http://4.bp.blogspot.com/-axgZkMJmX2I/TjDwCFJZIqI/AAAAAAAAB38/UTR7gztukMg/s1600/NASA+-+WISE+patch.jpg","Astronomy" )
+                    ActiveMissions(27 , "WISE" , "https://wise2.ipac.caltech.edu/docs/release/3band/figures/wise_logo_sm.jpg","Astronomy" )
                 )
                 dao.addMissions(
                     ActiveMissions(28 , "Kepler" , "https://i.pinimg.com/originals/61/5d/e0/615de0ee88db7d21f6c7149d254bf80f.jpg","Exoplanets" )
                 )
                 dao.addMissions(
-                    ActiveMissions(29 , "Tess" , "http://www.collectspace.com/review/mit_tess_sciopspatch01-lg.jpg","Exoplanets" )
+                    ActiveMissions(29 , "TESS" , "https://exoplanets.nasa.gov/system/resources/detail_files/2289_Mission_Posters_TESS_English-1200.jpg","Exoplanets" )
                 )
                 dao.addMissions(
                     ActiveMissions(30 , "Parker Solar Probe" , "https://blogs.nasa.gov/parkersolarprobe/wp-content/uploads/sites/274/2018/08/Parker-Solar-Probe_Logo-1024x1024.png","Sun" )

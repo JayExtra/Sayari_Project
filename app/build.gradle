@@ -164,4 +164,7 @@ dependencies {
 
     //swipe to refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //get Dominant image color
+    implementation 'androidx.palette:palette-ktx:1.0.0'
 }
