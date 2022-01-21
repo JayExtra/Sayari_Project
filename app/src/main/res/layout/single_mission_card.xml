@@ -27,7 +27,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/ubuntu_medium"
                 android:text="mission asdasdsdddsd"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/missionPatch"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/missionPatch"
@@ -35,8 +35,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/missionPatch"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
@@ -44,8 +44,7 @@
                 app:civ_border_width="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:src="@drawable/ic_image_placeholder" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
