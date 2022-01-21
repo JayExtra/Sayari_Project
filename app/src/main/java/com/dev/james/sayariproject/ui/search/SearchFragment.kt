@@ -13,10 +13,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.james.sayariproject.databinding.FragmentSearchBinding
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
 import com.dev.james.sayariproject.ui.search.adapter.DiscoverViewPagerAdapter
+import com.dev.james.sayariproject.ui.search.adapter.MissionsRecyclerAdapter
 import com.dev.james.sayariproject.ui.search.viewmodel.DiscoverViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.chip.Chip
@@ -30,6 +32,8 @@ class SearchFragment : Fragment() {
     private var hasMadeInitialCall : Boolean? = null
 
     private val discoverViewModel : DiscoverViewModel by viewModels()
+
+    private val missionsAdapter = MissionsRecyclerAdapter()
 
     private lateinit var observedQuery : String
     override fun onCreateView(
@@ -145,6 +149,10 @@ class SearchFragment : Fragment() {
                 retryArticles()
             }
 
+            missionsRv.adapter = missionsAdapter
+            missionsRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL , false)
+
+
         }
     }
 
@@ -154,8 +162,9 @@ class SearchFragment : Fragment() {
 
     private fun observeMissions(){
         discoverViewModel.missionsList.observe(viewLifecycleOwner , { event ->
-            event.getContentIfNotHandled()?.let {
-                Log.d("SearchFrag", "observeMissions: $it ")
+            event.getContentIfNotHandled()?.let { missions ->
+                Log.d("SearchFrag", "observeMissions: $missions ")
+                missionsAdapter.submitList(missions)
             }
         })
     }

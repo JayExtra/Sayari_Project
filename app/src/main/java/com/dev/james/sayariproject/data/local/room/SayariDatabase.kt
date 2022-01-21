@@ -28,7 +28,7 @@ abstract class SayariDatabase : RoomDatabase() {
 
             applicationScope.launch {
                 dao.addMissions(
-                    ActiveMissions(1 , "Lunar Reconnaissance Orbiter (LRO)" , "https://upload.wikimedia.org/wikipedia/commons/c/c4/LRO_mission_logo_%28transparent_background%29_01.png","Moon" )
+                    ActiveMissions(1 , "LRO" , "https://upload.wikimedia.org/wikipedia/commons/c/c4/LRO_mission_logo_%28transparent_background%29_01.png","Moon" )
                 )
                 dao.addMissions(
                     ActiveMissions(2 , "GRAIL" , "https://4.bp.blogspot.com/-Ez9fd76ycmc/UM-wpD3TKlI/AAAAAAAANAE/NiZRw12DP6s/s1600/GRAIL-logo.JPG","Moon" )
