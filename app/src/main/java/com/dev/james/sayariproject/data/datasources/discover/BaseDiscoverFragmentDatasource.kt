@@ -11,5 +11,17 @@ interface BaseDiscoverFragmentDatasource {
 
     //mission section in the future
     fun getMission(category : String) : Flow<List<ActiveMissions>>
+
     //gallery section
+    suspend fun getArticlesForImages(
+        query1 : String?,
+        query2 : String?,
+        query3 : String?,
+        query4 : String?,
+        query5: String?,
+        query6 : String?,
+        query7 : String?,
+        query8 : String?,
+        query9 : String?
+    ) : NetworkResource<List<Article>>
 }

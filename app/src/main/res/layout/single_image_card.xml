@@ -25,6 +25,9 @@
                 android:id="@+id/cardBgImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:foreground="#96222f3e"
+                android:foregroundTintMode="src_atop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +58,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/publisherImg"
                 app:layout_constraintTop_toTopOf="@+id/publisherImg" />
+
+            <ProgressBar
+                android:id="@+id/imgProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/secondaryColor"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/cardBgImage"
+                app:layout_constraintStart_toStartOf="@+id/cardBgImage"
+                app:layout_constraintTop_toTopOf="@+id/cardBgImage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
