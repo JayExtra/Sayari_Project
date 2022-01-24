@@ -23,4 +23,18 @@ interface NewsApiService {
         @Query("_limit")limit : Int
     ) : List<Article>
 
+    @GET
+    suspend fun getArticlesMultiQuery(
+        @Query("title_contains")query1 : String?,
+        @Query("title_contains")query2:String?,
+        @Query("title_contains")query3:String?,
+        @Query("title_contains")query4:String?,
+        @Query("title_contains")query5:String?,
+        @Query("title_contains")query6:String?,
+        @Query("title_contains")query7:String?,
+        @Query("title_contains")query8:String?,
+        @Query("title_contains")query9:String?,
+        @Query("_limit")limit : Int
+    ) : List<Article>
+
 }

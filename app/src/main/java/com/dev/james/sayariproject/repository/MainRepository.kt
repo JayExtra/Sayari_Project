@@ -44,4 +44,28 @@ class MainRepository @Inject constructor(
         return discoverFragmentDatasource.getMission(category)
     }
 
+    override suspend fun getArticlesForImages(
+        query1: String?,
+        query2: String?,
+        query3: String?,
+        query4: String?,
+        query5: String?,
+        query6: String?,
+        query7: String?,
+        query8: String?,
+        query9: String?
+    ): NetworkResource<List<Article>> {
+        return discoverFragmentDatasource.getArticlesForImages(
+            query1,
+            query2,
+            query3,
+            query4,
+            query5,
+            query6,
+            query7,
+            query8,
+            query9,
+        )
+    }
+
 }
