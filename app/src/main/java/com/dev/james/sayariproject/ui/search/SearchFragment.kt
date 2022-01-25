@@ -18,11 +18,13 @@ import com.dev.james.sayariproject.databinding.FragmentSearchBinding
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
 import com.dev.james.sayariproject.ui.search.adapter.DiscoverViewPagerAdapter
+import com.dev.james.sayariproject.ui.search.adapter.GalleryRecyclerAdapter
 import com.dev.james.sayariproject.ui.search.adapter.MissionsRecyclerAdapter
 import com.dev.james.sayariproject.ui.search.viewmodel.DiscoverViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -35,6 +37,8 @@ class SearchFragment : Fragment() {
 
     private val missionsAdapter = MissionsRecyclerAdapter()
 
+    private val galleryAdapter = GalleryRecyclerAdapter()
+
     private lateinit var observedQuery : String
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +49,38 @@ class SearchFragment : Fragment() {
         setUpUi()
         startObservingFilters()
         startObservingNewsList()
+        startCollectingImagesFlow()
         observeMissions()
         return binding?.root
+    }
+
+    private fun startCollectingImagesFlow() {
+
+            discoverViewModel.myArticlesListForImages.observe(viewLifecycleOwner ,{ event ->
+
+                event.getContentIfNotHandled()?.let { resource ->
+
+                    when(resource){
+                        is NetworkResource.Loading -> {
+                            Log.d("DiscFrag", "startCollectingImagesFlow: getting images..")
+                        }
+                        is NetworkResource.Success -> {
+                            Log.d("DiscFrag", "startCollectingImagesFlow: results : ${resource.value} ")
+                            val images = resource.value.take(10)
+                            galleryAdapter.submitList(images)
+                        }
+                        is NetworkResource.Failure -> {
+                            val error = resource.errorBody
+                            error?.let {
+                                Log.d("DiscFrag", "startCollectingImagesFlow: failure: ${it.toString()} ")
+                            }
+                        }
+                    }
+
+                }
+
+            } )
+
     }
 
     private fun startObservingNewsList() {
@@ -117,6 +151,7 @@ class SearchFragment : Fragment() {
             event.getContentIfNotHandled()?.let { query ->
                 //trigger ui refresh and change the data
                 discoverViewModel.getFilteredResults(query)
+                discoverViewModel.getArticlesForImages(query)
                 collectMissions(query)
                 observedQuery = query
                 Toast.makeText(requireContext(), "filter param : $query" , Toast.LENGTH_LONG).show()
@@ -149,8 +184,13 @@ class SearchFragment : Fragment() {
                 retryArticles()
             }
 
+            //missions rv
             missionsRv.adapter = missionsAdapter
             missionsRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL , false)
+
+            //gallery rv
+            galleryRv.adapter = galleryAdapter
+            galleryRv.layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.HORIZONTAL , false)
 
 
         }

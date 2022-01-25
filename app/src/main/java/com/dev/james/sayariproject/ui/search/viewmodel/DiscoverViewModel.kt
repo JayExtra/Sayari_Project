@@ -23,8 +23,8 @@ class DiscoverViewModel @Inject constructor(
     val stringParameter get() = _stringParameter
 
     //images stateflow
-    private val _articlesFlow = MutableStateFlow<Event<NetworkResource<List<Article>>>>(Event(NetworkResource.Loading))
-    val myArticlesListForImages : StateFlow<Event<NetworkResource<List<Article>>>> get() = _articlesFlow
+    private var _articles : MutableLiveData<Event<NetworkResource<List<Article>>>> = MutableLiveData()
+    val myArticlesListForImages get() = _articles
 
   private var _newsList :  MutableLiveData<Event<NetworkResource<List<Article>>>> = MutableLiveData()
     val newsList get() = _newsList
@@ -87,47 +87,61 @@ class DiscoverViewModel @Inject constructor(
     }
 
     //getting images from network
-    fun getArticlesForImages(
-        category : String
-    ) = viewModelScope.launch {
-        if(category == "Mars"){
-           val result =  repository.getArticlesForImages(
-                "curiosity" , "perseverance" , "MRO" , "ingenuity" , "MAVEN" ,
-               "opportunity" ,null,null,null
-            )
-            _articlesFlow.value = Event(result)
-        }else if(category == "Moon"){
-            val result = repository.getArticlesForImages(
-                "LRO" , "Artemis" , "Apollo" , "chandrayaan","chang'e" ,"lunar rover",
-                "lunar" , null , null
-            )
-            _articlesFlow.value = Event(result)
-        }else if(category == "Solar System"){
-            val result = repository.getArticlesForImages(
-                "pluto" , "venus" , "mercury" , "saturn","jupiter" ,"asteroid",
-                "osiris" , "lucy" , "cassini"
-            )
-            _articlesFlow.value = Event(result)
-        }else if(category == "Astronomy"){
-            val result = repository.getArticlesForImages(
-                "hubble" , "JWST" , "chandra" , "galaxy","star" ,"spitzer",
-                "black hole" , null , null
-            )
-            _articlesFlow.value = Event(result)
-        }else if(category == "Exoplanets"){
-            val result = repository.getArticlesForImages(
-                "TESS" , "kepler telescope" , "exoplanet" , "habitable",null ,null,
-                null , null , null
-            )
-            _articlesFlow.value = Event(result)
-        }else if(category == "Sun"){
-            val result = repository.getArticlesForImages(
-                "solar" , "parker solar probe" , "coronal" , "habitable","SOHO" ,null,
-                null , null , null
-            )
-            _articlesFlow.value = Event(result)
-        }else{
-            Log.d("discoverViewModel", "getArticlesForImages: no category found")
+    fun getArticlesForImages(category : String) = viewModelScope.launch {
+        when (category) {
+            "Mars" -> {
+                Log.d("DiscVm", "getArticlesForImages: mars match found! ")
+                val result =  repository.getArticlesForImages(
+                    "curiosity" , "perseverance" , "MRO" , "ingenuity" , "MAVEN" ,
+                    "opportunity" ,null,null,null
+                )
+                Log.d("DiscVm", "getArticlesForImages: mars: ${result.toString()} ")
+                _articles.value = Event(NetworkResource.Loading)
+                _articles.value = Event(result)
+            }
+            "Moon" -> {
+                val result = repository.getArticlesForImages(
+                    "LRO" , "Artemis" , "Apollo" , "chandrayaan","chang'e" ,"lunar rover",
+                    "lunar" , null , null
+                )
+                _articles.value = Event(NetworkResource.Loading)
+                _articles.value =  Event(result)
+            }
+            "Solar System" -> {
+                val result = repository.getArticlesForImages(
+                    "pluto" , "venus" , "mercury" , "saturn","jupiter" ,null,
+                    "osiris" , "lucy" , "cassini"
+                )
+                _articles.value = Event(NetworkResource.Loading)
+                _articles.value =  Event(result)
+            }
+            "Astronomy" -> {
+                val result = repository.getArticlesForImages(
+                    "hubble" , null  , "chandra" , "galaxy","spitzer" ,null,
+                    "black hole" , null, null
+                )
+                _articles.value = Event(NetworkResource.Loading)
+                _articles.value =  Event(result)
+            }
+            "Exoplanets" -> {
+                val result = repository.getArticlesForImages(
+                    "TESS" , "kepler telescope" , "exoplanet" , "habitable",null ,null,
+                    null , null , null
+                )
+                _articles.value = Event(NetworkResource.Loading)
+                _articles.value =  Event(result)
+            }
+            "Sun" -> {
+                val result = repository.getArticlesForImages(
+                    "parker solar probe" , "coronal" , null , null,null ,null,
+                    null , null , null
+                )
+                _articles.value = Event(NetworkResource.Loading)
+                _articles.value =  Event(result)
+            }
+            else -> {
+                Log.d("discoverViewModel", "getArticlesForImages: no category found")
+            }
         }
 
     }
