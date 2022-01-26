@@ -167,4 +167,7 @@ dependencies {
 
     //get Dominant image color
     implementation 'androidx.palette:palette-ktx:1.0.0'
+
+    //Leak canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 }

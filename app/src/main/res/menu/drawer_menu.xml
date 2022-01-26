@@ -15,11 +15,6 @@
             android:enabled="true"/>
 
         <item
-            android:title="Space X"
-            android:id="@+id/spaceXFragment"
-            android:enabled="true"/>
-
-        <item
             android:title="Agencies"
             android:id="@+id/agenciesFragment"
             android:enabled="true"/>
