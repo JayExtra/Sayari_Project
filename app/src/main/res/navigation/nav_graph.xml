@@ -68,4 +68,9 @@
         android:name="com.dev.james.sayariproject.ui.home.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/eventsFragment2"
+        android:name="com.dev.james.sayariproject.ui.events.EventsFragment"
+        android:label="fragment_events"
+        tools:layout="@layout/fragment_events" />
 </navigation>
