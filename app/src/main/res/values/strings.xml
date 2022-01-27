@@ -38,4 +38,5 @@
     <string name="news_error_text">could not fetch any article. please check your network.</string>
     <string name="news_search_error">search result not found. try again or try refreshing.</string>
     <string name="news_heading">News</string>
+    <string name="general_err_message">could not fetch results. please check your network or swipe down to refresh</string>
 </resources>
