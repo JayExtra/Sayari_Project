@@ -92,6 +92,11 @@ class MainActivity : AppCompatActivity() {
                     hideTopBar()
                     lockNavDrawer()
                 }
+                R.id.eventsFragment2 -> {
+                    hideTopBar()
+                    lockNavDrawer()
+                    hideBottomNav()
+                }
             }
         }
 
@@ -100,7 +105,6 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setNavigationOnClickListener {
             binding.drawerLayout.open()
         }
-
 
     }
 

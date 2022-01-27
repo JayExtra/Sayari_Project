@@ -6,7 +6,7 @@
 
         <item
             android:title="Events"
-            android:id="@+id/eventsFragment"
+            android:id="@+id/eventsFragment2"
             android:enabled="true"/>
 
         <item
