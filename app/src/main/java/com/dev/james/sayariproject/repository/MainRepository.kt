@@ -2,11 +2,13 @@ package com.dev.james.sayariproject.repository
 
 import androidx.paging.PagingData
 import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmentDatasource
+import com.dev.james.sayariproject.data.datasources.events.EventsDatasource
 import com.dev.james.sayariproject.data.datasources.home.BaseTopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasource
 import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSource
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.models.discover.ActiveMissions
+import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +18,8 @@ class MainRepository @Inject constructor(
     private val articlesDataSource: SpaceFlightApiDataSource,
     private val topArticlesDataSource: BaseTopArticlesDataSource,
     private val launchesDataSource: LaunchesBaseDatasource,
-    private val discoverFragmentDatasource: BaseDiscoverFragmentDatasource
+    private val discoverFragmentDatasource: BaseDiscoverFragmentDatasource,
+    private val eventsDatasource: EventsDatasource
 ) : BaseMainRepository {
 
     // retrieves articles data stream
@@ -42,6 +45,10 @@ class MainRepository @Inject constructor(
 
     override fun getMissions(category: String): Flow<List<ActiveMissions>> {
         return discoverFragmentDatasource.getMission(category)
+    }
+
+    override fun getEvents(query: String?): Flow<PagingData<Events>> {
+        return eventsDatasource.getEvents(query)
     }
 
     override suspend fun getArticlesForImages(
