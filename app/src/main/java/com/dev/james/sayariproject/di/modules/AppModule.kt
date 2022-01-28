@@ -6,6 +6,9 @@ import androidx.room.Room
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmentDatasource
 import com.dev.james.sayariproject.data.datasources.discover.DiscoverFragmentDatasource
+import com.dev.james.sayariproject.data.datasources.events.BaseEventsDatasource
+import com.dev.james.sayariproject.data.datasources.events.EventsDatasource
+import com.dev.james.sayariproject.data.remote.service.EventsApiService
 import com.dev.james.sayariproject.data.datasources.home.ArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.home.BaseTopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSource
@@ -77,10 +80,21 @@ object AppModule {
         return okHttpClient.build()
     }
 
-    //launch client
-    private val launchClient = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
+    //Events okhttp client
+    @EventsOkhttpClient
+    @Singleton
+    @Provides
+    fun provideEventsOkhttpClient(cache :Cache):OkHttpClient{
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(cacheInterceptor)
+            .cache(cache)
+        if (BuildConfig.DEBUG) okHttpClient.addInterceptor(loggingInterceptor)
+        return okHttpClient.build()
+
+    }
 
 
     //TELL HILT HOW TO PROVIDE ARTICLE RETROFIT INSTANCE
@@ -111,6 +125,19 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+    //TELL HILT OW TO PROVIDE EVENTS RETROFIT INSTANCE
+    @EventsRetrofitResponse
+    @Provides
+    @Singleton
+    fun provideEventsRetrofit(
+        @EventsOkhttpClient okHttpClient: OkHttpClient
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(LAUNCH_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
 
     //PROVIDE ARTICLES API
     @Provides
@@ -126,6 +153,13 @@ object AppModule {
     fun provideLaunchesApi(
         @LaunchRetrofitResponse retrofit: Retrofit
     ):LaunchApiService = retrofit.create(LaunchApiService::class.java)
+
+    //provide events api
+    @Provides
+    @Singleton
+    fun provideEventsApi(
+        @EventsRetrofitResponse retrofit : Retrofit
+    ) : EventsApiService = retrofit.create(EventsApiService::class.java)
 
     //provide datastore
     @Provides
@@ -158,9 +192,14 @@ object AppModule {
         articlesDataSource: SpaceFlightApiDataSource,
         topArticlesDataSource: BaseTopArticlesDataSource,
         launchesDatasource: LaunchesBaseDatasource,
-        discoverFragmentDatasource: BaseDiscoverFragmentDatasource
+        discoverFragmentDatasource: BaseDiscoverFragmentDatasource,
+        eventsDatasource: EventsDatasource
     ) : BaseMainRepository {
-        return MainRepository(articlesDataSource , topArticlesDataSource,launchesDatasource , discoverFragmentDatasource)
+        return MainRepository(articlesDataSource ,
+            topArticlesDataSource,
+            launchesDatasource ,
+            discoverFragmentDatasource,
+            eventsDatasource)
     }
 
     //provide articles datasource
@@ -186,6 +225,12 @@ object AppModule {
     @Singleton
     fun provideDiscoverFragDatasource(api: NewsApiService , dao : Dao) : BaseDiscoverFragmentDatasource {
         return DiscoverFragmentDatasource(api , dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventsDatasource(api : EventsApiService) : BaseEventsDatasource {
+        return EventsDatasource(api)
     }
 
     /*Caching data */
@@ -234,11 +279,19 @@ annotation class LaunchRetrofitResponse
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
+annotation class EventsRetrofitResponse
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
 annotation class ArticlesOkhttpClient
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class LaunchesOkhttpClient
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class EventsOkhttpClient
 
 
 

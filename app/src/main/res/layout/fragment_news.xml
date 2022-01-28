@@ -152,7 +152,8 @@
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             android:imeOptions="actionSearch"
-            android:singleLine="true" />
+            android:singleLine="true"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

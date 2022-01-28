@@ -1,15 +1,9 @@
 package com.dev.james.sayariproject.ui.activities
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.SearchView
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -17,11 +11,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
-import com.dev.james.sayariproject.ui.activities.viewmodels.SharedViewModel
-import com.dev.james.sayariproject.ui.launches.LaunchesFragment
-import com.dev.james.sayariproject.ui.launches.PreviousLaunchesFragment
-import com.dev.james.sayariproject.ui.launches.QueryListener
-import com.dev.james.sayariproject.ui.launches.UpcomingLaunchesFragment
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
