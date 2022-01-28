@@ -20,8 +20,8 @@ class EventsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private var _searchState : MutableLiveData<Event<Boolean>>? = null
-    val searchState get() = _searchState
+    private val _sState : MutableStateFlow<Event<Boolean>> = MutableStateFlow(Event(false))
+    val sState get() = _sState
 
     val uiState : StateFlow<UiState>
 
@@ -63,7 +63,7 @@ class EventsViewModel @Inject constructor(
     }
 
     fun updateSearchState(boolean : Boolean) = viewModelScope.launch {
-        _searchState?.value = Event(boolean)
+        _sState.value = Event(boolean)
     }
 
     override fun onCleared() {

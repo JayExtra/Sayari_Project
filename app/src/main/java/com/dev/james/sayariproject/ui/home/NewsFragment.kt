@@ -267,4 +267,6 @@ class NewsFragment : Fragment() {
             hasSearched = false
         }
     }
+
+
 }
