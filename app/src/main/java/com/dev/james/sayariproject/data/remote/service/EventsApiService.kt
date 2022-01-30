@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface EventsApiService {
-    @GET("events/upcoming")
+    @GET("event/upcoming")
     suspend fun getAllEvents(
         @Query("search")query : String?,
         @Query("offset")offset : Int?,

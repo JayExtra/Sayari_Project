@@ -2,8 +2,11 @@ package com.dev.james.sayariproject.ui.events.adapter
 
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -43,11 +46,29 @@ class EventsRecyclerAdapter : PagingDataAdapter<Events , EventsRecyclerAdapter.E
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(events: Events){
             binding.apply {
-                missionSlug.text = events.slug
+                missionSlug.text = events.name
                 eventDescription.text = events.description
+
+                setUpExpandableCard(binding)
 
                 setupDate(events , binding)
                 loadImage(events , binding)
+            }
+        }
+
+        private fun setUpExpandableCard(binding: SingleEventColorBinding) {
+            binding.apply {
+                expandEventBtn.setOnClickListener {
+                    if(expandableLayout.visibility == View.GONE){
+                        TransitionManager.beginDelayedTransition(eventCard , AutoTransition())
+                        expandableLayout.visibility = View.VISIBLE
+                        expandEventBtn.text = "COLLAPSE"
+                    }else {
+                        TransitionManager.beginDelayedTransition(eventCard , AutoTransition())
+                        expandableLayout.visibility = View.GONE
+                        expandEventBtn.text = "EXPAND"
+                    }
+                }
             }
         }
 
@@ -91,7 +112,7 @@ class EventsRecyclerAdapter : PagingDataAdapter<Events , EventsRecyclerAdapter.E
                    // only for OREO and newer versions
                    val dateFormat = ZonedDateTime.parse(events.date)
 
-                   val API_TIME_STAMP_PATTERN = "dd-MM-yyyy_HH:mm:ss.SSS"
+                   val API_TIME_STAMP_PATTERN = "dd-MM-yyyy HH:mm:ss.SSS"
 
                    val dateTimeFormatter : DateTimeFormatter =
                        DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN, Locale.ROOT)

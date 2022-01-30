@@ -17,6 +17,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/scrollUpFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_arrow_up"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                app:backgroundTint="@color/secondaryColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@color/white"
+                tools:ignore="SpeakableTextPresentCheck" />
+
             <Button
                 android:id="@+id/eventsRetryButton"
                 android:layout_width="wrap_content"
@@ -25,26 +40,11 @@
                 android:backgroundTint="@color/secondaryColor"
                 android:text="@string/retry_button_text"
                 android:visibility="invisible"
-                tools:visibility="visible"
                 app:cornerRadius="15dp"
                 app:layout_constraintEnd_toEndOf="@+id/eventsErrorMessage"
                 app:layout_constraintStart_toStartOf="@+id/eventsErrorMessage"
-                app:layout_constraintTop_toBottomOf="@+id/eventsErrorMessage" />
-
-            <TextView
-                android:id="@+id/eventsErrorMessage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/general_err_message"
-                android:textAlignment="center"
-                android:visibility="invisible"
-                tools:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/eventsSwipeToRefresh" />
+                app:layout_constraintTop_toBottomOf="@+id/eventsErrorMessage"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/searchToggle"
@@ -57,17 +57,48 @@
                 app:layout_constraintTop_toTopOf="@+id/eventsMainHeader" />
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/eventsProgressBar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:indeterminateTint="@color/secondaryColor"
                 android:visibility="invisible"
-                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/eventsRetryButton"
                 app:layout_constraintStart_toStartOf="@+id/eventsRetryButton"
-                app:layout_constraintTop_toBottomOf="@+id/eventsRetryButton" />
+                app:layout_constraintTop_toBottomOf="@+id/eventsRetryButton"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/searchErrMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="@string/search_err_message"
+                android:textAlignment="center"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/eventsErrorMessage"
+                app:layout_constraintStart_toStartOf="@+id/eventsErrorMessage"
+                app:layout_constraintTop_toBottomOf="@+id/eventsSearchInputLayout"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/eventsErrorMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/general_err_message"
+                android:textAlignment="center"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eventsSwipeToRefresh"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/eventsMainHeader"
@@ -83,21 +114,22 @@
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/eventsSwipeToRefresh"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventsSearchInputLayout">
+                app:layout_constraintTop_toBottomOf="@+id/eventsSearchInputLayout"
+                app:layout_constraintVertical_bias="0.0">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/eventsRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp" />
+                    android:layout_height="match_parent"
+                    android:padding="0dp" />
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -111,7 +143,6 @@
                 android:layout_marginEnd="16dp"
                 android:hint="@string/search_hint"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:boxStrokeColor="@color/secondaryColor"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
@@ -119,7 +150,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/eventsMainHeader"
                 app:layout_constraintTop_toBottomOf="@id/eventsMainHeader"
-                app:startIconDrawable="@drawable/ic_search">
+                app:startIconDrawable="@drawable/ic_search"
+                tools:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/eventsSearchInput"
@@ -169,14 +201,6 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 app:srcCompat="@drawable/sky" />
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/eventsToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:subtitleTextColor="@color/primaryColor" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -255,6 +279,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/eventsToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:subtitleTextColor="@color/primaryColor" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
