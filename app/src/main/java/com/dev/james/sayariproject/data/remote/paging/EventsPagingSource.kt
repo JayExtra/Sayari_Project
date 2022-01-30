@@ -20,7 +20,7 @@ class EventsPagingSource(
         return try {
             val response = eventsApiService.getAllEvents(query , limit , offset)
             val list = response.results
-            Log.d("EventsPagingSource", "load: ${response.results}")
+            Log.d("EventsPag", "load: ${response.results}")
             LoadResult.Page(
                 data = list,
                 prevKey = if(offset == STARTING_OFFSET_INDEX) null else offset - limit,
