@@ -6,7 +6,6 @@ import android.transition.Transition
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
@@ -25,7 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentEventsBinding
-import com.dev.james.sayariproject.databinding.FragmentNewsBinding
 import com.dev.james.sayariproject.general_adapters.LoadingStateAdapter
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.ui.events.adapter.EventsRecyclerAdapter
@@ -94,11 +92,14 @@ class EventsFragment : Fragment() {
        }
 
 
+
+
         lifecycleScope.launchWhenStarted {
             eventsAdapter.loadStateFlow.collectLatest { loadState ->
                 val isEmpty = loadState.refresh is LoadState.NotLoading && eventsAdapter.itemCount == 0
 
                 if(isEmpty && hasSearched == true){
+                    Log.d("EventsFrag", "bindList: search error has happened")
                     searchErrMessage.isVisible = true
                     hasSearched = false
                 }else {
@@ -149,9 +150,13 @@ class EventsFragment : Fragment() {
         eventsSearchInput.addTextChangedListener {
             if(it.toString().isEmpty()){
                 updateRepoListFromInput(onQueryChanged)
-      //          eventsSearchInput.isFocusable = false
-
+               //eventsSearchInput.isFocusable = false
             }
+        }
+
+        eventsSwipeToRefresh.setOnRefreshListener {
+            refreshList(onQueryChanged)
+            eventsSwipeToRefresh.isRefreshing = false
         }
 
         lifecycleScope.launch {
@@ -233,6 +238,7 @@ class EventsFragment : Fragment() {
                 }
             })
 
+
            scrollUpFab.setOnClickListener {
                 lifecycleScope.launch {
                     binding.eventsRecyclerView.scrollToPosition(0)
@@ -240,8 +246,16 @@ class EventsFragment : Fragment() {
                     binding.scrollUpFab.toggleOut(false)
                 }
             }
+
         }
     }
+
+    private fun refreshList(onQueryChanged: (UiAction.Search) -> Unit) {
+        onQueryChanged(UiAction.Search(query = ""))
+        hasSearched = false
+        binding.eventsRecyclerView.scrollToPosition(0)
+    }
+
 
     //toggles search view up or down
     fun View.toggle(show : Boolean){
@@ -280,8 +294,9 @@ class EventsFragment : Fragment() {
                     hideSoftKeyBoard()
                 }
             //     eventsSearchInputLayout.error = "search cannot be empty"
-
             }
         }
     }
+
+
 }
