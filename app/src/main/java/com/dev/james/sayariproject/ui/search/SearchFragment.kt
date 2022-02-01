@@ -154,7 +154,7 @@ class SearchFragment : Fragment() {
                 discoverViewModel.getArticlesForImages(query)
                 collectMissions(query)
                 observedQuery = query
-                Toast.makeText(requireContext(), "filter param : $query" , Toast.LENGTH_LONG).show()
+     //           Toast.makeText(requireContext(), "filter param : $query" , Toast.LENGTH_LONG).show()
             }
 
         })

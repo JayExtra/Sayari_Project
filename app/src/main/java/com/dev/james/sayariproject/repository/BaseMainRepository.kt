@@ -2,8 +2,10 @@ package com.dev.james.sayariproject.repository
 
 import androidx.paging.PagingData
 import com.dev.james.sayariproject.data.datasources.discover.IMAGE_LIMIT
+import com.dev.james.sayariproject.di.modules.EventsRetrofitResponse
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.models.discover.ActiveMissions
+import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.utilities.NetworkResource
@@ -24,6 +26,8 @@ interface BaseMainRepository {
     fun getMissions(category : String) : Flow<List<ActiveMissions>>
 
     fun getEvents(query : String?) : Flow<PagingData<Events>>
+
+    suspend fun getEventsTopAppbar():NetworkResource<EventResponse>
 
     suspend fun getArticlesForImages(
         query1: String?,

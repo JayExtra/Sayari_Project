@@ -14,13 +14,15 @@ class EventsPagingSource(
     private val query : String?
 ) : PagingSource<Int , Events>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Events> {
-        val offset = params.key?: STARTING_OFFSET_INDEX
+        val offset = params.key ?: STARTING_OFFSET_INDEX
         val limit = if(query == null) params.loadSize else EVENTS_SEARCH_LOAD_SIZE
         
         return try {
             val response = eventsApiService.getAllEvents(query , limit , offset)
             val list = response.results
-            Log.d("EventsPag", "load: ${response.results}")
+  //          Log.d("EventsPag", "load: ${response.results}")
+            Log.d("EventsPag", "offset: $offset , limit: $limit")
+
             LoadResult.Page(
                 data = list,
                 prevKey = if(offset == STARTING_OFFSET_INDEX) null else offset - limit,

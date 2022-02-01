@@ -209,7 +209,7 @@
                 app:layout_collapseParallaxMultiplier="0.7">
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/eventsCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
@@ -229,8 +229,8 @@
                     android:text="events"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    app:layout_constraintStart_toEndOf="@+id/textView8"
-                    app:layout_constraintTop_toTopOf="@+id/textView8" />
+                    app:layout_constraintStart_toEndOf="@+id/eventsCount"
+                    app:layout_constraintTop_toTopOf="@+id/eventsCount" />
 
                 <TextView
                     android:id="@+id/textView10"
@@ -240,8 +240,8 @@
                     android:text="THIS MONTH"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView8"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                    app:layout_constraintStart_toStartOf="@+id/eventsCount"
+                    app:layout_constraintTop_toBottomOf="@+id/eventsCount" />
 
                 <TextView
                     android:id="@+id/textView11"

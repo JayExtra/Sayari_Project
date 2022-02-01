@@ -8,6 +8,7 @@ import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasou
 import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSource
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.models.discover.ActiveMissions
+import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.utilities.NetworkResource
@@ -49,6 +50,10 @@ class MainRepository @Inject constructor(
 
     override fun getEvents(query: String?): Flow<PagingData<Events>> {
         return eventsDatasource.getEvents(query)
+    }
+
+    override suspend fun getEventsTopAppbar(): NetworkResource<EventResponse> {
+        return eventsDatasource.getEventsAppBar()
     }
 
     override suspend fun getArticlesForImages(

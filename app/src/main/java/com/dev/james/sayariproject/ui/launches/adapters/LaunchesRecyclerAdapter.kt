@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -98,7 +97,7 @@ class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerA
 
 
         private fun getLaunchDate(launch: LaunchList): Long {
-            val zonedDateTime = ZonedDateTime.parse(launch.date)
+            val zonedDateTime = ZonedDateTime.parse(launch.startWindow)
             val createdDateFormatted =
                 zonedDateTime.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
             val launchDate = Date.from(
@@ -111,7 +110,7 @@ class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerA
         }
 
         private fun getLaunchDateString(launch: LaunchList): String {
-            val dateFormat = ZonedDateTime.parse(launch.date)
+            val dateFormat = ZonedDateTime.parse(launch.startWindow)
 
             val dateTimeFormatter: DateTimeFormatter =
                 DateTimeFormatter.ofPattern("dd-M-yyyy", Locale.ROOT)

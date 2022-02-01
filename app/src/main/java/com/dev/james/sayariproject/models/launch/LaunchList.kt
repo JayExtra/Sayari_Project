@@ -12,7 +12,7 @@ data class LaunchList(
     val name : String,
     val status : LaunchStatus?,
     @SerializedName("window_start")
-    val date : String,
+    val startWindow : String,
     @SerializedName("holdreason")
     val hold : String?,
     @SerializedName("failreason")
