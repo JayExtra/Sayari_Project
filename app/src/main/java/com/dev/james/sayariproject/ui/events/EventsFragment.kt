@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.events
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.transition.Slide
 import android.transition.Transition
@@ -61,14 +62,16 @@ class EventsFragment : Fragment() {
             pagingData = eventsViewModel.pagingDataFlow,
             uiActions = eventsViewModel.accept
         )
+        binding.bindToolbarValues()
         return binding.root
     }
 
     private fun FragmentEventsBinding.bindState(
         uiState : StateFlow<UiState>,
         pagingData : Flow<PagingData<Events>>,
-        uiActions : (UiAction) -> Unit
+        uiActions : (UiAction) -> Unit,
         ){
+
 
         bindList(
             uiState = uiState ,
@@ -80,6 +83,25 @@ class EventsFragment : Fragment() {
             onQueryChanged = uiActions
         )
 
+    }
+
+    private fun FragmentEventsBinding.bindToolbarValues(){
+        //load count animation
+        lifecycleScope.launchWhenStarted {
+            eventsViewModel.eventCountStateFlow.collectLatest { event ->
+                event.getContentIfNotHandled()?.let { count ->
+                    val animator = ValueAnimator.ofInt(0 , count)
+                    animator.duration = 1000
+                    animator.addUpdateListener { animation ->
+                        if (animation != null) {
+                            eventsCount.text = animation.animatedValue.toString()
+                        }
+                    }
+                    animator.start()
+                }
+
+            }
+        }
     }
 
     private fun FragmentEventsBinding.bindList(
@@ -132,6 +154,8 @@ class EventsFragment : Fragment() {
             if(actionId == EditorInfo.IME_ACTION_GO){
                 //PERFORM UPDATE
                 updateRepoListFromInput(onQueryChanged)
+                Log.d("EventsFrag", "bindSearch: editor action triggered ")
+
                 true
             }else{
                 false
@@ -141,6 +165,8 @@ class EventsFragment : Fragment() {
         eventsSearchInput.setOnKeyListener { _, keyCode, keyEvent ->
             if(keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
                 updateRepoListFromInput(onQueryChanged)
+                Log.d("EventsFrag", "bindSearch: on key listener triggered ")
+
                 true
             }else{
                 false
@@ -150,9 +176,12 @@ class EventsFragment : Fragment() {
         eventsSearchInput.addTextChangedListener {
             if(it.toString().isEmpty()){
                 updateRepoListFromInput(onQueryChanged)
+                Log.d("EventsFrag", "bindSearch: text changed triggered ")
                //eventsSearchInput.isFocusable = false
             }
         }
+
+
 
         eventsSwipeToRefresh.setOnRefreshListener {
             refreshList(onQueryChanged)

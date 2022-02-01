@@ -7,7 +7,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -120,7 +119,7 @@ class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousL
 
         @RequiresApi(Build.VERSION_CODES.O)
         private fun getLaunchDateString(launch: LaunchList): String {
-            val dateFormat = ZonedDateTime.parse(launch.date)
+            val dateFormat = ZonedDateTime.parse(launch.startWindow)
 
             val dateTimeFormatter: DateTimeFormatter =
                 DateTimeFormatter.ofPattern("dd-M-yyyy", Locale.ROOT)
