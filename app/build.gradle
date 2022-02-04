@@ -46,6 +46,7 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+
 }
 
 dependencies {
@@ -170,4 +171,9 @@ dependencies {
 
     //Leak canary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+
+    //MPchart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+
 }

@@ -28,6 +28,9 @@ import com.dev.james.sayariproject.databinding.FragmentEventsBinding
 import com.dev.james.sayariproject.general_adapters.LoadingStateAdapter
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.ui.events.adapter.EventsRecyclerAdapter
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -57,6 +60,7 @@ class EventsFragment : Fragment() {
 
         setUpUi()
         collectSearchState()
+        collectChartDataStateFlow()
         binding.bindState(
             uiState = eventsViewModel.uiState,
             pagingData = eventsViewModel.pagingDataFlow,
@@ -64,6 +68,54 @@ class EventsFragment : Fragment() {
         )
         binding.bindToolbarValues()
         return binding.root
+    }
+
+    private fun collectChartDataStateFlow() {
+        lifecycleScope.launchWhenStarted {
+            eventsViewModel.chartDataState.collectLatest { event ->
+                event.getContentIfNotHandled()?.let { chart_data ->
+                    setUpChartWithData(chart_data)
+                }
+            }
+        }
+    }
+
+    private fun setUpChartWithData(chartData: List<Float>) {
+        val pieEntries = arrayListOf<PieEntry>()
+
+        //setup entries
+        chartData.forEach { data ->
+            pieEntries.add(PieEntry(data))
+        }
+
+        //setup pie chart colors
+        val pieDataSet = PieDataSet(pieEntries , "")
+        pieDataSet.setColors(
+            ContextCompat.getColor(requireContext() ,R.color.white),
+            ContextCompat.getColor(requireContext() ,R.color.secondaryColor),
+            ContextCompat.getColor(requireContext() ,R.color.purps),
+            ContextCompat.getColor(requireContext() ,R.color.green),
+            ContextCompat.getColor(requireContext() ,R.color.yellow),
+            ContextCompat.getColor(requireContext() ,R.color.blue)
+        )
+        // setup Pie Data Set in PieData
+        val pieData = PieData(pieDataSet)
+        pieData.setDrawValues(true)
+
+        binding.apply{
+            eventsDistChart.apply {
+                animateXY(1000 , 1000)
+                centerText = "overall events distribution"
+                setCenterTextColor(ContextCompat.getColor(requireContext() , R.color.primaryColor))
+                setCenterTextSize(15f)
+                legend.isEnabled = false
+                description.isEnabled = false
+                holeRadius = 75f
+                data = pieData
+            }
+        }
+
+
     }
 
     private fun FragmentEventsBinding.bindState(
