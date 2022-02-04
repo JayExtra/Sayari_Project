@@ -20,6 +20,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class EventsViewModel @Inject constructor(
@@ -29,6 +30,9 @@ class EventsViewModel @Inject constructor(
 
     private val _sState : MutableStateFlow<Event<Boolean>> = MutableStateFlow(Event(false))
     val sState get() = _sState
+
+    private val _chartDataState : MutableStateFlow<Event<List<Float>>> = MutableStateFlow(Event(listOf(0f)))
+    val chartDataState get() = _chartDataState
 
     private val _eventCountStateFlow : MutableStateFlow<Event<Int>> = MutableStateFlow(Event(0))
     val eventCountStateFlow get() = _eventCountStateFlow
@@ -95,7 +99,8 @@ class EventsViewModel @Inject constructor(
                 val events = response.value.results
                 //filter through list and get events happening in current month
                 getEventsThisMonth(events)
-                Log.d("EventsVm", "getEventsHappeningThisMonth: ${events.toString()} ")
+                getEventsChartData(events)
+                Log.d("EventsVm", "events: ${events.toString()} ")
             }
             is NetworkResource.Failure -> {
                 val error = response.errorBody
@@ -105,6 +110,31 @@ class EventsViewModel @Inject constructor(
             }
         }
 
+    }
+
+    private fun getEventsChartData(events: List<Events>) {
+        val chartData = calculateChartData(events)
+        Log.d("EventsVm", "getEventsChartData: chart floats : ${chartData.toString()} from size: ${events.size} ")
+        //post value to stateflow
+        _chartDataState.value = Event(chartData)
+    }
+
+    private fun calculateChartData(events: List<Events>): List<Float> {
+        val dockingCount = events.filter { it.type.id == EVENT_DOCKING_ID }.size
+        val berthingCount = events.filter { it.type.id == EVENT_BERTHING_ID }.size
+        val evaCount = events.filter { it.type.id == EVENT_EVA_ID }.size
+        val undockingCount = events.filter { it.type.id == EVENT_UNDOCKING_ID }.size
+        val landingCount = events.filter { it.type.id == EVENT_SPACECRAFT_LANDING_ID }.size
+        val other = events.filter {
+            it.type.id != EVENT_SPACECRAFT_LANDING_ID && it.type.id != EVENT_DOCKING_ID
+                    &&  it.type.id != EVENT_BERTHING_ID && it.type.id != EVENT_EVA_ID
+                    && it.type.id != EVENT_UNDOCKING_ID
+        }.size
+
+        return listOf(dockingCount , undockingCount , evaCount , berthingCount ,landingCount ,other).map {
+           val num =  ((it.toDouble()/events.size)*100).roundToInt()
+            num.toFloat()
+        }
     }
 
     private fun getEventsThisMonth(events: List<Events>) {
@@ -158,4 +188,9 @@ data class UiState(
 )
 private const val LAST_SEARCH_QUERY = "last_search_query"
 private const val  DEFAULT_QUERY = ""
+private const val EVENT_DOCKING_ID = 2
+private const val EVENT_BERTHING_ID = 4
+private const val EVENT_EVA_ID = 3
+private const val EVENT_UNDOCKING_ID = 8
+private const val EVENT_SPACECRAFT_LANDING_ID = 9
 
