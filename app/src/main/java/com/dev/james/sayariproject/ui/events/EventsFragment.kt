@@ -1,6 +1,10 @@
 package com.dev.james.sayariproject.ui.events
 
 import android.animation.ValueAnimator
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.transition.Slide
 import android.transition.Transition
@@ -31,6 +35,7 @@ import com.dev.james.sayariproject.ui.events.adapter.EventsRecyclerAdapter
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -46,7 +51,64 @@ class EventsFragment : Fragment() {
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private val eventsAdapter = EventsRecyclerAdapter()
+    private val eventsAdapter = EventsRecyclerAdapter { shareUrl , videoUrl , snackBarMessage  ->
+        shareNewsOrVideoUrl(shareUrl)
+        showSnackBar(snackBarMessage)
+        goToWebCast(videoUrl)
+    }
+    private fun shareNewsOrVideoUrl(shareUrl: String?) {
+        Log.d("EventsFrag", "shareNewsOrVideoUrl: share url triggered ")
+        shareUrl?.let {
+            val shareIntent = Intent().apply{
+                this.action = Intent.ACTION_SEND
+                this.putExtra(Intent.EXTRA_TEXT , it)
+                this.type = "text/plain"
+            }
+            startActivity(shareIntent)
+        }?:showSnackBar("No article available yet for this event")
+
+    }
+
+    private fun goToWebCast(videoUrl: String?) {
+        Log.d("EventsFrag", "shareNewsOrVideoUrl: video triggered ")
+        videoUrl?.let {
+            val vidId = extractVideoId(videoUrl)
+            launchYoutubeIntent(vidId[1])
+            Log.d("EventFrag", "goToWebCast: video array : $vidId")
+        }?: Log.d("EventFrag", "goToWebCast: no webcast available")
+
+    }
+
+    private fun launchYoutubeIntent(c: Char) {
+        val appIntent = Intent().apply {
+            this.action = Intent.ACTION_VIEW
+            this.putExtra(Intent.ACTION_VIEW , Uri.parse("vnd.youtube:$c"))
+        }
+
+        val webIntent = Intent().apply {
+            this.action = Intent.ACTION_VIEW
+            this.putExtra(Intent.ACTION_VIEW , Uri.parse("http://www.youtube.com/watch?v=$c"))
+        }
+
+        try {
+            requireContext().startActivity(appIntent)
+        }catch (e : ActivityNotFoundException){
+            Log.d("EventFrag", "launchYoutubeIntent: ${e.localizedMessage} ")
+            requireContext().startActivity(webIntent)
+        }
+    }
+
+    private fun extractVideoId(videoUrl: String): String {
+        val videoArray = videoUrl.split("=")
+        return videoArray.toString()
+    }
+
+    private fun showSnackBar(snackBarMessage: String?) {
+        snackBarMessage?.let {
+            Snackbar.make(binding.root , it , Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
 
     private var hasSearched : Boolean? = null
 
@@ -72,7 +134,7 @@ class EventsFragment : Fragment() {
 
     private fun collectChartDataStateFlow() {
         lifecycleScope.launchWhenStarted {
-            eventsViewModel.chartDataState.collectLatest { event ->
+            eventsViewModel.chartDataState.collect { event ->
                 event.getContentIfNotHandled()?.let { chart_data ->
                     setUpChartWithData(chart_data)
                 }
@@ -84,14 +146,20 @@ class EventsFragment : Fragment() {
         val pieEntries = arrayListOf<PieEntry>()
 
         //setup entries
-        chartData.forEach { data ->
-            pieEntries.add(PieEntry(data))
+
+        if(chartData.size!=1 && chartData.isNotEmpty()){
+            pieEntries.add(PieEntry(chartData[0] , "Docking"))
+            pieEntries.add(PieEntry(chartData[1] , "Undocking"))
+            pieEntries.add(PieEntry(chartData[2] , "EVA"))
+            pieEntries.add(PieEntry(chartData[3] , "Berthing"))
+            pieEntries.add(PieEntry(chartData[4] , "Landing"))
+            pieEntries.add(PieEntry(chartData[5] , "Other"))
         }
 
         //setup pie chart colors
         val pieDataSet = PieDataSet(pieEntries , "")
         pieDataSet.setColors(
-            ContextCompat.getColor(requireContext() ,R.color.white),
+            ContextCompat.getColor(requireContext() ,R.color.teal_700),
             ContextCompat.getColor(requireContext() ,R.color.secondaryColor),
             ContextCompat.getColor(requireContext() ,R.color.purps),
             ContextCompat.getColor(requireContext() ,R.color.green),
@@ -106,15 +174,18 @@ class EventsFragment : Fragment() {
             eventsDistChart.apply {
                 animateXY(1000 , 1000)
                 centerText = "overall events distribution"
-                setCenterTextColor(ContextCompat.getColor(requireContext() , R.color.primaryColor))
-                setCenterTextSize(15f)
+                setCenterTextColor(ContextCompat.getColor(requireContext() , R.color.secondaryColor))
+                setCenterTextSize(12f)
                 legend.isEnabled = false
+                setEntryLabelColor(ContextCompat.getColor(requireContext() , R.color.primaryColor))
+                setEntryLabelTextSize(12f)
+                setDrawEntryLabels(true)
                 description.isEnabled = false
-                holeRadius = 75f
+                holeRadius = 55f
+                setHoleColor(Color.TRANSPARENT)
                 data = pieData
             }
         }
-
 
     }
 
@@ -378,6 +449,7 @@ class EventsFragment : Fragment() {
             }
         }
     }
+
 
 
 }

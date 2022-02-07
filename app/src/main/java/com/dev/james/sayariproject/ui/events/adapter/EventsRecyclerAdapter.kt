@@ -28,7 +28,9 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class EventsRecyclerAdapter : PagingDataAdapter<Events , EventsRecyclerAdapter.EventsViewHolder>(DiffCallback()) {
+class EventsRecyclerAdapter(
+    private val action : (String? , String? , String?) -> Unit
+) : PagingDataAdapter<Events , EventsRecyclerAdapter.EventsViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsViewHolder {
         val binding = SingleEventColorBinding.inflate(LayoutInflater.from(parent.context) , parent , false)
@@ -49,10 +51,32 @@ class EventsRecyclerAdapter : PagingDataAdapter<Events , EventsRecyclerAdapter.E
                 missionSlug.text = events.name
                 eventDescription.text = events.description
 
-                setUpExpandableCard(binding)
+                shareEventBtn.setOnClickListener {
+                    action.invoke(events.newsUrl , null , null )
+                }
+                watchEventBtn.setOnClickListener {
+                   if(events.webcast){
+                        action.invoke(null , events.videoUrl , null)
+                    }else{
+                        //action.invoke(null , null ,"No webcast currently available")
+                       action.invoke(null , events.videoUrl , null)
+                   }
 
+                    //action.invoke(null , events.videoUrl , null)
+
+                }
+                setUpExpandableCard(binding)
                 setupDate(events , binding)
                 loadImage(events , binding)
+                checkWebCast(events , binding)
+            }
+        }
+
+        private fun checkWebCast(events: Events, binding: SingleEventColorBinding) {
+            if(events.webcast){
+                   binding.liveStreamIndicator.isVisible = true
+            }else{
+                binding.liveStreamIndicator.isInvisible = true
             }
         }
 
