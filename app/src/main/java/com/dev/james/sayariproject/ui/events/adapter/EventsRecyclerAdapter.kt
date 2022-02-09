@@ -52,14 +52,19 @@ class EventsRecyclerAdapter(
                 eventDescription.text = events.description
 
                 shareEventBtn.setOnClickListener {
-                    action.invoke(events.newsUrl , null , null )
+                    val shareUrl = events.newsUrl
+                    if (shareUrl==null){
+                        val message = "No article available yet for this event"
+                        action.invoke(null , null , message)
+                    }else{
+                        action.invoke(events.newsUrl , null , null )
+                    }
                 }
                 watchEventBtn.setOnClickListener {
                    if(events.webcast){
                         action.invoke(null , events.videoUrl , null)
                     }else{
-                        //action.invoke(null , null ,"No webcast currently available")
-                       action.invoke(null , events.videoUrl , null)
+                        action.invoke(null , null ,"No webcast currently available")
                    }
 
                     //action.invoke(null , events.videoUrl , null)

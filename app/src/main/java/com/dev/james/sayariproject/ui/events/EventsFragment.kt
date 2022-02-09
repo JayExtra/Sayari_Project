@@ -52,9 +52,20 @@ class EventsFragment : Fragment() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val eventsAdapter = EventsRecyclerAdapter { shareUrl , videoUrl , snackBarMessage  ->
-        shareNewsOrVideoUrl(shareUrl)
-        showSnackBar(snackBarMessage)
-        goToWebCast(videoUrl)
+        when {
+            shareUrl!=null -> {
+                shareNewsOrVideoUrl(shareUrl)
+            }
+            videoUrl!=null -> {
+                goToWebCast(videoUrl)
+            }
+            snackBarMessage!=null -> {
+                showSnackBar(snackBarMessage)
+            }
+            else -> {
+                Log.d("EventsFrag", "No action invoked from adapter")
+            }
+        }
     }
     private fun shareNewsOrVideoUrl(shareUrl: String?) {
         Log.d("EventsFrag", "shareNewsOrVideoUrl: share url triggered ")
@@ -65,8 +76,7 @@ class EventsFragment : Fragment() {
                 this.type = "text/plain"
             }
             startActivity(shareIntent)
-        }?:showSnackBar("No article available yet for this event")
-
+        }
     }
 
     private fun goToWebCast(videoUrl: String?) {
