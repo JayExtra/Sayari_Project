@@ -9,5 +9,9 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:icon="@drawable/ic_search"
         android:iconTint="@color/primaryColor"/>
+    <item
+        android:title="settings"
+        android:id="@+id/settingsFragment"
+        app:showAsAction="never"/>
 
 </menu>
