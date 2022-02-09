@@ -7,7 +7,7 @@
     layout_width="match_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context=".ui.activities.MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         app:headerLayout="@layout/drawer_header"
         app:itemIconTint="@drawable/bottom_navigation_selector"
         app:itemTextAppearance="@style/Theme.SayariProject.TextAppearance"
