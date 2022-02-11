@@ -132,9 +132,9 @@ class EventsViewModel @Inject constructor(
         }.size
 
         return listOf(dockingCount , undockingCount , evaCount , berthingCount ,landingCount ,other).map {
-   //        val num =  ((it.toDouble()/events.size)*100).roundToInt()
-    //        num.toFloat()
-            it.toFloat()
+       //    val num =  ((it.toDouble()/events.size)*100).roundToInt()
+         //   num.toFloat()
+           it.toFloat()
         }
     }
 

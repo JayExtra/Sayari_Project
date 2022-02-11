@@ -35,6 +35,7 @@ import com.dev.james.sayariproject.ui.events.adapter.EventsRecyclerAdapter
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -158,7 +159,7 @@ class EventsFragment : Fragment() {
         //setup entries
 
         if(chartData.size!=1 && chartData.isNotEmpty()){
-            pieEntries.add(PieEntry(chartData[0] , "Docking"))
+            pieEntries.add(PieEntry(chartData[0], "Docking"))
             pieEntries.add(PieEntry(chartData[1] , "Undocking"))
             pieEntries.add(PieEntry(chartData[2] , "EVA"))
             pieEntries.add(PieEntry(chartData[3] , "Berthing"))
@@ -176,14 +177,16 @@ class EventsFragment : Fragment() {
             ContextCompat.getColor(requireContext() ,R.color.yellow),
             ContextCompat.getColor(requireContext() ,R.color.blue)
         )
+        pieDataSet.valueFormatter = PercentFormatter()
         // setup Pie Data Set in PieData
         val pieData = PieData(pieDataSet)
         pieData.setDrawValues(true)
+        pieData.setValueTextSize(12f)
 
         binding.apply{
             eventsDistChart.apply {
                 animateXY(1000 , 1000)
-                centerText = "overall events distribution"
+                centerText = "overall events distribution in 30"
                 setCenterTextColor(ContextCompat.getColor(requireContext() , R.color.secondaryColor))
                 setCenterTextSize(12f)
                 legend.isEnabled = false
