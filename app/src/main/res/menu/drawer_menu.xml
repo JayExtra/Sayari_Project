@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/group1">
+
 
         <item
             android:title="Events"
@@ -13,16 +12,6 @@
             android:title="ISS"
             android:id="@+id/issFragment"
             android:enabled="true"/>
-
-        <item
-            android:title="Agencies"
-            android:id="@+id/agenciesFragment"
-            android:enabled="true"/>
-
-    </group>
-
-    <group
-        android:id="@+id/group2">
 
         <item
             android:title="Support us"
@@ -37,6 +26,5 @@
             android:id="@+id/shareEvent"
             android:enabled="true"/>
 
-    </group>
 
 </menu>

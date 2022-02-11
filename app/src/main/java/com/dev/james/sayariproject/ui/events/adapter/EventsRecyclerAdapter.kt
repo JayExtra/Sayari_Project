@@ -141,7 +141,7 @@ class EventsRecyclerAdapter(
                    // only for OREO and newer versions
                    val dateFormat = ZonedDateTime.parse(events.date)
 
-                   val API_TIME_STAMP_PATTERN = "dd-MM-yyyy HH:mm:ss.SSS"
+                   val API_TIME_STAMP_PATTERN = "dd-MM-yyyy hh:mm a"
 
                    val dateTimeFormatter : DateTimeFormatter =
                        DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN, Locale.ROOT)
@@ -159,7 +159,7 @@ class EventsRecyclerAdapter(
                    eventDate.text = formattedDate2
                }else {
                    val dateFormat : SimpleDateFormat =
-                       SimpleDateFormat("dd-MM-yyyy'T'HH:mm:ss")
+                       SimpleDateFormat("dd-MM-yyyy'T'h:mm a")
                    val eDate : Date = dateFormat.parse(events.date)
                    eventDate.text = eDate.toString()
                }
