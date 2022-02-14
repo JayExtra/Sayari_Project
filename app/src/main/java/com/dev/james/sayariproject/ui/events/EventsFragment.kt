@@ -186,7 +186,7 @@ class EventsFragment : Fragment() {
         binding.apply{
             eventsDistChart.apply {
                 animateXY(1000 , 1000)
-                centerText = "overall events distribution in 30"
+                centerText = "overall events distribution in the next 30"
                 setCenterTextColor(ContextCompat.getColor(requireContext() , R.color.secondaryColor))
                 setCenterTextSize(12f)
                 legend.isEnabled = false
