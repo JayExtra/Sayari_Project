@@ -86,6 +86,11 @@ class MainActivity : AppCompatActivity() {
                     lockNavDrawer()
                     hideBottomNav()
                 }
+                R.id.issFragment2 -> {
+                    hideTopBar()
+                    lockNavDrawer()
+                    hideBottomNav()
+                }
             }
         }
 

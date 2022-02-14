@@ -10,7 +10,7 @@
 
         <item
             android:title="ISS"
-            android:id="@+id/issFragment"
+            android:id="@+id/issFragment2"
             android:enabled="true"/>
 
         <item
