@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -43,14 +45,55 @@ class IssFragment : Fragment() {
 
         binding?.setUpUi()
         binding?.loadData()
-        observeChipSelection()
+        binding?.observeChipSelection()
         return binding?.root
     }
 
-    private fun observeChipSelection() {
+    private fun FragmentIssBinding.observeChipSelection() {
         issViewModel.selectedChip.observe(viewLifecycleOwner , { event ->
             event.getContentIfNotHandled()?.let { selectedChipString ->
                 Log.d("IssFrag", "observeChipSelection: $selectedChipString ")
+
+                when(selectedChipString){
+                    "Information" -> {
+                        infoLayout.isVisible = true
+                        expeditionLayout.isGone = true
+                        programLayout.isGone = true
+                        dockingLayout.isGone = true
+                        eventsLayout.isGone = true
+                    }
+                    "Expedition" -> {
+                        expeditionLayout.isVisible = true
+                        programLayout.isGone = true
+                        dockingLayout.isGone = true
+                        eventsLayout.isGone = true
+                        infoLayout.isGone = true
+                    }
+                    "Program" -> {
+                        programLayout.isVisible = true
+                        dockingLayout.isGone = true
+                        eventsLayout.isGone = true
+                        infoLayout.isGone = true
+                        expeditionLayout.isGone = true
+                    }
+                    "Docked" -> {
+                        dockingLayout.isVisible = true
+                        eventsLayout.isGone = true
+                        infoLayout.isGone = true
+                        expeditionLayout.isGone = true
+                        programLayout.isGone = true
+                    }
+                    "Events" -> {
+                        eventsLayout.isVisible = true
+                        infoLayout.isGone = true
+                        expeditionLayout.isGone = true
+                        programLayout.isGone = true
+                        dockingLayout.isGone = true
+                    }
+                    else -> {
+                        Log.d("FragId", "observeChipSelection: no selection ")
+                    }
+                }
             }
         })
     }
