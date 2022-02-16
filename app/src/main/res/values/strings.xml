@@ -39,4 +39,5 @@
     <string name="news_search_error">search result not found. try again or try refreshing.</string>
     <string name="news_heading">News</string>
     <string name="general_err_message">could not fetch results. please check your network or swipe down to refresh</string>
+    <string name="the_iss_heading">THE ISS</string>
 </resources>

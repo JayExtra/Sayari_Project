@@ -2,14 +2,18 @@ package com.dev.james.sayariproject.repository
 
 import androidx.paging.PagingData
 import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmentDatasource
+import com.dev.james.sayariproject.data.datasources.events.BaseEventsDatasource
 import com.dev.james.sayariproject.data.datasources.events.EventsDatasource
 import com.dev.james.sayariproject.data.datasources.home.BaseTopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasource
 import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSource
+import com.dev.james.sayariproject.data.datasources.iss.BaseIssDataSource
+import com.dev.james.sayariproject.data.datasources.iss.IssDataSource
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +24,8 @@ class MainRepository @Inject constructor(
     private val topArticlesDataSource: BaseTopArticlesDataSource,
     private val launchesDataSource: LaunchesBaseDatasource,
     private val discoverFragmentDatasource: BaseDiscoverFragmentDatasource,
-    private val eventsDatasource: EventsDatasource
+    private val eventsDatasource: BaseEventsDatasource,
+    private val issDataSource:BaseIssDataSource
 ) : BaseMainRepository {
 
     // retrieves articles data stream
@@ -80,4 +85,11 @@ class MainRepository @Inject constructor(
         )
     }
 
+    //return the space station object
+    override suspend fun getSpaceStation(): NetworkResource<IntSpaceStation> {
+        return issDataSource.getSpaceStation(SPACE_STATION_ID)
+    }
+
 }
+
+private const val SPACE_STATION_ID = 4
