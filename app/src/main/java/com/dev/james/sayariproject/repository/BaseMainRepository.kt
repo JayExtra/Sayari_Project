@@ -7,6 +7,7 @@ import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
@@ -40,5 +41,7 @@ interface BaseMainRepository {
         query8: String?,
         query9: String?
     ) : NetworkResource<List<Article>>
+
+    suspend fun getSpaceStation() : NetworkResource<IntSpaceStation>
 
 }

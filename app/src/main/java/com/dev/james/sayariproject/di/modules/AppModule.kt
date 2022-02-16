@@ -13,6 +13,8 @@ import com.dev.james.sayariproject.data.datasources.home.ArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.home.BaseTopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSource
 import com.dev.james.sayariproject.data.datasources.home.TopArticlesDataSource
+import com.dev.james.sayariproject.data.datasources.iss.BaseIssDataSource
+import com.dev.james.sayariproject.data.datasources.iss.IssDataSource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesDataSource
 import com.dev.james.sayariproject.data.local.datastore.DataStoreManager
@@ -193,16 +195,19 @@ object AppModule {
         topArticlesDataSource: BaseTopArticlesDataSource,
         launchesDatasource: LaunchesBaseDatasource,
         discoverFragmentDatasource: BaseDiscoverFragmentDatasource,
-        eventsDatasource: EventsDatasource
+        eventsDatasource: BaseEventsDatasource,
+        issDataSource: BaseIssDataSource
     ) : BaseMainRepository {
         return MainRepository(articlesDataSource ,
             topArticlesDataSource,
             launchesDatasource ,
             discoverFragmentDatasource,
-            eventsDatasource)
+            eventsDatasource,
+            issDataSource
+        )
     }
 
-    //provide articles datasource
+    //------------------------------provide all datasource----------------------------------------------------
     @Provides
     @Singleton
     fun provideSpaceFlightApiDataSource(api : NewsApiService) : SpaceFlightApiDataSource {
@@ -231,6 +236,12 @@ object AppModule {
     @Singleton
     fun provideEventsDatasource(api : EventsApiService) : BaseEventsDatasource {
         return EventsDatasource(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideIssDataSource(api : LaunchApiService) : BaseIssDataSource {
+        return IssDataSource(api)
     }
 
     /*Caching data */

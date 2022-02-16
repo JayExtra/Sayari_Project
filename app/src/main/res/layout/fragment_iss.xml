@@ -17,17 +17,101 @@
         app:navigationIcon="@drawable/ic_arrow_back"
         app:subtitleTextColor="@color/primaryColor" />
 
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/parentChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:paddingEnd="32dp"
+            app:chipSpacingHorizontal="8dp"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true">
+
+            <!-- Chips can be declared here, or added dynamically. -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/infoChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:fontFamily="@font/ubuntu"
+                android:text="Information"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/expChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/ubuntu"
+                android:text="Expedition"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/progChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/ubuntu"
+                android:text="Program"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/dockedChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/ubuntu"
+                android:text="Docked"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/eventsChip"
+                style="@style/CustomChipChoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ubuntu"
+                android:text="Events"
+                app:chipEndPadding="16dp"
+                app:chipStartPadding="16dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
     <TextView
         android:id="@+id/textView8"
-        style="@style/Theme.SayariProject.TextAppearance"
-        android:layout_width="0dp"
+        style="@style/Theme.SayariProject.TextAppearanceHeadings"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Iss fragment"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:text="THE ISS"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/issToolbar"
-        app:layout_constraintVertical_bias="0.31" />
+        app:layout_constraintTop_toBottomOf="@+id/issToolbar" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
