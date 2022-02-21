@@ -18,5 +18,9 @@
     <color name="blue">#C3F1FF</color>
     <color name="yellow">#FFF7CA</color>
     <color name="green">#D8FFDE</color>
+    <color name="active_green">#0af225</color>
     <color name="purps">#FADAFF</color>
+    <color name="baby_blue">#D7EEFF</color>
+
+
 </resources>

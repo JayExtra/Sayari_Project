@@ -440,7 +440,7 @@ class EventsFragment : Fragment() {
         this.isVisible = show
     }
 
-    fun hideSoftKeyBoard(){
+    private fun hideSoftKeyBoard(){
         val imm = view?.let {
             ContextCompat.getSystemService(
                 it.context ,

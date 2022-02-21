@@ -42,6 +42,16 @@
         <item name="fontFamily">@font/ubuntu</item>
         <item name="android:textColor">@color/primaryLightColor</item>
     </style>
+    <style name="Theme.SayariProject.TextAppearancePara" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/ubuntu_light</item>
+        <item name="android:textColor">@color/primaryLightColor</item>
+    </style>
+    <style name="Theme.SayariProject.TextAppearanceDimCards" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
     <style name="Theme.SayariProject.TextAppearanceHeadings" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/ubuntu</item>
