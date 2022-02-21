@@ -175,5 +175,8 @@ dependencies {
     //MPchart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    //expandable tv
+    implementation 'com.ms-square:expandableTextView:0.1.4'
+
 
 }
