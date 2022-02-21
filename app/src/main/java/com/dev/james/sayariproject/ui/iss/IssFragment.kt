@@ -2,6 +2,7 @@ package com.dev.james.sayariproject.ui.iss
 
 import android.animation.ValueAnimator
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.transition.Slide
@@ -22,6 +23,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentIssBinding
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
@@ -60,7 +66,7 @@ class IssFragment : Fragment() {
         )
 
         binding?.setUpUi()
-        binding?.loadData()
+        loadData()
         binding?.observeChipSelection()
         return binding?.root
     }
@@ -146,7 +152,7 @@ class IssFragment : Fragment() {
         issViewModel.getSelectedChip(initialChipSelection)
     }
 
-    private fun FragmentIssBinding.loadData(){
+    private fun loadData(){
         //fetch data from repository then do necessary UI updates
         lifecycleScope.launchWhenStarted {
             issViewModel.spaceStation.collectLatest { event ->
@@ -185,10 +191,44 @@ class IssFragment : Fragment() {
             commanderTxt.text = expeditionCommander[0].astronaut.name
             commanderAgency.text = expeditionCommander[0].astronaut.agency.name
 
+            loadCommanderImage(expeditionCommander[0].astronaut.profile_image)
+            crewCountTxt.text = "Crew on-board: ${value.onboardCrew.toString()}"
 
-
+            activeTxtCommander.isVisible = expeditionCommander[0].astronaut.status.name == "Active"
+            activeIndicatorCommander.isVisible = expeditionCommander[0].astronaut.status.name == "Active"
 
         }
+    }
+
+    private fun FragmentIssBinding.loadCommanderImage(image : String){
+        Glide.with(this.root)
+            .load(image)
+            .centerCrop()
+            .error(R.drawable.ic_broken_image)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                   commandProgress.isInvisible = true
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    commandProgress.isVisible = false
+                    return false
+                }
+            })
+            .into(commanderImg)
+
     }
 
     private fun formatDateString(expStartDate: String): String {

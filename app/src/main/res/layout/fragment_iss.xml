@@ -514,7 +514,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/ubuntu_medium"
                     android:textColor="@color/primaryColor"
                     android:textSize="16sp"
@@ -549,7 +549,7 @@
                     android:layout_width="377dp"
                     android:layout_height="255dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
                     app:cardBackgroundColor="@color/primaryColor"
                     app:cardCornerRadius="30dp"
@@ -558,11 +558,39 @@
                     app:layout_constraintTop_toBottomOf="@+id/expeditionTxt">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_width="374dp"
+                        android:layout_height="256dp">
+
+                        <ImageView
+                            android:id="@+id/activeIndicatorCommander"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="@+id/activeTxtCommander"
+                            app:layout_constraintEnd_toStartOf="@+id/activeTxtCommander"
+                            app:layout_constraintTop_toTopOf="@+id/activeTxtCommander"
+                            app:layout_constraintVertical_bias="0.64"
+                            app:srcCompat="@drawable/circle_active_shape"
+                            tools:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/activeTxtCommander"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:text="@string/active_txt"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:visibility="visible" />
 
                         <ProgressBar
-                            android:id="@+id/commandImg"
+                            android:id="@+id/commandProgress"
                             style="?android:attr/progressBarStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -573,20 +601,6 @@
                             app:layout_constraintTop_toTopOf="@+id/commanderImg" />
 
                         <TextView
-                            android:id="@+id/commanderTxt"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="24dp"
-                            android:layout_marginEnd="16dp"
-                            android:fontFamily="@font/ubuntu_medium"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/commanderImg"
-                            app:layout_constraintTop_toTopOf="@+id/commanderImg" />
-
-                        <TextView
                             android:id="@+id/commanderAgency"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -594,7 +608,7 @@
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/ubuntu"
                             android:textColor="@color/white"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/commanderTxt"
                             app:layout_constraintStart_toEndOf="@+id/commanderImg"
                             app:layout_constraintTop_toBottomOf="@+id/commanderTxt" />
@@ -611,6 +625,20 @@
                             android:textSize="24sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/commanderTxt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:textColor="@color/white"
+                            android:textSize="24sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/commanderImg"
+                            app:layout_constraintTop_toTopOf="@+id/commanderImg" />
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/commanderImg"
