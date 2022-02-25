@@ -503,7 +503,7 @@
                 android:id="@+id/expeditionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/infoLayout">
@@ -574,6 +574,17 @@
                             app:srcCompat="@drawable/circle_active_shape"
                             tools:visibility="visible" />
 
+                        <ProgressBar
+                            android:id="@+id/commandProgress"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:indeterminateTint="@color/secondaryColor"
+                            app:layout_constraintBottom_toBottomOf="@+id/commanderImg"
+                            app:layout_constraintEnd_toEndOf="@+id/commanderImg"
+                            app:layout_constraintStart_toStartOf="@+id/commanderImg"
+                            app:layout_constraintTop_toTopOf="@+id/commanderImg" />
+
                         <TextView
                             android:id="@+id/activeTxtCommander"
                             android:layout_width="wrap_content"
@@ -588,17 +599,6 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:visibility="visible" />
-
-                        <ProgressBar
-                            android:id="@+id/commandProgress"
-                            style="?android:attr/progressBarStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:indeterminateTint="@color/secondaryColor"
-                            app:layout_constraintBottom_toBottomOf="@+id/commanderImg"
-                            app:layout_constraintEnd_toEndOf="@+id/commanderImg"
-                            app:layout_constraintStart_toStartOf="@+id/commanderImg"
-                            app:layout_constraintTop_toTopOf="@+id/commanderImg" />
 
                         <TextView
                             android:id="@+id/commanderAgency"
@@ -659,7 +659,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="32dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -676,25 +675,214 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/programLayout"
                 android:layout_width="match_parent"
-                android:layout_height="800dp"
-                android:background="@color/secondaryColor"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/expeditionLayout">
 
+                <TextView
+                    android:id="@+id/issPartnerheading"
+                    style="@style/Theme.SayariProject.TextAppearance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="International Space Station"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/issPatchImg"
+                    app:layout_constraintTop_toTopOf="@+id/issPatchImg" />
+
+                <TextView
+                    android:id="@+id/programMainHeading"
+                    style="@style/Theme.SayariProject.TextAppearanceHeadings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Program"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/issCollaborationSub"
+                    style="@style/Theme.SayariProject.TextAppearancePara"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="International Collaboration"
+                    app:layout_constraintEnd_toEndOf="@+id/issPartnerheading"
+                    app:layout_constraintStart_toStartOf="@+id/issPartnerheading"
+                    app:layout_constraintTop_toBottomOf="@+id/issPartnerheading" />
+
+                <TextView
+                    android:id="@+id/partnersSubHeading"
+                    style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="Partners"
+                    app:layout_constraintStart_toStartOf="@+id/issPatchImg"
+                    app:layout_constraintTop_toBottomOf="@+id/issPatchImg" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/partnersRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="2dp"
+                    android:padding="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/partnersSubHeading"
+                    tools:listitem="@layout/single_crew_member_card" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/issPatchImg"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/iss_patch"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toStartOf="@+id/programMainHeading"
+                    app:layout_constraintTop_toBottomOf="@+id/programMainHeading" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/dockingLayout"
                 android:layout_width="match_parent"
-                android:layout_height="800dp"
-                android:background="@color/pink"
-                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/programLayout">
+
+
+                <ProgressBar
+                    android:id="@+id/dockingPrcntgCapProg"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="32dp"
+                    android:indeterminateOnly="false"
+                    android:progressDrawable="@drawable/circular_progress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/dockedCapProgress"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:indeterminateOnly="false"
+                    android:progressDrawable="@drawable/circular_progress"
+                    app:layout_constraintBottom_toBottomOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintEnd_toStartOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintTop_toTopOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <ProgressBar
+                    android:id="@+id/freeCapProgress"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:indeterminateOnly="false"
+                    android:progressDrawable="@drawable/circular_progress"
+                    app:layout_constraintBottom_toBottomOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintStart_toEndOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintTop_toTopOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/capacityTxtPrcntg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginEnd="48dp"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintEnd_toEndOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintStart_toStartOf="@+id/dockingPrcntgCapProg"
+                    app:layout_constraintTop_toTopOf="@+id/dockingPrcntgCapProg" />
+
+                <TextView
+                    android:id="@+id/dockedCapTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="0"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="34sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/dockedCapProgress"
+                    app:layout_constraintEnd_toEndOf="@+id/dockedCapProgress"
+                    app:layout_constraintStart_toStartOf="@+id/dockedCapProgress"
+                    app:layout_constraintTop_toTopOf="@+id/dockedCapProgress" />
+
+                <TextView
+                    android:id="@+id/freePortsCapacityTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="0"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="34sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/freeCapProgress"
+                    app:layout_constraintEnd_toEndOf="@+id/freeCapProgress"
+                    app:layout_constraintStart_toStartOf="@+id/freeCapProgress"
+                    app:layout_constraintTop_toTopOf="@+id/freeCapProgress" />
+
+                <TextView
+                    android:id="@+id/textView18"
+                    style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Docked"
+                    app:layout_constraintEnd_toEndOf="@+id/dockedCapProgress"
+                    app:layout_constraintStart_toStartOf="@+id/dockedCapProgress"
+                    app:layout_constraintTop_toBottomOf="@+id/dockedCapProgress" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Free Ports"
+                    app:layout_constraintEnd_toEndOf="@+id/freeCapProgress"
+                    app:layout_constraintStart_toStartOf="@+id/freeCapProgress"
+                    app:layout_constraintTop_toBottomOf="@+id/freeCapProgress" />
+
+                <TextView
+                    android:id="@+id/textView20"
+                    style="@style/Theme.SayariProject.TextAppearanceHeadings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="56dp"
+                    android:text="Docked Vehicles"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dockedVehiclesRv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView20"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20"
+                    app:layout_constraintVertical_bias="0.0" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

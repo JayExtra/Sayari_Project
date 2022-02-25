@@ -1,7 +1,6 @@
 package com.dev.james.sayariproject.ui.iss
 
 import android.animation.ValueAnimator
-import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -14,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -23,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -31,10 +30,11 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentIssBinding
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
+import com.dev.james.sayariproject.ui.iss.adapters.CrewRecyclerAdapter
+import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.ui.iss.viewmodel.IssViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.chip.Chip
-import com.ms.square.android.expandabletextview.ExpandableTextView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.text.SimpleDateFormat
@@ -42,6 +42,8 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class IssFragment : Fragment() {
@@ -53,6 +55,10 @@ class IssFragment : Fragment() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val issViewModel : IssViewModel by viewModels()
+
+    private val crewRcAdapter = CrewRecyclerAdapter()
+    private val partnerRcAdapter = PartnersRecyclerView()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -144,6 +150,15 @@ class IssFragment : Fragment() {
             }
         }
 
+        crewRv.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL , false)
+            adapter = crewRcAdapter
+        }
+        partnersRv.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL , false)
+            adapter = partnerRcAdapter
+        }
+
     }
 
     private fun FragmentIssBinding.getInitialSelectedChip() {
@@ -165,6 +180,8 @@ class IssFragment : Fragment() {
                             Log.d("IssFrag", "loadData: ISS DATA => ${resource.value} ")
                             setUpInfoSection(resource.value)
                             setUpExpeditionSection(resource.value)
+                            setUpPartnerSection(resource.value)
+                            setUpDockingSection(resource.value)
     //                        val result = resource.value
   //                          textView8.text = result.description
                         }
@@ -176,6 +193,33 @@ class IssFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setUpDockingSection(value: IntSpaceStation) {
+        // load up progress
+        //calculate available
+        val allDockingPorts = value.dockingLocation.size
+        val dockedVehicles = value.dockingLocation.filter { it.docked != null }.size
+        val freePorts = allDockingPorts - dockedVehicles
+
+        val percentageCapacity = calculateCapacityPercentage((abs(dockedVehicles-freePorts)) , allDockingPorts)
+        val percentageDocked = calculateCapacityPercentage(dockedVehicles , allDockingPorts)
+        val percentageFree = calculateCapacityPercentage(freePorts , allDockingPorts)
+
+        binding?.apply {
+            dockingPrcntgCapProg.progress = percentageCapacity
+            capacityTxtPrcntg.text = "$percentageCapacity% capacity"
+
+            freeCapProgress.progress = percentageFree
+            freePortsCapacityTxt.text = freePorts.toString()
+
+            dockedCapProgress.progress = percentageDocked
+            dockedCapTxt.text = dockedVehicles.toString()
+        }
+    }
+
+    private fun setUpPartnerSection(value: IntSpaceStation) {
+        partnerRcAdapter.submitList(value.owners)
     }
 
     private fun setUpExpeditionSection(value: IntSpaceStation) {
@@ -196,6 +240,9 @@ class IssFragment : Fragment() {
 
             activeTxtCommander.isVisible = expeditionCommander[0].astronaut.status.name == "Active"
             activeIndicatorCommander.isVisible = expeditionCommander[0].astronaut.status.name == "Active"
+
+            val crewList = value.activeExpeditions[0].crew
+            crewRcAdapter.submitList(crewList)
 
         }
     }
@@ -308,5 +355,9 @@ class IssFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun calculateCapacityPercentage(d: Int, t: Int): Int {
+        return ((d.toDouble()/t)*100).roundToInt()
     }
 }
