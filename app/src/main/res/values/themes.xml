@@ -101,6 +101,12 @@
         <item name="android:progressDrawable">@drawable/circular_progress</item>
     </style>
 
+    <style name="Theme.SayariProject.TextAppearanceSubCards" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/ubuntu</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/primaryLightColor</item>
+    </style>
+
 
 
 </resources>

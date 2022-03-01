@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/buttonReadMoreVehicle"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/vehicle_button_txt"
+        android:textColor="@color/secondaryColor"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/portDockedTxt"
+        app:layout_constraintTop_toBottomOf="@+id/portDockedTxt"
+        app:strokeColor="@color/secondaryColor" />
+
+    <TextView
+        android:id="@+id/vehicleSerialNumber"
+        style="@style/Theme.SayariProject.TextAppearanceSubCards"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/vehicleName"
+        app:layout_constraintStart_toStartOf="@+id/vehicleName"
+        app:layout_constraintTop_toBottomOf="@+id/vehicleName" />
+
+    <TextView
+        android:id="@+id/dockedDate"
+        style="@style/Theme.SayariProject.TextAppearanceSubCards"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/vehicleSerialNumber"
+        app:layout_constraintStart_toStartOf="@+id/vehicleSerialNumber"
+        app:layout_constraintTop_toBottomOf="@+id/vehicleSerialNumber" />
+
+    <TextView
+        android:id="@+id/portDockedTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/ubuntu"
+        android:textColor="@color/secondaryColor"
+        app:layout_constraintEnd_toEndOf="@+id/dockedDate"
+        app:layout_constraintStart_toStartOf="@+id/dockedDate"
+        app:layout_constraintTop_toBottomOf="@+id/dockedDate" />
+
+    <TextView
+        android:id="@+id/vehicleName"
+        style="@style/Theme.SayariProject.TextAppearanceDimCards"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vehicleImageCard"
+        app:layout_constraintTop_toTopOf="@+id/vehicleImageCard" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttonReadMoreVehicle"
+        app:layout_constraintStart_toStartOf="@+id/vehicleImageCard"
+        app:layout_constraintTop_toBottomOf="@+id/buttonReadMoreVehicle" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/vehicleImageCard"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/vehicleImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@color/grey" />
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
