@@ -1,7 +1,10 @@
 package com.dev.james.sayariproject.ui.iss
 
 import android.animation.ValueAnimator
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.transition.Slide
@@ -30,12 +33,15 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentIssBinding
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
+import com.dev.james.sayariproject.ui.events.adapter.EventsRecyclerAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.CrewRecyclerAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.DockedVehiclesAdapter
+import com.dev.james.sayariproject.ui.iss.adapters.IssEventsRecyclerAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.ui.iss.viewmodel.IssViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.text.SimpleDateFormat
@@ -60,6 +66,74 @@ class IssFragment : Fragment() {
     private val crewRcAdapter = CrewRecyclerAdapter()
     private val partnerRcAdapter = PartnersRecyclerView()
     private val dockedVehiclesAdapter = DockedVehiclesAdapter()
+
+    private val eventsAdapter = IssEventsRecyclerAdapter { shareUrl, videoUrl, snackBarMessage  ->
+        when {
+            shareUrl!=null -> {
+                shareNewsOrVideoUrl(shareUrl)
+            }
+            videoUrl!=null -> {
+                goToWebCast(videoUrl)
+            }
+            snackBarMessage!=null -> {
+                showSnackBar(snackBarMessage)
+            }
+            else -> {
+                Log.d("EventsFrag", "No action invoked from adapter")
+            }
+        }
+    }
+    private fun shareNewsOrVideoUrl(shareUrl: String?) {
+        Log.d("EventsFrag", "shareNewsOrVideoUrl: share url triggered ")
+        shareUrl?.let {
+            val shareIntent = Intent().apply{
+                this.action = Intent.ACTION_SEND
+                this.putExtra(Intent.EXTRA_TEXT , it)
+                this.type = "text/plain"
+            }
+            startActivity(shareIntent)
+        }
+    }
+
+    private fun goToWebCast(videoUrl: String?) {
+        Log.d("EventsFrag", "shareNewsOrVideoUrl: video triggered ")
+        videoUrl?.let {
+            val vidId = extractVideoId(videoUrl)
+            launchYoutubeIntent(vidId[1])
+            Log.d("EventFrag", "goToWebCast: video array : $vidId")
+        }?: Log.d("EventFrag", "goToWebCast: no webcast available")
+
+    }
+
+    private fun launchYoutubeIntent(c: Char) {
+        val appIntent = Intent().apply {
+            this.action = Intent.ACTION_VIEW
+            this.putExtra(Intent.ACTION_VIEW , Uri.parse("vnd.youtube:$c"))
+        }
+
+        val webIntent = Intent().apply {
+            this.action = Intent.ACTION_VIEW
+            this.putExtra(Intent.ACTION_VIEW , Uri.parse("http://www.youtube.com/watch?v=$c"))
+        }
+
+        try {
+            requireContext().startActivity(appIntent)
+        }catch (e : ActivityNotFoundException){
+            Log.d("EventFrag", "launchYoutubeIntent: ${e.localizedMessage} ")
+            requireContext().startActivity(webIntent)
+        }
+    }
+
+    private fun extractVideoId(videoUrl: String): String {
+        val videoArray = videoUrl.split("=")
+        return videoArray.toString()
+    }
+
+    private fun showSnackBar(snackBarMessage: String?) {
+        snackBarMessage?.let { message ->
+            binding?.let { Snackbar.make(it.root , message , Snackbar.LENGTH_SHORT).show() }
+        }
+    }
 
 
     override fun onCreateView(
@@ -165,6 +239,11 @@ class IssFragment : Fragment() {
             adapter = dockedVehiclesAdapter
         }
 
+        upcomingEventsRv.apply {
+            layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL , false)
+            adapter = eventsAdapter
+        }
+
     }
 
     private fun FragmentIssBinding.getInitialSelectedChip() {
@@ -197,6 +276,37 @@ class IssFragment : Fragment() {
                     }
 
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            issViewModel.spaceStationEvents.collectLatest { event ->
+                event.getContentIfNotHandled()?.let { resource ->
+                    when(resource){
+                        is NetworkResource.Loading -> {
+                            binding?.apply {
+                               issEventsProgressBar.isVisible = true
+                                netErrorMessageIss.isInvisible = true
+                            }
+                        }
+
+                        is NetworkResource.Success -> {
+                            binding?.apply {
+                                issEventsProgressBar.isInvisible = true
+                                netErrorMessageIss.isInvisible = true
+                                eventsAdapter.submitList(resource.value.results)
+                            }
+                        }
+
+                        is NetworkResource.Failure -> {
+                            binding?.apply {
+                                issEventsProgressBar.isInvisible = true
+                                netErrorMessageIss.isVisible = true
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }

@@ -758,7 +758,7 @@
                 android:id="@+id/dockingLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/programLayout">
@@ -890,12 +890,60 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/eventsLayout"
                 android:layout_width="match_parent"
-                android:layout_height="800dp"
-                android:background="@color/green"
-                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dockingLayout">
+
+
+                <ProgressBar
+                    android:id="@+id/issEventsProgressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminateTint="@color/secondaryColor"
+                    app:layout_constraintBottom_toBottomOf="@+id/upcomingEventsRv"
+                    app:layout_constraintEnd_toEndOf="@+id/upcomingEventsRv"
+                    app:layout_constraintStart_toStartOf="@+id/upcomingEventsRv"
+                    app:layout_constraintTop_toTopOf="@+id/upcomingEventsRv" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    style="@style/Theme.SayariProject.TextAppearanceHeadings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Upcoming  Events"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/netErrorMessageIss"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/ubuntu"
+                    android:text="Error. Please check your network."
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/issEventsProgressBar"
+                    app:layout_constraintEnd_toEndOf="@+id/issEventsProgressBar"
+                    app:layout_constraintStart_toStartOf="@+id/issEventsProgressBar"
+                    tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/upcomingEventsRv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
