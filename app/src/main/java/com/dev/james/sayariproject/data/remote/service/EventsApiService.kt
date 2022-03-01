@@ -10,6 +10,7 @@ interface EventsApiService {
     suspend fun getAllEvents(
         @Query("search")query : String?,
         @Query("offset")offset : Int?,
-        @Query("limit")limit : Int?
+        @Query("limit")limit : Int?,
+        @Query("program")program:Int?
     ) : EventResponse
 }

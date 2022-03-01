@@ -44,4 +44,6 @@ interface BaseMainRepository {
 
     suspend fun getSpaceStation() : NetworkResource<IntSpaceStation>
 
+    suspend fun getSpaceStationEvents() : NetworkResource<EventResponse>
+
 }

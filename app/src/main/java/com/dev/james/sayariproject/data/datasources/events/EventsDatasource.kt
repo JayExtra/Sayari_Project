@@ -20,13 +20,13 @@ class EventsDatasource @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = EVENTS_SEARCH_LOAD_SIZE , enablePlaceholders = false),
             pagingSourceFactory = {
-                EventsPagingSource(eventsApi , query)
+                EventsPagingSource(eventsApi , query , null)
             }
         ).flow
     }
 
     override suspend fun getEventsAppBar() = safeApiCall {
-        eventsApi.getAllEvents(EVENTS_DEFAULT_QUERY , EVENTS_OFFSET  , EVENTS_LIMIT)
+        eventsApi.getAllEvents(EVENTS_DEFAULT_QUERY , EVENTS_OFFSET  , EVENTS_LIMIT , null)
     }
 
 

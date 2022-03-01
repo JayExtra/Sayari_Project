@@ -90,6 +90,11 @@ class MainRepository @Inject constructor(
         return issDataSource.getSpaceStation(SPACE_STATION_ID)
     }
 
+    //returns response containing iss upcoming events
+    override suspend fun getSpaceStationEvents(): NetworkResource<EventResponse> {
+        return issDataSource.getSpaceStationEvents()
+    }
+
 }
 
 private const val SPACE_STATION_ID = 4

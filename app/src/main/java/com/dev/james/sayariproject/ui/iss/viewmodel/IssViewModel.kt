@@ -3,6 +3,7 @@ package com.dev.james.sayariproject.ui.iss.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.utilities.Event
@@ -20,6 +21,10 @@ class IssViewModel @Inject constructor(
     private var _spaceStation : MutableStateFlow<Event<NetworkResource<IntSpaceStation>>> = MutableStateFlow(Event(NetworkResource.Loading))
     val spaceStation get() = _spaceStation
 
+    //define an observer that we will use monitor data changes in the UI
+    private var _spaceStationEvents : MutableStateFlow<Event<NetworkResource<EventResponse>>> = MutableStateFlow(Event(NetworkResource.Loading))
+    val spaceStationEvents get() = _spaceStationEvents
+
     //setup chip selection observers
     private var _selectedChip : MutableLiveData<Event<String>> = MutableLiveData()
     val selectedChip get() = _selectedChip
@@ -28,7 +33,10 @@ class IssViewModel @Inject constructor(
     init {
       viewModelScope.launch {
           val spaceStationData = repository.getSpaceStation()
+          val spaceStationEventsData = repository.getSpaceStationEvents()
+
           _spaceStation.value = Event(spaceStationData)
+          _spaceStationEvents.value = Event(spaceStationEventsData)
       }
     }
 

@@ -240,8 +240,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideIssDataSource(api : LaunchApiService) : BaseIssDataSource {
-        return IssDataSource(api)
+    fun provideIssDataSource(
+        api : LaunchApiService,
+        eventsApi : EventsApiService
+    ) : BaseIssDataSource {
+        return IssDataSource(api , eventsApi)
     }
 
     /*Caching data */
