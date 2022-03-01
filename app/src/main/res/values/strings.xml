@@ -42,4 +42,5 @@
     <string name="the_iss_heading">THE ISS</string>
     <string name="active_txt">active</string>
     <string name="de_orbited_txt">De-orbited</string>
+    <string name="vehicle_button_txt">vehicle</string>
 </resources>

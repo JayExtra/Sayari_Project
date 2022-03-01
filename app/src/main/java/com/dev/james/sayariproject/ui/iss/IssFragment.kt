@@ -31,6 +31,7 @@ import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentIssBinding
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.ui.iss.adapters.CrewRecyclerAdapter
+import com.dev.james.sayariproject.ui.iss.adapters.DockedVehiclesAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.ui.iss.viewmodel.IssViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
@@ -58,6 +59,7 @@ class IssFragment : Fragment() {
 
     private val crewRcAdapter = CrewRecyclerAdapter()
     private val partnerRcAdapter = PartnersRecyclerView()
+    private val dockedVehiclesAdapter = DockedVehiclesAdapter()
 
 
     override fun onCreateView(
@@ -158,6 +160,10 @@ class IssFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL , false)
             adapter = partnerRcAdapter
         }
+        dockedVehiclesRv.apply {
+            layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL , false)
+            adapter = dockedVehiclesAdapter
+        }
 
     }
 
@@ -199,12 +205,17 @@ class IssFragment : Fragment() {
         // load up progress
         //calculate available
         val allDockingPorts = value.dockingLocation.size
-        val dockedVehicles = value.dockingLocation.filter { it.docked != null }.size
-        val freePorts = allDockingPorts - dockedVehicles
+        val dockedVehiclesCount = value.dockingLocation.filter { it.docked != null }.size
+        val freePorts = allDockingPorts - dockedVehiclesCount
 
-        val percentageCapacity = calculateCapacityPercentage((abs(dockedVehicles-freePorts)) , allDockingPorts)
-        val percentageDocked = calculateCapacityPercentage(dockedVehicles , allDockingPorts)
+        val percentageCapacity = calculateCapacityPercentage((abs(dockedVehiclesCount-freePorts)) , allDockingPorts)
+        val percentageDocked = calculateCapacityPercentage(dockedVehiclesCount , allDockingPorts)
         val percentageFree = calculateCapacityPercentage(freePorts , allDockingPorts)
+
+        //submit list of docking locations
+        val dockedVehicles = value.dockingLocation.filter { it.docked != null }
+        dockedVehiclesAdapter.submitList(dockedVehicles)
+
 
         binding?.apply {
             dockingPrcntgCapProg.progress = percentageCapacity
@@ -214,7 +225,7 @@ class IssFragment : Fragment() {
             freePortsCapacityTxt.text = freePorts.toString()
 
             dockedCapProgress.progress = percentageDocked
-            dockedCapTxt.text = dockedVehicles.toString()
+            dockedCapTxt.text = dockedVehiclesCount.toString()
         }
     }
 
