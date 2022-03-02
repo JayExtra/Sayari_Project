@@ -1,8 +1,12 @@
 package com.dev.james.sayariproject.ui.iss
 
 import android.animation.ValueAnimator
+import android.app.Dialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -11,10 +15,8 @@ import android.transition.Slide
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -31,7 +33,9 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
+import com.dev.james.sayariproject.databinding.CraftDialogBinding
 import com.dev.james.sayariproject.databinding.FragmentIssBinding
+import com.dev.james.sayariproject.models.iss.FlightVehicle
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.ui.events.adapter.EventsRecyclerAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.CrewRecyclerAdapter
@@ -55,40 +59,45 @@ import kotlin.math.roundToInt
 @AndroidEntryPoint
 class IssFragment : Fragment() {
 
-    private var _binding : FragmentIssBinding? = null
+    private var _binding: FragmentIssBinding? = null
     private val binding get() = _binding
 
-    private lateinit var navController : NavController
+    private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private val issViewModel : IssViewModel by viewModels()
+    private val issViewModel: IssViewModel by viewModels()
 
     private val crewRcAdapter = CrewRecyclerAdapter()
     private val partnerRcAdapter = PartnersRecyclerView()
-    private val dockedVehiclesAdapter = DockedVehiclesAdapter()
+    private val dockedVehiclesAdapter = DockedVehiclesAdapter { vehicle ->
+        vehicle?.let {
+            launchVehicleDialog(vehicle)
+        } ?: Log.d("IssFrag" , "No vehicle detected")
+    }
 
-    private val eventsAdapter = IssEventsRecyclerAdapter { shareUrl, videoUrl, snackBarMessage  ->
+    private val eventsAdapter = IssEventsRecyclerAdapter { shareUrl, videoUrl, snackBarMessage ->
         when {
-            shareUrl!=null -> {
+            shareUrl != null -> {
                 shareNewsOrVideoUrl(shareUrl)
             }
-            videoUrl!=null -> {
+            videoUrl != null -> {
                 goToWebCast(videoUrl)
             }
-            snackBarMessage!=null -> {
+            snackBarMessage != null -> {
                 showSnackBar(snackBarMessage)
             }
             else -> {
-                Log.d("EventsFrag", "No action invoked from adapter")
+                Log.d("IssFrag", "No action invoked from adapter")
             }
         }
     }
+
     private fun shareNewsOrVideoUrl(shareUrl: String?) {
         Log.d("EventsFrag", "shareNewsOrVideoUrl: share url triggered ")
         shareUrl?.let {
-            val shareIntent = Intent().apply{
+            val shareIntent = Intent().apply {
                 this.action = Intent.ACTION_SEND
-                this.putExtra(Intent.EXTRA_TEXT , it)
+                this.putExtra(Intent.EXTRA_TEXT, it)
                 this.type = "text/plain"
             }
             startActivity(shareIntent)
@@ -100,26 +109,26 @@ class IssFragment : Fragment() {
         videoUrl?.let {
             val vidId = extractVideoId(videoUrl)
             launchYoutubeIntent(vidId[1])
-            Log.d("EventFrag", "goToWebCast: video array : $vidId")
-        }?: Log.d("EventFrag", "goToWebCast: no webcast available")
+            Log.d("IssFrag", "goToWebCast: video array : $vidId")
+        } ?: Log.d("IssFrag", "goToWebCast: no webcast available")
 
     }
 
     private fun launchYoutubeIntent(c: Char) {
         val appIntent = Intent().apply {
             this.action = Intent.ACTION_VIEW
-            this.putExtra(Intent.ACTION_VIEW , Uri.parse("vnd.youtube:$c"))
+            this.putExtra(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$c"))
         }
 
         val webIntent = Intent().apply {
             this.action = Intent.ACTION_VIEW
-            this.putExtra(Intent.ACTION_VIEW , Uri.parse("http://www.youtube.com/watch?v=$c"))
+            this.putExtra(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=$c"))
         }
 
         try {
             requireContext().startActivity(appIntent)
-        }catch (e : ActivityNotFoundException){
-            Log.d("EventFrag", "launchYoutubeIntent: ${e.localizedMessage} ")
+        } catch (e: ActivityNotFoundException) {
+            Log.d("IssFrag", "launchYoutubeIntent: ${e.localizedMessage} ")
             requireContext().startActivity(webIntent)
         }
     }
@@ -131,7 +140,7 @@ class IssFragment : Fragment() {
 
     private fun showSnackBar(snackBarMessage: String?) {
         snackBarMessage?.let { message ->
-            binding?.let { Snackbar.make(it.root , message , Snackbar.LENGTH_SHORT).show() }
+            binding?.let { Snackbar.make(it.root, message, Snackbar.LENGTH_SHORT).show() }
         }
     }
 
@@ -142,8 +151,8 @@ class IssFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentIssBinding.inflate(
-            inflater ,
-            container ,
+            inflater,
+            container,
             false
         )
 
@@ -154,11 +163,11 @@ class IssFragment : Fragment() {
     }
 
     private fun FragmentIssBinding.observeChipSelection() {
-        issViewModel.selectedChip.observe(viewLifecycleOwner , { event ->
+        issViewModel.selectedChip.observe(viewLifecycleOwner, { event ->
             event.getContentIfNotHandled()?.let { selectedChipString ->
                 Log.d("IssFrag", "observeChipSelection: $selectedChipString ")
 
-                when(selectedChipString){
+                when (selectedChipString) {
                     "Information" -> {
                         infoLayout.toggleOut(true)
                         expeditionLayout.toggleOut(false)
@@ -202,7 +211,7 @@ class IssFragment : Fragment() {
         })
     }
 
-    private fun FragmentIssBinding.setUpUi(){
+    private fun FragmentIssBinding.setUpUi() {
 
         //get first selected chip on fragment launch
         getInitialSelectedChip()
@@ -217,30 +226,34 @@ class IssFragment : Fragment() {
 
         //handle chip clicks
         val chipList = listOf(
-            infoChip , dockedChip , progChip , eventsChip , expChip
+            infoChip, dockedChip, progChip, eventsChip, expChip
         )
 
         chipList.forEach { chip ->
             chip.setOnCheckedChangeListener { chipButton, isChecked ->
-                if(isChecked) issViewModel.getSelectedChip(chipButton.text.toString())
+                if (isChecked) issViewModel.getSelectedChip(chipButton.text.toString())
             }
         }
 
         crewRv.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL , false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = crewRcAdapter
         }
         partnersRv.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL , false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = partnerRcAdapter
         }
         dockedVehiclesRv.apply {
-            layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL , false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = dockedVehiclesAdapter
         }
 
         upcomingEventsRv.apply {
-            layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL , false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = eventsAdapter
         }
 
@@ -252,12 +265,12 @@ class IssFragment : Fragment() {
         issViewModel.getSelectedChip(initialChipSelection)
     }
 
-    private fun loadData(){
+    private fun loadData() {
         //fetch data from repository then do necessary UI updates
         lifecycleScope.launchWhenStarted {
             issViewModel.spaceStation.collectLatest { event ->
                 event.getContentIfNotHandled()?.let { resource ->
-                    when(resource){
+                    when (resource) {
                         is NetworkResource.Loading -> {
                             Log.d("IssFrag", "loadData: loading data... ")
                         }
@@ -267,8 +280,8 @@ class IssFragment : Fragment() {
                             setUpExpeditionSection(resource.value)
                             setUpPartnerSection(resource.value)
                             setUpDockingSection(resource.value)
-    //                        val result = resource.value
-  //                          textView8.text = result.description
+                            //                        val result = resource.value
+                            //                          textView8.text = result.description
                         }
                         is NetworkResource.Failure -> {
                             Log.d("IssFrag", "loadData: ISS DATA => ${resource.errorBody} ")
@@ -282,10 +295,10 @@ class IssFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             issViewModel.spaceStationEvents.collectLatest { event ->
                 event.getContentIfNotHandled()?.let { resource ->
-                    when(resource){
+                    when (resource) {
                         is NetworkResource.Loading -> {
                             binding?.apply {
-                               issEventsProgressBar.isVisible = true
+                                issEventsProgressBar.isVisible = true
                                 netErrorMessageIss.isInvisible = true
                             }
                         }
@@ -318,9 +331,10 @@ class IssFragment : Fragment() {
         val dockedVehiclesCount = value.dockingLocation.filter { it.docked != null }.size
         val freePorts = allDockingPorts - dockedVehiclesCount
 
-        val percentageCapacity = calculateCapacityPercentage((abs(dockedVehiclesCount-freePorts)) , allDockingPorts)
-        val percentageDocked = calculateCapacityPercentage(dockedVehiclesCount , allDockingPorts)
-        val percentageFree = calculateCapacityPercentage(freePorts , allDockingPorts)
+        val percentageCapacity =
+            calculateCapacityPercentage((abs(dockedVehiclesCount - freePorts)), allDockingPorts)
+        val percentageDocked = calculateCapacityPercentage(dockedVehiclesCount, allDockingPorts)
+        val percentageFree = calculateCapacityPercentage(freePorts, allDockingPorts)
 
         //submit list of docking locations
         val dockedVehicles = value.dockingLocation.filter { it.docked != null }
@@ -360,7 +374,8 @@ class IssFragment : Fragment() {
             crewCountTxt.text = "Crew on-board: ${value.onboardCrew.toString()}"
 
             activeTxtCommander.isVisible = expeditionCommander[0].astronaut.status.name == "Active"
-            activeIndicatorCommander.isVisible = expeditionCommander[0].astronaut.status.name == "Active"
+            activeIndicatorCommander.isVisible =
+                expeditionCommander[0].astronaut.status.name == "Active"
 
             val crewList = value.activeExpeditions[0].crew
             crewRcAdapter.submitList(crewList)
@@ -368,7 +383,7 @@ class IssFragment : Fragment() {
         }
     }
 
-    private fun FragmentIssBinding.loadCommanderImage(image : String){
+    private fun FragmentIssBinding.loadCommanderImage(image: String) {
         Glide.with(this.root)
             .load(image)
             .centerCrop()
@@ -380,7 +395,7 @@ class IssFragment : Fragment() {
                     target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
-                   commandProgress.isInvisible = true
+                    commandProgress.isInvisible = true
                     return false
                 }
 
@@ -406,7 +421,7 @@ class IssFragment : Fragment() {
 
             val API_TIME_STAMP_PATTERN = "dd-MM-yyyy hh:mm a"
 
-            val dateTimeFormatter : DateTimeFormatter =
+            val dateTimeFormatter: DateTimeFormatter =
                 DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN, Locale.ROOT)
 
             val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
@@ -417,10 +432,10 @@ class IssFragment : Fragment() {
 
             return formattedDate2
 
-        }else {
-            val dateFormat : SimpleDateFormat =
+        } else {
+            val dateFormat: SimpleDateFormat =
                 SimpleDateFormat("dd-MM-yyyy'T'h:mm a")
-            val eDate : Date = dateFormat.parse(expStartDate)
+            val eDate: Date = dateFormat.parse(expStartDate)
             Log.d("IssFrag", "eDate: ${eDate.toString()} ")
 
             return eDate.toString()
@@ -432,11 +447,11 @@ class IssFragment : Fragment() {
         binding?.apply {
             descTxtExpText.text = spaceStation.description
 
-            if(spaceStation.status.name == "Active"){
+            if (spaceStation.status.name == "Active") {
                 activeIndicator.isVisible = true
                 activeTxt.isVisible = true
                 activeTxt.text = spaceStation.status.name
-            }else {
+            } else {
                 activeIndicator.isVisible = false
                 activeTxt.isInvisible = true
                 activeTxt.text = getString(R.string.de_orbited_txt)
@@ -453,17 +468,17 @@ class IssFragment : Fragment() {
     }
 
     //toggles layout in or out
-    private fun View.toggleOut(show : Boolean){
-        val transition : Transition = Slide(Gravity.RIGHT)
+    private fun View.toggleOut(show: Boolean) {
+        val transition: Transition = Slide(Gravity.RIGHT)
         transition.duration = 200
         transition.addTarget(this)
-        TransitionManager.beginDelayedTransition(this.parent as ViewGroup? , transition)
+        TransitionManager.beginDelayedTransition(this.parent as ViewGroup?, transition)
         this.isVisible = show
     }
 
     //number increase animation
-    private fun TextView.startCountAnimation(count : Int) {
-        val animator = ValueAnimator.ofInt(0 , count)
+    private fun TextView.startCountAnimation(count: Int) {
+        val animator = ValueAnimator.ofInt(0, count)
         animator.duration = 1000
         animator.addUpdateListener { animation ->
             if (animation != null) {
@@ -479,6 +494,98 @@ class IssFragment : Fragment() {
     }
 
     private fun calculateCapacityPercentage(d: Int, t: Int): Int {
-        return ((d.toDouble()/t)*100).roundToInt()
+        return ((d.toDouble() / t) * 100).roundToInt()
     }
+
+
+    private fun launchVehicleDialog(vehicle: FlightVehicle) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val dialogBinding = CraftDialogBinding.inflate(inflater)
+        dialog.setContentView(dialogBinding.root)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        //set all the views within the dialog
+        dialogBinding.apply {
+            loadImage(dialogBinding, vehicle.spacecraft.vehicleConfig.imageUrl)
+            vehicleNameTxt.text = vehicle.spacecraft.name
+            vehicleSerialTxt.text = vehicle.spacecraft.serialNumber
+
+            if (vehicle.spacecraft.vehicleConfig.humanRated) {
+                humanRatedTxt.isVisible = true
+                humanRatedImg.isVisible = true
+                humanRatedImg.setImageResource(R.drawable.ic_baseline_check_circle_24)
+            } else {
+                humanRatedTxt.isVisible = true
+                humanRatedImg.isVisible = true
+                humanRatedImg.setImageResource(R.drawable.ic_no)
+            }
+
+            craftHeightTxt.startCountAnimation(vehicle.spacecraft.vehicleConfig.height.toInt())
+            craftWidthTxt.startCountAnimation(vehicle.spacecraft.vehicleConfig.diameter.toInt())
+            craftCrewCapTxt.startCountAnimation(vehicle.spacecraft.vehicleConfig.crewCapacity)
+            craftPayloadCapTxt.text = vehicle.spacecraft.vehicleConfig.payloadCapacity.toString()
+
+            maidenFlightTxt.text = vehicle.spacecraft.vehicleConfig.maidenFlight
+            flightLifeTxt.text = vehicle.spacecraft.vehicleConfig.flightLife
+            launcherTxt.text = vehicle.launch.rocket?.configuration?.name
+
+            aboutCrftTxt.text = vehicle.spacecraft.vehicleConfig.details
+
+            loadAgencyLogo(dialogBinding , vehicle.spacecraft.vehicleConfig.agency.imageUrl)
+            agencyNameTxt.text = vehicle.spacecraft.vehicleConfig.agency.name
+            agencyCountryTxt.text = vehicle.spacecraft.vehicleConfig.agency.countryCode
+            agencyTypeTxt.text = vehicle.spacecraft.vehicleConfig.agency.type
+
+            closeDialogImage.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
+
+    }
+
+    private fun loadAgencyLogo(dialogBinding: CraftDialogBinding, imageUrl: String) {
+        Glide.with(dialogBinding.root)
+            .load(imageUrl)
+            .centerCrop()
+            .error(R.drawable.ic_broken_image)
+            .into(dialogBinding.agencyLogoImg)
+    }
+
+    private fun loadImage(dialogBinding: CraftDialogBinding, imageUrl: String) {
+        Glide.with(dialogBinding.root)
+            .load(imageUrl)
+            .centerCrop()
+            .error(R.drawable.ic_broken_image)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    dialogBinding.craftImgProgress.isInvisible = true
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    dialogBinding.craftImgProgress.isInvisible = true
+                    return false
+                }
+            })
+            .into(dialogBinding.craftImage)
+    }
+
+
+
 }

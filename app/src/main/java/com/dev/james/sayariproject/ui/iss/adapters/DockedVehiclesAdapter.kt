@@ -11,13 +11,16 @@ import com.bumptech.glide.Glide
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleDockedVehicleCardBinding
 import com.dev.james.sayariproject.models.iss.DockingLocation
+import com.dev.james.sayariproject.models.iss.FlightVehicle
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class DockedVehiclesAdapter : ListAdapter<DockingLocation , DockedVehiclesAdapter.DockedVehiclesViewHolder>(DiffUtilCallBack()) {
+class DockedVehiclesAdapter(
+    private val action : (FlightVehicle?) -> Unit
+) : ListAdapter<DockingLocation , DockedVehiclesAdapter.DockedVehiclesViewHolder>(DiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DockedVehiclesViewHolder {
         val binding = SingleDockedVehicleCardBinding.inflate(
@@ -46,6 +49,10 @@ class DockedVehiclesAdapter : ListAdapter<DockingLocation , DockedVehiclesAdapte
                 portDockedTxt.text = dockingLocation.name
                 vehicleName.text = dockingLocation.docked?.flightVehicle?.spacecraft?.name
                 dockedDate.text = formattedDate
+
+                buttonReadMoreVehicle.setOnClickListener {
+                    action.invoke(dockingLocation.docked?.flightVehicle)
+                }
             }
         }
 

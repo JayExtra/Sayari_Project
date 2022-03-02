@@ -107,6 +107,12 @@
         <item name="android:textColor">@color/primaryLightColor</item>
     </style>
 
+    <style name="Theme.SayariProject.StatisticsDigits" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:fontFamily">@font/ubuntu_medium</item>
+    </style>
+
 
 
 </resources>
