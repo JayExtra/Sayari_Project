@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_corner_radius_shape"
+    tools:context=".ui.iss.SpaceCraftFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/humanRatedImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/vehicleNameTxt"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleNameTxt"
+                app:srcCompat="@drawable/ic_baseline_check_circle_24"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/vehicleSerialTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toStartOf="@+id/humanRatedTxt"
+                app:layout_constraintHorizontal_bias="0.56"
+                app:layout_constraintStart_toStartOf="@+id/vehicleNameTxt"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleNameTxt" />
+
+            <TextView
+                android:id="@+id/vehicleNameTxt"
+                style="@style/Theme.SayariProject.TextAppearanceHeadings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/craftImage" />
+
+            <TextView
+                android:id="@+id/humanRatedTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Human rated"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/humanRatedImg"
+                app:layout_constraintEnd_toStartOf="@+id/humanRatedImg"
+                app:layout_constraintTop_toTopOf="@+id/humanRatedImg"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/craftHeightTxt"
+                style="@style/Theme.SayariProject.StatisticsDigits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:text="0"
+                app:layout_constraintEnd_toStartOf="@+id/craftWidthTxt"
+                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleSerialTxt" />
+
+            <TextView
+                android:id="@+id/craftWidthTxt"
+                style="@style/Theme.SayariProject.StatisticsDigits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="0"
+                app:layout_constraintEnd_toStartOf="@+id/craftCrewCapTxt"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/craftHeightTxt"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleSerialTxt" />
+
+            <TextView
+                android:id="@+id/craftCrewCapTxt"
+                style="@style/Theme.SayariProject.StatisticsDigits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:text="0"
+                app:layout_constraintEnd_toStartOf="@+id/craftPayloadCapTxt"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/craftWidthTxt"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleSerialTxt" />
+
+            <TextView
+                android:id="@+id/craftPayloadCapTxt"
+                style="@style/Theme.SayariProject.StatisticsDigits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/craftCrewCapTxt"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleSerialTxt" />
+
+            <TextView
+                android:id="@+id/textView15"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Height"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="@+id/craftHeightTxt"
+                app:layout_constraintStart_toStartOf="@+id/craftHeightTxt"
+                app:layout_constraintTop_toBottomOf="@+id/craftHeightTxt" />
+
+            <TextView
+                android:id="@+id/textView16"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Width"
+                app:layout_constraintEnd_toEndOf="@+id/craftWidthTxt"
+                app:layout_constraintStart_toStartOf="@+id/craftWidthTxt"
+                app:layout_constraintTop_toBottomOf="@+id/craftWidthTxt" />
+
+            <TextView
+                android:id="@+id/textView21"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crew "
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="@+id/craftCrewCapTxt"
+                app:layout_constraintStart_toStartOf="@+id/craftCrewCapTxt"
+                app:layout_constraintTop_toBottomOf="@+id/craftCrewCapTxt" />
+
+            <TextView
+                android:id="@+id/textView30"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payload"
+                app:layout_constraintEnd_toEndOf="@+id/craftPayloadCapTxt"
+                app:layout_constraintStart_toStartOf="@+id/craftPayloadCapTxt"
+                app:layout_constraintTop_toBottomOf="@+id/craftPayloadCapTxt" />
+
+            <TextView
+                android:id="@+id/textView31"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cap."
+                app:layout_constraintEnd_toEndOf="@+id/textView30"
+                app:layout_constraintStart_toStartOf="@+id/textView30"
+                app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
+            <TextView
+                android:id="@+id/textView32"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cap."
+                app:layout_constraintEnd_toEndOf="@+id/textView21"
+                app:layout_constraintStart_toStartOf="@+id/textView21"
+                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+            <TextView
+                android:id="@+id/textView33"
+                style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="About"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider5" />
+
+            <TextView
+                android:id="@+id/aboutCrftTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView33"
+                app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+            <TextView
+                android:id="@+id/textView35"
+                style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Agency"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider6" />
+
+            <TextView
+                android:id="@+id/agencyNameTxt"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/agencyLogoImg"
+                app:layout_constraintTop_toTopOf="@+id/agencyLogoImg" />
+
+            <TextView
+                android:id="@+id/agencyCountryTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/agencyNameTxt"
+                app:layout_constraintStart_toStartOf="@+id/agencyNameTxt"
+                app:layout_constraintTop_toBottomOf="@+id/agencyNameTxt" />
+
+            <TextView
+                android:id="@+id/maidenFlightTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/textView29"
+                app:layout_constraintStart_toStartOf="@+id/textView29"
+                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+            <TextView
+                android:id="@+id/flightLifeTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/textView34"
+                app:layout_constraintStart_toStartOf="@+id/textView34"
+                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+            <TextView
+                android:id="@+id/agencyTypeTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/agencyCountryTxt"
+                app:layout_constraintStart_toStartOf="@+id/agencyCountryTxt"
+                app:layout_constraintTop_toBottomOf="@+id/agencyCountryTxt" />
+
+            <TextView
+                android:id="@+id/launcherTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/textView36"
+                app:layout_constraintStart_toStartOf="@+id/textView36"
+                app:layout_constraintTop_toBottomOf="@+id/textView36" />
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/launcherTxt" />
+
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/aboutCrftTxt" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/craftImage"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@color/grey"
+                app:civ_border_color="@color/secondaryLightColor"
+                app:civ_border_width="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spaceCraftToolbar" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/spaceCraftToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:subtitleTextColor="@color/primaryColor" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/agencyLogoImg"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:src="@color/grey"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView35"
+                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+            <TextView
+                android:id="@+id/textView26"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(meters)"
+                app:layout_constraintEnd_toEndOf="@+id/textView15"
+                app:layout_constraintStart_toStartOf="@+id/textView15"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            <TextView
+                android:id="@+id/textView27"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(meters)"
+                app:layout_constraintEnd_toEndOf="@+id/textView16"
+                app:layout_constraintStart_toStartOf="@+id/textView16"
+                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Maiden flight:"
+                android:textColor="@color/primaryColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider7" />
+
+            <TextView
+                android:id="@+id/textView34"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Capability:"
+                android:textColor="@color/primaryColor"
+                app:layout_constraintEnd_toEndOf="@+id/maidenFlightTxt"
+                app:layout_constraintStart_toStartOf="@+id/maidenFlightTxt"
+                app:layout_constraintTop_toBottomOf="@+id/maidenFlightTxt" />
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="Launcher:"
+                android:textColor="@color/primaryColor"
+                app:layout_constraintEnd_toEndOf="@+id/flightLifeTxt"
+                app:layout_constraintStart_toStartOf="@+id/flightLifeTxt"
+                app:layout_constraintTop_toBottomOf="@+id/flightLifeTxt" />
+
+            <View
+                android:id="@+id/divider7"
+                android:layout_width="409dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="32dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+            <ProgressBar
+                android:id="@+id/craftImgProgress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/secondaryColor"
+                app:layout_constraintBottom_toBottomOf="@+id/craftImage"
+                app:layout_constraintEnd_toEndOf="@+id/craftImage"
+                app:layout_constraintStart_toStartOf="@+id/craftImage"
+                app:layout_constraintTop_toTopOf="@+id/craftImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

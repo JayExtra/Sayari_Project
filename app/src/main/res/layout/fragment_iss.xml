@@ -101,7 +101,7 @@
         android:layout_marginStart="16dp"
         android:text="@string/the_iss_heading"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/issToolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBarLoading" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -962,6 +962,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:subtitleTextColor="@color/primaryColor" />
+
+    <ProgressBar
+        android:id="@+id/progressBarLoading"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondaryColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/issToolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
