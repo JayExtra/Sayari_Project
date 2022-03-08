@@ -22,7 +22,8 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_newsFragment"
-            app:destination="@id/newsFragment" />
+            app:destination="@id/newsFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/launchesFragment"
@@ -77,5 +78,30 @@
         android:id="@+id/issFragment2"
         android:name="com.dev.james.sayariproject.ui.iss.IssFragment"
         android:label="fragment_iss"
-        tools:layout="@layout/fragment_iss" />
+        tools:layout="@layout/fragment_iss" >
+        <action
+            android:id="@+id/action_issFragment2_to_spaceCraftFragment"
+            app:destination="@id/spaceCraftFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/issFragment2"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/spaceCraftFragment"
+        android:name="com.dev.james.sayariproject.ui.iss.SpaceCraftFragment"
+        android:label="fragment_spacecraft"
+        tools:layout="@layout/fragment_spacecraft" >
+        <argument
+            android:name="flightVehicle"
+            app:argType="com.dev.james.sayariproject.models.iss.FlightVehicle"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_spaceCraftFragment_to_issFragment2"
+            app:destination="@id/issFragment2"
+            app:enterAnim="@anim/slide_down"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/spaceCraftFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

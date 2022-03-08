@@ -1,8 +1,11 @@
 package com.dev.james.sayariproject.models.iss
 
 import ActiveExpedition
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class IntSpaceStation(
     @SerializedName("active_expeditions")
     val activeExpeditions: List<ActiveExpedition>,
@@ -27,4 +30,4 @@ data class IntSpaceStation(
     val url: String,
     val volume: Int,
     val width: Double
-)
+) : Parcelable

@@ -16,8 +16,8 @@ import android.transition.Transition
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -33,11 +33,9 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
-import com.dev.james.sayariproject.databinding.CraftDialogBinding
 import com.dev.james.sayariproject.databinding.FragmentIssBinding
 import com.dev.james.sayariproject.models.iss.FlightVehicle
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
-import com.dev.james.sayariproject.ui.events.adapter.EventsRecyclerAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.CrewRecyclerAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.DockedVehiclesAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.IssEventsRecyclerAdapter
@@ -71,7 +69,7 @@ class IssFragment : Fragment() {
     private val partnerRcAdapter = PartnersRecyclerView()
     private val dockedVehiclesAdapter = DockedVehiclesAdapter { vehicle ->
         vehicle?.let {
-            launchVehicleDialog(vehicle)
+            navigateToVehicleFragment(vehicle)
         } ?: Log.d("IssFrag" , "No vehicle detected")
     }
 
@@ -273,9 +271,12 @@ class IssFragment : Fragment() {
                     when (resource) {
                         is NetworkResource.Loading -> {
                             Log.d("IssFrag", "loadData: loading data... ")
+                            binding?.progressBarLoading?.isVisible = true
                         }
                         is NetworkResource.Success -> {
                             Log.d("IssFrag", "loadData: ISS DATA => ${resource.value} ")
+                            binding?.progressBarLoading?.isGone = true
+
                             setUpInfoSection(resource.value)
                             setUpExpeditionSection(resource.value)
                             setUpPartnerSection(resource.value)
@@ -284,6 +285,7 @@ class IssFragment : Fragment() {
                             //                          textView8.text = result.description
                         }
                         is NetworkResource.Failure -> {
+                            binding?.progressBarLoading?.isGone = true
                             Log.d("IssFrag", "loadData: ISS DATA => ${resource.errorBody} ")
                         }
                     }
@@ -498,94 +500,13 @@ class IssFragment : Fragment() {
     }
 
 
-    private fun launchVehicleDialog(vehicle: FlightVehicle) {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(true)
-        val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val dialogBinding = CraftDialogBinding.inflate(inflater)
-        dialog.setContentView(dialogBinding.root)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        //set all the views within the dialog
-        dialogBinding.apply {
-            loadImage(dialogBinding, vehicle.spacecraft.vehicleConfig.imageUrl)
-            vehicleNameTxt.text = vehicle.spacecraft.name
-            vehicleSerialTxt.text = vehicle.spacecraft.serialNumber
-
-            if (vehicle.spacecraft.vehicleConfig.humanRated) {
-                humanRatedTxt.isVisible = true
-                humanRatedImg.isVisible = true
-                humanRatedImg.setImageResource(R.drawable.ic_baseline_check_circle_24)
-            } else {
-                humanRatedTxt.isVisible = true
-                humanRatedImg.isVisible = true
-                humanRatedImg.setImageResource(R.drawable.ic_no)
-            }
-
-            craftHeightTxt.startCountAnimation(vehicle.spacecraft.vehicleConfig.height.toInt())
-            craftWidthTxt.startCountAnimation(vehicle.spacecraft.vehicleConfig.diameter.toInt())
-            craftCrewCapTxt.startCountAnimation(vehicle.spacecraft.vehicleConfig.crewCapacity)
-            craftPayloadCapTxt.text = vehicle.spacecraft.vehicleConfig.payloadCapacity.toString()
-
-            maidenFlightTxt.text = vehicle.spacecraft.vehicleConfig.maidenFlight
-            flightLifeTxt.text = vehicle.spacecraft.vehicleConfig.flightLife
-            launcherTxt.text = vehicle.launch.rocket?.configuration?.name
-
-            aboutCrftTxt.text = vehicle.spacecraft.vehicleConfig.details
-
-            loadAgencyLogo(dialogBinding , vehicle.spacecraft.vehicleConfig.agency.imageUrl)
-            agencyNameTxt.text = vehicle.spacecraft.vehicleConfig.agency.name
-            agencyCountryTxt.text = vehicle.spacecraft.vehicleConfig.agency.countryCode
-            agencyTypeTxt.text = vehicle.spacecraft.vehicleConfig.agency.type
-
-            closeDialogImage.setOnClickListener {
-                dialog.dismiss()
-            }
-        }
-
-        dialog.show()
+    private fun navigateToVehicleFragment(vehicle: FlightVehicle) {
+        //navigate to spacecraft fragment
+        Log.d("IssFrag", "navigateToVehicleFragment: vehicle => ${vehicle.toString()} ")
+        val action = IssFragmentDirections.actionIssFragment2ToSpaceCraftFragment(vehicle)
+        findNavController().navigate(action)
 
     }
-
-    private fun loadAgencyLogo(dialogBinding: CraftDialogBinding, imageUrl: String) {
-        Glide.with(dialogBinding.root)
-            .load(imageUrl)
-            .centerCrop()
-            .error(R.drawable.ic_broken_image)
-            .into(dialogBinding.agencyLogoImg)
-    }
-
-    private fun loadImage(dialogBinding: CraftDialogBinding, imageUrl: String) {
-        Glide.with(dialogBinding.root)
-            .load(imageUrl)
-            .centerCrop()
-            .error(R.drawable.ic_broken_image)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    dialogBinding.craftImgProgress.isInvisible = true
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    dialogBinding.craftImgProgress.isInvisible = true
-                    return false
-                }
-            })
-            .into(dialogBinding.craftImage)
-    }
-
 
 
 }
