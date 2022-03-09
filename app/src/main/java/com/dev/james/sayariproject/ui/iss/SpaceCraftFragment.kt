@@ -59,8 +59,9 @@ class SpaceCraftFragment : Fragment() {
                 navController.graph
             )
             spaceCraftToolbar.setNavigationOnClickListener {
-                val action = SpaceCraftFragmentDirections.actionSpaceCraftFragmentToIssFragment2()
-                navController.navigate(action)
+           //     val action = SpaceCraftFragmentDirections.actionSpaceCraftFragmentToIssFragment2()
+           //     navController.navigate(action)
+                navController.popBackStack()
             }
 
 
