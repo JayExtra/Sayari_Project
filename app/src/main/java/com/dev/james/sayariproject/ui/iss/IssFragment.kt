@@ -155,9 +155,26 @@ class IssFragment : Fragment() {
         )
 
         binding?.setUpUi()
+        binding?.setUpObservables()
         loadData()
         binding?.observeChipSelection()
         return binding?.root
+    }
+
+    private fun FragmentIssBinding.setUpObservables() {
+        //observable for our docked vehicles statistics
+        issViewModel.dockedVehiclesStats.observe(viewLifecycleOwner , { dockedVehiclesStats ->
+              //feed ui
+                dockingPrcntgCapProg.progress = dockedVehiclesStats.percentageCapacity
+                capacityTxtPrcntg.text = "${dockedVehiclesStats.percentageCapacity}% capacity"
+
+                freeCapProgress.progress = dockedVehiclesStats.percentageFreePorts
+                freePortsCapacityTxt.text = dockedVehiclesStats.freePorts.toString()
+
+                dockedCapProgress.progress = dockedVehiclesStats.percentageDockedVehicle
+                dockedCapTxt.text = dockedVehiclesStats.totalDockedVehicles.toString()
+
+        })
     }
 
     private fun FragmentIssBinding.observeChipSelection() {
@@ -266,8 +283,7 @@ class IssFragment : Fragment() {
     private fun loadData() {
         //fetch data from repository then do necessary UI updates
         lifecycleScope.launchWhenStarted {
-            issViewModel.spaceStation.collectLatest { event ->
-                event.getContentIfNotHandled()?.let { resource ->
+            issViewModel.spaceStation.collectLatest { resource ->
                     when (resource) {
                         is NetworkResource.Loading -> {
                             Log.d("IssFrag", "loadData: loading data... ")
@@ -289,8 +305,6 @@ class IssFragment : Fragment() {
                             Log.d("IssFrag", "loadData: ISS DATA => ${resource.errorBody} ")
                         }
                     }
-
-                }
             }
         }
 
@@ -327,7 +341,7 @@ class IssFragment : Fragment() {
     }
 
     private fun setUpDockingSection(value: IntSpaceStation) {
-        // load up progress
+    /**    // load up progress
         //calculate available
         val allDockingPorts = value.dockingLocation.size
         val dockedVehiclesCount = value.dockingLocation.filter { it.docked != null }.size
@@ -338,21 +352,24 @@ class IssFragment : Fragment() {
         val percentageDocked = calculateCapacityPercentage(dockedVehiclesCount, allDockingPorts)
         val percentageFree = calculateCapacityPercentage(freePorts, allDockingPorts)
 
+    binding?.apply {
+    dockingPrcntgCapProg.progress = percentageCapacity
+    capacityTxtPrcntg.text = "$percentageCapacity% capacity"
+
+    freeCapProgress.progress = percentageFree
+    freePortsCapacityTxt.text = freePorts.toString()
+
+    dockedCapProgress.progress = percentageDocked
+    dockedCapTxt.text = dockedVehiclesCount.toString()
+    }
+
+    **/
+    issViewModel.getDockedVehiclesStatistics(value)
+
         //submit list of docking locations
         val dockedVehicles = value.dockingLocation.filter { it.docked != null }
         dockedVehiclesAdapter.submitList(dockedVehicles)
 
-
-        binding?.apply {
-            dockingPrcntgCapProg.progress = percentageCapacity
-            capacityTxtPrcntg.text = "$percentageCapacity% capacity"
-
-            freeCapProgress.progress = percentageFree
-            freePortsCapacityTxt.text = freePorts.toString()
-
-            dockedCapProgress.progress = percentageDocked
-            dockedCapTxt.text = dockedVehiclesCount.toString()
-        }
     }
 
     private fun setUpPartnerSection(value: IntSpaceStation) {
