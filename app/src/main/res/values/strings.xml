@@ -43,4 +43,7 @@
     <string name="active_txt">active</string>
     <string name="de_orbited_txt">De-orbited</string>
     <string name="vehicle_button_txt">vehicle</string>
+
+    <string name="rating_dialog_text">Enjoying the application? Please feel free to give us your rating. Your feedback is highly appreciated.</string>
+    <string name="rate_our_app_headline">Rate Our App</string>
 </resources>

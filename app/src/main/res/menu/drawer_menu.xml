@@ -18,12 +18,8 @@
             android:id="@+id/supportUsFragment"
             android:enabled="true"/>
         <item
-            android:title="Rate us"
-            android:id="@+id/rateUs"
-            android:enabled="true"/>
-        <item
-            android:title="Share"
-            android:id="@+id/shareEvent"
+            android:title="About"
+            android:id="@+id/aboutApplication"
             android:enabled="true"/>
 
 

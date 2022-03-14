@@ -17,15 +17,20 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_baseline_notifications_active_24.xml" value="0.1742671009771987" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_baseline_refresh_24.xml" value="0.10092592592592593" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_error.xml" value="0.1597222222222222" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_happy.xml" value="0.11666666666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_home.xml" value="0.2786458333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_menu.xml" value="0.2786458333333333" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_neutral_emoji.xml" value="0.17598684210526316" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_notifications.xml" value="0.2786458333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_round_cancel.xml" value="0.16018518518518518" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_sad_emoji.xml" value="0.11666666666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_search.xml" value="0.2786458333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_width_icon.xml" value="0.17598684210526316" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/page_indicator_selected.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/page_indicators.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/rocket.xml" value="0.2786458333333333" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/round_back_white_1000.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/round_back_white_stroke.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/splash_image.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/tab_selector.xml" value="0.2630208333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/text_color_chip_state.xml" value="0.1" />
@@ -50,6 +55,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_welcome_screen.xml" value="0.259375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragmnt_redirector.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/load_state_footer.xml" value="0.24074074074074073" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/rating_dialog.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_crew_member_card.xml" value="0.16578947368421051" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_docked_vehicle_card.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_event_color.xml" value="0.2" />
