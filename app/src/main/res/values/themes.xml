@@ -113,6 +113,23 @@
         <item name="android:fontFamily">@font/ubuntu_medium</item>
     </style>
 
+    <style name="Theme.SayariProject.RatingBar" parent="Widget.AppCompat.RatingBar">
+        <!--non-selected star-->
+        <item name="colorControlNormal">#4D000000</item>
+        <!--selected star-->
+        <item name="colorControlActivated">@color/secondaryColor</item>
+
+
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+    <item name="android:windowEnterAnimation">@anim/slide_up</item>
+    <item name="android:windowExitAnimation">@anim/slide_down</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">false</item>
+    <item name="android:windowIsFloating">false</item>
+    </style>
+
 
 
 </resources>
