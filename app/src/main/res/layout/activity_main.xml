@@ -33,7 +33,6 @@
                     android:background="@color/primaryLightColor"
                     android:backgroundTint="@color/white"
                     app:elevation="0dp"
-                    app:menu="@menu/app_bar_menu"
                     app:navigationIcon="@drawable/ic_menu"
                     app:title="" />
             </com.google.android.material.appbar.AppBarLayout>

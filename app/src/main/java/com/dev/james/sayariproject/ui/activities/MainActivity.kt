@@ -2,6 +2,9 @@ package com.dev.james.sayariproject.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -11,9 +14,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
+import com.dev.james.sayariproject.ui.dialogs.RatingDialog
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -21,6 +26,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+
+    @Inject
+    lateinit var ratingDialog: RatingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,11 +103,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        setSupportActionBar(binding.topAppBar)
 
         //set up toolbar to open nav drawer
         binding.topAppBar.setNavigationOnClickListener {
             binding.drawerLayout.open()
         }
+
 
     }
 
@@ -114,6 +125,27 @@ class MainActivity : AppCompatActivity() {
                 .build()
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.app_bar_menu , menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.settings_fragment -> {
+                Log.d("MainActivity", "onOptionsItemSelected: settings selected ")
+                true
+            }
+            R.id.rate_us -> {
+                ratingDialog.show(supportFragmentManager , null)
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 
 

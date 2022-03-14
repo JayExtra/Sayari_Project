@@ -4,8 +4,12 @@
 
     <item
         android:title="settings"
-        android:id="@+id/settingsFragment"
-        app:showAsAction="collapseActionView"/>
+        android:id="@+id/settings_fragment"
+        app:showAsAction="never"/>
+    <item
+        android:title="rate us"
+        android:id="@+id/rate_us"
+        app:showAsAction="never"/>
    <!-- <item
         android:title="@string/search_app_bar_txt"
         android:id="@+id/searchAction"
