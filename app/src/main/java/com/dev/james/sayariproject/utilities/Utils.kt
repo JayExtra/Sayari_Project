@@ -10,3 +10,4 @@ const val LAUNCHES_SEARCH_LOAD_SIZE = 50
 const val EVENTS_SEARCH_LOAD_SIZE = 30
 const val TWITTER_PROFILE_WEB = "https://twitter.com/JamesTravor"
 const val TWITTER_PROFILE = "@JamesTravor"
+const val DEV_EMAIL = "murokijames21@gmail.com"

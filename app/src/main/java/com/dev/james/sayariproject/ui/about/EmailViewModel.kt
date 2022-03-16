@@ -21,21 +21,27 @@ class EmailViewModel @Inject constructor() : ViewModel() {
              _validationStatusSharedFlow.emit(
                  ErrorInfo(
                      code = 0,
-                     message = "Good"
+                     message = "Good" ,
+                     subject = subject,
+                     mail = message
                  )
              )
          }else if (subject.isEmpty()){
              _validationStatusSharedFlow.emit(
                  ErrorInfo(
                      code = 1,
-                     message = "subject should not be empty."
+                     message = "subject should not be empty.",
+                     null,
+                     null
                  )
              )
          }else if (message.isEmpty()){
              _validationStatusSharedFlow.emit(
                  ErrorInfo(
                      code = 2,
-                     message = "message should not be empty."
+                     message = "message should not be empty.",
+                     null,
+                     null
                  )
              )
          }
@@ -48,5 +54,7 @@ class EmailViewModel @Inject constructor() : ViewModel() {
 }
 data class ErrorInfo(
     val code : Int ,
-    val message : String
+    val message : String,
+    val subject : String?,
+    val mail : String?
 )
