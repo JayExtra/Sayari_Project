@@ -8,3 +8,5 @@ const val ARTICLE_SEARCH_LOAD_SIZE = 50
 const val STARTING_OFFSET_INDEX = 0
 const val LAUNCHES_SEARCH_LOAD_SIZE = 50
 const val EVENTS_SEARCH_LOAD_SIZE = 30
+const val TWITTER_PROFILE_WEB = "https://twitter.com/JamesTravor"
+const val TWITTER_PROFILE = "@JamesTravor"

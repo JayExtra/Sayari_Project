@@ -23,6 +23,7 @@
     <color name="gmail_button">#c71610</color>
     <color name="baby_blue">#D7EEFF</color>
     <color name="twitter_button">#00acee</color>
+    <color name="error_red">#fc0303</color>
 
 
 </resources>

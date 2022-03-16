@@ -132,4 +132,38 @@
 
 
 
+    <!---email section-->
+    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="hintTextColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+    <item name="colorPrimary">@color/secondaryLightColor</item>
+   <!-- <item name="colorOnSurface">@color/secondaryColor</item>-->
+    <item name="colorError">@color/error_red</item>
+    <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>
+    <item name="textAppearanceCaption">@style/TextAppearance.App.Caption</item>
+       <item name="editTextStyle">@style/Widget.AppCompat.EditText</item>
+    </style>
+
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/ubuntu</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+
+    <style name="TextAppearance.App.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/ubuntu</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+
+
+
 </resources>

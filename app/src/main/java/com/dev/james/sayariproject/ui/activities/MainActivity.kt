@@ -107,6 +107,11 @@ class MainActivity : AppCompatActivity() {
                     lockNavDrawer()
                     hideBottomNav()
                 }
+                R.id.sendEmailFragment -> {
+                    hideTopBar()
+                    lockNavDrawer()
+                    hideBottomNav()
+                }
             }
         }
 

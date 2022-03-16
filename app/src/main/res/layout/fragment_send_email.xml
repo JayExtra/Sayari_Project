@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.about.SendEmailFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/emailToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:subtitleTextColor="@color/primaryColor" />
+
+    <TextView
+        android:id="@+id/textView28"
+        style="@style/Theme.SayariProject.TextAppearanceHeadings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Talk to me"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailProgressBar" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/subjectInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/subject_hint"
+        app:boxStrokeColor="@color/secondaryColor"
+        app:endIconDrawable="@drawable/ic_round_cancel"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/ic_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView28"
+        app:startIconDrawable="@drawable/ic_baseline_subject_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/subjectTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/messageInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/message_hint"
+        app:boxStrokeColor="@color/secondaryColor"
+        app:endIconDrawable="@drawable/ic_round_cancel"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/ic_error"
+        app:layout_constraintEnd_toEndOf="@+id/subjectInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/subjectInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/subjectInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/messageTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:inputType="textMultiLine" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/emailProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondaryColor"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailToolbar" />
+
+    <Button
+        android:id="@+id/sendEmailButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/secondaryColor"
+        android:fontFamily="@font/ubuntu_bold"
+        android:text="send email"
+        app:icon="@drawable/ic_baseline_send_24"
+        app:iconGravity="textEnd"
+        app:layout_constraintEnd_toEndOf="@+id/messageInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/messageInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/messageInputLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

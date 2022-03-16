@@ -1,6 +1,10 @@
 package com.dev.james.sayariproject.ui.about
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.databinding.FragmentAboutBinding
+import com.dev.james.sayariproject.utilities.TWITTER_PROFILE
+import com.dev.james.sayariproject.utilities.TWITTER_PROFILE_WEB
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,5 +47,33 @@ class AboutFragment : Fragment() {
 
         appVersionNumberTxt.text = BuildConfig.VERSION_NAME
 
+
+        twitterButton.setOnClickListener {
+         //launch twitter app showing profile
+            //if no app present launch browser to twitter web app
+            launchTwitter()
+        }
+
+        gmailButton.setOnClickListener {
+            //navigate to email fragment
+            val action = AboutFragmentDirections.actionAboutFragmentToSendEmailFragment()
+            navController.navigate(action)
+        }
+
+    }
+    private fun launchTwitter(){
+        val twitterAppIntent = Intent().apply {
+            this.putExtra(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=$TWITTER_PROFILE"))
+        }
+        val twitterWebIntent = Intent().apply {
+            this.data = Uri.parse(TWITTER_PROFILE_WEB)
+        }
+
+        try {
+            requireContext().startActivity(twitterAppIntent)
+        }catch (e : ActivityNotFoundException){
+            Log.d("AboutFragment", "launchTwiterIntent: ${e.localizedMessage} ")
+            requireContext().startActivity(twitterWebIntent)
+        }
     }
 }
