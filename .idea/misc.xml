@@ -13,9 +13,12 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/collapsible_appbar_background.xml" value="0.17598684210526316" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/dialog_corner_radius_shape.xml" value="0.17401315789473684" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_arrow_back.xml" value="0.2786458333333333" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_baseline_alternate_email_24.xml" value="0.1742671009771987" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_baseline_close_dialog.xml" value="0.17598684210526316" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_baseline_notifications_active_24.xml" value="0.1742671009771987" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_baseline_refresh_24.xml" value="0.10092592592592593" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.1742671009771987" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_baseline_subject_24.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_error.xml" value="0.1597222222222222" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_gmail_icon.xml" value="0.1742671009771987" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_happy.xml" value="0.11666666666666667" />
@@ -52,6 +55,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_notifications.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_previous_launches.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_search.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_send_email.xml" value="0.16" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_spacecraft.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_upcoming_launches.xml" value="0.1712962962962963" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_upcoming_previous_launches.xml" value="0.2625" />

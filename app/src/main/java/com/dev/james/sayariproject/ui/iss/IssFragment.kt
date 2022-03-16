@@ -114,13 +114,10 @@ class IssFragment : Fragment() {
 
     private fun launchYoutubeIntent(c: Char) {
         val appIntent = Intent().apply {
-            this.action = Intent.ACTION_VIEW
             this.putExtra(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$c"))
         }
-
         val webIntent = Intent().apply {
-            this.action = Intent.ACTION_VIEW
-            this.putExtra(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=$c"))
+           this.data = Uri.parse("http://www.youtube.com/watch?v=$c")
         }
 
         try {
