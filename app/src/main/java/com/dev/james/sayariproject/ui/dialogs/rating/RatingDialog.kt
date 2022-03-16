@@ -50,7 +50,6 @@ class RatingDialog @Inject constructor() : DialogFragment(R.layout.rating_dialog
     private fun RatingDialogBinding.listenToObservables(){
         ratingViewModel.ratingCount.observe(viewLifecycleOwner , { value ->
             finalRating = value
-
             when (value) {
 
                 in 0.0..2.5 -> {

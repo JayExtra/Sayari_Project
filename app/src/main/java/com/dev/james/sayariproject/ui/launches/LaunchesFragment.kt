@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentLaunchesBinding
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesViewpagerAdapter
@@ -95,6 +97,10 @@ class LaunchesFragment : Fragment() {
 
         })
 
+
+        val navHeader = binding.navigationView.getHeaderView(0)
+        val navText = navHeader.findViewById<TextView>(R.id.versionNameTxt)
+        navText.text = BuildConfig.VERSION_NAME
 
 
         return binding.root

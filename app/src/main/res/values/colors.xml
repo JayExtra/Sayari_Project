@@ -20,7 +20,9 @@
     <color name="green">#D8FFDE</color>
     <color name="active_green">#0af225</color>
     <color name="purps">#FADAFF</color>
+    <color name="gmail_button">#c71610</color>
     <color name="baby_blue">#D7EEFF</color>
+    <color name="twitter_button">#00acee</color>
 
 
 </resources>
