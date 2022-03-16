@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.about.AboutFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutToolbar"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/gmailButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="@color/gmail_button"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="gmail"
+                app:icon="@drawable/ic_gmail_icon"
+                app:iconGravity="textStart"
+                app:layout_constraintEnd_toEndOf="@+id/textView42"
+                app:layout_constraintStart_toStartOf="@+id/textView42"
+                app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:src="@drawable/sayari_logo2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/appVersionNumberTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toStartOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+            <TextView
+                android:id="@+id/textView37"
+                style="@style/Theme.SayariProject.TextAppearanceHeadings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="16dp"
+                android:text="About"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appVersionNumberTxt" />
+
+            <TextView
+                android:id="@+id/textView38"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/about_app_string"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="@+id/textView37"
+                app:layout_constraintStart_toStartOf="@+id/textView37"
+                app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+            <TextView
+                android:id="@+id/textView39"
+                style="@style/Theme.SayariProject.TextAppearanceHeadings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Developer"
+                app:layout_constraintEnd_toEndOf="@+id/textView38"
+                app:layout_constraintStart_toStartOf="@+id/textView38"
+                app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+            <TextView
+                android:id="@+id/textView40"
+                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="James Gitonga"
+                app:layout_constraintEnd_toEndOf="@+id/imageView8"
+                app:layout_constraintStart_toStartOf="@+id/imageView8"
+                app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+
+            <TextView
+                android:id="@+id/textView41"
+                style="@style/Theme.SayariProject.TextAppearanceSubCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Indie App Developer"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView40"
+                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintStart_toStartOf="@+id/textView40"
+                app:layout_constraintTop_toBottomOf="@+id/textView40" />
+
+            <TextView
+                android:id="@+id/textView42"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/about_dev_string"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView8"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/rocket"
+                app:civ_border_color="@color/secondaryColor"
+                app:civ_border_width="1dp"
+                app:layout_constraintEnd_toEndOf="@+id/textView39"
+                app:layout_constraintStart_toStartOf="@+id/textView39"
+                app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
+            <Button
+                android:id="@+id/twitterButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/twitter_button"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="twitter"
+                app:icon="@drawable/ic_twitter_icon"
+                app:iconGravity="textStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/gmailButton"
+                app:layout_constraintStart_toStartOf="@+id/gmailButton"
+                app:layout_constraintTop_toBottomOf="@+id/gmailButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/aboutToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:subtitleTextColor="@color/primaryColor" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
@@ -100,6 +102,11 @@ class MainActivity : AppCompatActivity() {
                     lockNavDrawer()
                     hideBottomNav()
                 }
+                R.id.aboutFragment -> {
+                    hideTopBar()
+                    lockNavDrawer()
+                    hideBottomNav()
+                }
             }
         }
 
@@ -109,6 +116,10 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setNavigationOnClickListener {
             binding.drawerLayout.open()
         }
+
+        val navHeader = binding.navigationView.getHeaderView(0)
+        val navText = navHeader.findViewById<TextView>(R.id.versionNameTxt)
+        navText.text = BuildConfig.VERSION_NAME
 
 
     }

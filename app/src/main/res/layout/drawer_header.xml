@@ -20,14 +20,13 @@
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/versionNameTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|start"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/ubuntu_medium"
-        android:text="v1.0.0 atmosphere"
         android:textColor="@color/primaryColor"
         android:textSize="16sp" />
 </LinearLayout>

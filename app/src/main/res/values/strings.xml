@@ -46,4 +46,8 @@
 
     <string name="rating_dialog_text">Enjoying the application? Please feel free to give us your rating. Your feedback is highly appreciated.</string>
     <string name="rate_our_app_headline">Rate Our App</string>
+
+    <string name="about_app_string">Sayari is a spaceflight tracking application that not only gives you real-time and up-to-date information on launches but also keeps you in the loop with the latest spaceflight news across all scopes within the spaceflight industry.</string>
+
+    <string name="about_dev_string">Hi! My name is James , an independent app developer from Mombasa , Kenya. I have more than a year\'s experience developing native mobile applications. You can reach out to me below through my email or follow me on twitter.</string>
 </resources>

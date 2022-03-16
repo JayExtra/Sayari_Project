@@ -19,7 +19,7 @@
             android:enabled="true"/>
         <item
             android:title="About"
-            android:id="@+id/aboutApplication"
+            android:id="@+id/aboutFragment"
             android:enabled="true"/>
 
 
