@@ -45,10 +45,10 @@ class DockedVehiclesAdapter(
             loadImage(dockingLocation , binding)
             val formattedDate = dockingLocation.docked?.dockedDate?.let { formatDate(it) }
             binding.apply {
-                vehicleSerialNumber.text = dockingLocation.docked?.flightVehicle?.spacecraft?.serialNumber
-                portDockedTxt.text = dockingLocation.name
+                vehicleSerialNumber.text = "SN: ${dockingLocation.docked?.flightVehicle?.spacecraft?.serialNumber}"
+                portDockedTxt.text = "Port: ${dockingLocation.name}"
                 vehicleName.text = dockingLocation.docked?.flightVehicle?.spacecraft?.name
-                dockedDate.text = formattedDate
+                dockedDate.text = "Docked: $formattedDate"
 
                 buttonReadMoreVehicle.setOnClickListener {
                     action.invoke(dockingLocation.docked?.flightVehicle)
