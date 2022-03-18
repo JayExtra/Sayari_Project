@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/timerCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:elevation="2dp"
+                app:cardElevation="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <ProgressBar
+                        android:id="@+id/freeCapProgress"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/circular_progress"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/probabilityTxt"
+                        style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@+id/freeCapProgress"
+                        app:layout_constraintEnd_toEndOf="@+id/freeCapProgress"
+                        app:layout_constraintStart_toStartOf="@+id/freeCapProgress"
+                        app:layout_constraintTop_toTopOf="@+id/freeCapProgress"
+                        app:layout_constraintVertical_bias="0.38" />
+
+                    <TextView
+                        android:id="@+id/textView43"
+                        style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="proability"
+                        app:layout_constraintEnd_toEndOf="@+id/probabilityTxt"
+                        app:layout_constraintStart_toStartOf="@+id/probabilityTxt"
+                        app:layout_constraintTop_toBottomOf="@+id/probabilityTxt" />
+
+                    <TextView
+                        android:id="@+id/textView44"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:text="@string/count_down_timer_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/secondaryColor"
+                        android:textSize="30sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/freeCapProgress"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/freeCapProgress"
+                        app:layout_constraintTop_toTopOf="@+id/freeCapProgress"
+                        app:layout_constraintVertical_bias="0.38" />
+
+                    <TextView
+                        android:id="@+id/textView45"
+                        style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="      d      h      m      s"
+                        android:textAlignment="center"
+                        android:textColor="@color/secondaryColor"
+                        app:layout_constraintEnd_toEndOf="@+id/textView44"
+                        app:layout_constraintStart_toStartOf="@+id/textView44"
+                        app:layout_constraintTop_toBottomOf="@+id/textView44" />
+
+                    <TextView
+                        android:id="@+id/launchStatusText"
+                        style="@style/Theme.SayariProject.TextAppearancePara"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="32dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/primaryColor"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/freeCapProgress" />1.0" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/launchAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:elevation="0dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/white"
+            app:expandedTitleGravity="bottom"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:scrimAnimationDuration="300"
+            app:titleEnabled="false">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/grey"/>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/launchToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:subtitleTextColor="@color/primaryColor" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

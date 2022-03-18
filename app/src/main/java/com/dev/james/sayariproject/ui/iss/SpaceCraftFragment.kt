@@ -96,7 +96,16 @@ class SpaceCraftFragment : Fragment() {
 
             maidenFlightTxt.text = vehicle.spacecraft.vehicleConfig.maidenFlight
             flightLifeTxt.text = vehicle.spacecraft.vehicleConfig.flightLife
-            launcherTxt.text = vehicle.launch.rocket?.configuration?.name
+
+
+            val variant = if(vehicle.launch.rocket?.configuration?.variant?.length!! == 0){
+                vehicle.launch.rocket.configuration.family
+            }else{
+                vehicle.launch.rocket.configuration.variant
+            }
+
+            launcherTxt.text = "${vehicle.launch.rocket?.configuration?.name} | $variant"
+
 
             aboutCrftTxt.text = vehicle.spacecraft.vehicleConfig.details
 
