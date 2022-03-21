@@ -29,7 +29,9 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @RequiresApi(Build.VERSION_CODES.O)
-class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerAdapter.LaunchViewHolder>(DiffCallback()) {
+class LaunchesRecyclerAdapter(
+    private val action : (LaunchList) -> Unit
+) : PagingDataAdapter<LaunchList , LaunchesRecyclerAdapter.LaunchViewHolder>(DiffCallback()) {
 
     private lateinit var  context : Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder {
@@ -71,6 +73,10 @@ class LaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , LaunchesRecyclerA
             setStatus(launch , binding)
             setUpImage(launch , binding)
             setUpCountDownTimer(launch , binding)
+
+            binding.root.setOnClickListener {
+                action.invoke(launch)
+            }
         }
 
 

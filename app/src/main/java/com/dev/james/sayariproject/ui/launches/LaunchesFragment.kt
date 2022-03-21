@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,6 +22,7 @@ import com.dev.james.sayariproject.ui.launches.adapters.LaunchesViewpagerAdapter
 import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.O)
@@ -40,6 +42,8 @@ class LaunchesFragment : Fragment() {
     ): View? {
         _binding = FragmentLaunchesBinding.inflate(inflater , container , false)
 
+        //collect navigation to launch details fragment requests
+        collectNavigationRequests()
         //setup controller and navHostFragment
         navController = findNavController()
         appBarConfiguration = AppBarConfiguration(
@@ -107,10 +111,18 @@ class LaunchesFragment : Fragment() {
 
     }
 
+    private fun collectNavigationRequests() {
+
+        mLaunchesViewModel.navigateToLaunchDetails.observe(viewLifecycleOwner , { launch ->
+            val action = LaunchesFragmentDirections.actionLaunchesFragmentToLaunchDetailsFragment(launch)
+            navController.navigate(action)
+
+        })
+
+    }
 
 
-
-   /** private fun makeInitialLoad() {
+    /** private fun makeInitialLoad() {
         val currentTab = binding.launchesTabLayout.selectedTabPosition
         if(currentTab == 1){
             Log.d("LaunchFragment", "makeInitialLoad: previous tab selected ")

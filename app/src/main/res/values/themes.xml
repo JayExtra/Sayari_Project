@@ -164,6 +164,16 @@
     </style>
 
 
+    <style name="Theme.SayariProject.CircularProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">@color/secondaryColor</item>
+    </style>
+
+    <style name="Theme.SayariProject.Horizontal.ProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateTint">@color/secondaryColor</item>
+        <item name="android:indeterminateOnly">true</item>
+    </style>
+
+
 
 
 </resources>

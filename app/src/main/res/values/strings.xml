@@ -53,4 +53,9 @@
     <string name="your_email_hint">your email</string>
     <string name="subject_hint">subject</string>
     <string name="message_hint">message</string>
+    <string name="share_button_string">share</string>
+    <string name="probability_txt">probability</string>
+    <string name="mission_heading">Mission</string>
+    <string name="launcher_heading">Launcher</string>
+    <string name="crew_on_board_txt">Crew on-board</string>
 </resources>

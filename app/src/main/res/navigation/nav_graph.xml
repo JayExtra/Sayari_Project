@@ -29,7 +29,11 @@
         android:id="@+id/launchesFragment"
         android:name="com.dev.james.sayariproject.ui.launches.LaunchesFragment"
         android:label="fragment_launches"
-        tools:layout="@layout/fragment_launches" />
+        tools:layout="@layout/fragment_launches" >
+        <action
+            android:id="@+id/action_launchesFragment_to_launchDetailsFragment"
+            app:destination="@id/launchDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.dev.james.sayariproject.ui.notification.NotificationsFragment"
@@ -119,4 +123,13 @@
         android:name="com.dev.james.sayariproject.ui.about.SendEmailFragment"
         android:label="fragment_send_email"
         tools:layout="@layout/fragment_send_email" />
+    <fragment
+        android:id="@+id/launchDetailsFragment"
+        android:name="com.dev.james.sayariproject.ui.launches.launchdetails.LaunchDetailsFragment"
+        android:label="fragment_launch_details"
+        tools:layout="@layout/fragment_launch_details" >
+        <argument
+            android:name="launch"
+            app:argType="com.dev.james.sayariproject.models.launch.LaunchList" />
+    </fragment>
 </navigation>
