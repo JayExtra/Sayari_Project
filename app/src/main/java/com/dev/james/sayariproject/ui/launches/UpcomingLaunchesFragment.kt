@@ -41,7 +41,11 @@ class UpcomingLaunchesFragment : Fragment() {
     private var _binding: FragmentUpcomingLaunchesBinding? = null
     private val binding get() = _binding!!
     private val mLaunchesViewModel : LaunchesViewModel by viewModels({requireParentFragment()})
-    private val adapter = LaunchesRecyclerAdapter()
+    private val adapter = LaunchesRecyclerAdapter { launch ->
+        //trigger navigation
+        navigateToLaunchDetails(launch)
+    }
+
     private var hasSearched : Boolean? = null
 
     override fun onCreateView(
@@ -207,7 +211,7 @@ class UpcomingLaunchesFragment : Fragment() {
         }
     }
 
-    fun refreshList(){
+    private fun refreshList(){
         lifecycleScope.launch {
             adapter.submitData(PagingData.empty())
             mLaunchesViewModel.getLaunches(null , 0)
@@ -217,6 +221,10 @@ class UpcomingLaunchesFragment : Fragment() {
             binding.upcomingPreviousRv.scrollToPosition(0)
             hasSearched = false
         }
+    }
+
+    private fun navigateToLaunchDetails(launch : LaunchList){
+        mLaunchesViewModel.navigateToLaunchDetails(launch)
     }
 
 
