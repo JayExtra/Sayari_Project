@@ -57,7 +57,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
             navController.graph
         )
 
-        binding?.setUpToolbar(args.slug , args.image)
+        binding?.setUpToolbar(args.name , args.image)
         binding?.setUpTimerCard(args)
 
         launchToolbar.setNavigationOnClickListener {
@@ -84,9 +84,9 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
         this.changeStatusColor(args.status?.id)
 
-       // val date = args.startWindow.convertDate(requireContext())
+        val date = args.startWindow.getDateToCurrentTimezone(requireContext())
 
-       // this.startTimer(date , requireContext())
+        this.startTimer(date , requireContext())
 
         this.setUpProbabilityBar(args.probability)
 
@@ -107,8 +107,8 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
     private fun alternateProbability(){
         binding?.apply {
-            probabilityProgress.progress = 10
-            probabilityTxt.text = "10%"
+            probabilityProgress.progress = 50
+            probabilityTxt.text = "50%"
         }
     }
 
@@ -150,7 +150,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         Log.d("LaunchDetails", "startTimer: timediff : ${timeDiff.toString()}")
 
         //start timer
-     /**   countDownTimer = object : CountDownTimer(timeDiff!!, 1000){
+      countDownTimer = object : CountDownTimer(timeDiff!!, 1000){
             override fun onTick(millscUntilFinish: Long) {
                 countdwnTimerTxt.text = context.getString(R.string.updated_timer,
                     TimeUnit.MILLISECONDS.toDays(millscUntilFinish) , TimeUnit.MILLISECONDS.toHours(millscUntilFinish) %24 ,
@@ -165,15 +165,13 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
         (countDownTimer as CountDownTimer).start()
 
-**/
-
 
     }
 
-    fun String.convertDate(context: Context): String {
+   private fun String.convertDate(context: Context): String {
         return try {
             val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'z'", Locale.getDefault())
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
             inputFormat.timeZone = TimeZone.getTimeZone("GMT")
             val passedDate: Date = inputFormat.parse(this)
 
@@ -186,6 +184,22 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
             "00:00:00"
         }
     }
+
+    private fun String.getDateToCurrentTimezone(context : Context) : Date? {
+        return try {
+            val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", currentLocale)
+            inputFormat.timeZone = TimeZone.getDefault()
+            val passedDate: Date? = inputFormat.parse(this)
+            passedDate
+        }catch (_ : Exception){
+            val date : Date? = null
+            date
+        }
+
+    }
+
+
 
     private fun FragmentLaunchDetailsBinding.changeStatusColor(id: Int?) {
         when(id){

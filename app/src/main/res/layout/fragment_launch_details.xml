@@ -119,6 +119,7 @@
                         android:id="@+id/countdwnTimerTxt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="24dp"
                         android:fontFamily="@font/ubuntu_medium"
                         android:text="@string/count_down_timer_text"
@@ -129,7 +130,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/probabilityProgress"
                         app:layout_constraintTop_toTopOf="@+id/probabilityProgress"
-                        app:layout_constraintVertical_bias="0.38" />
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
                         android:id="@+id/textView45"
@@ -158,29 +159,16 @@
                         app:layout_constraintTop_toBottomOf="@+id/launchLocationTxt" />
 
                     <TextView
-                        android:id="@+id/textView6"
-                        style="@style/Theme.SayariProject.TextAppearanceDimCards"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="52dp"
-                        android:layout_marginTop="32dp"
-                        android:text="@string/orbit_subtitle_txt"
-                        app:layout_constraintStart_toStartOf="@+id/launchStatusText"
-                        app:layout_constraintTop_toBottomOf="@+id/launchStatusText" />
-
-                    <TextView
                         android:id="@+id/launchOrbitTxt"
                         style="@style/Theme.SayariProject.TextAppearancePara"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:layout_marginTop="32dp"
                         android:layout_marginBottom="32dp"
                         android:textAlignment="center"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/launchStatusText"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/textView6"
+                        app:layout_constraintStart_toStartOf="@+id/launchStatusText"
                         app:layout_constraintTop_toBottomOf="@+id/launchStatusText"
                         app:layout_constraintVertical_bias="0.01999998" />
 
@@ -208,7 +196,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="32dp"
                         android:layout_marginEnd="16dp"
                         android:fontFamily="@font/ubuntu"
                         android:textAlignment="center"
