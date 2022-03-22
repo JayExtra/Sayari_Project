@@ -58,4 +58,10 @@
     <string name="mission_heading">Mission</string>
     <string name="launcher_heading">Launcher</string>
     <string name="crew_on_board_txt">Crew on-board</string>
+    <string name="livestream_available_text">Livestream available!</string>
+    <string name="spacecraft_heading_txt">Spacecraft</string>
+    <string name="agency_text">Agency</string>
+    <string name="participants_heading_text">Participants</string>
+    <string name="program_heading_txt">Program</string>
+    <string name="orbit_subtitle_txt">Orbit :</string>
 </resources>

@@ -22,8 +22,8 @@ class LaunchesViewModel @Inject constructor(
     private val _queryPassed = MutableLiveData<Event<String?>>()
     val queryPassed: LiveData<Event<String?>> get() = _queryPassed
 
-    private var _navigateToLaunchDetails = MutableLiveData<LaunchList>()
-    val navigateToLaunchDetails : LiveData<LaunchList> get() = _navigateToLaunchDetails
+    private var _navigateToLaunchDetails : MutableLiveData<LaunchList> = MutableLiveData()
+    val navigateToLaunchDetails get() = _navigateToLaunchDetails
 
     fun receiveQuery(query: String?) {
         _queryPassed.value = Event(query)
@@ -36,7 +36,6 @@ class LaunchesViewModel @Inject constructor(
         Log.d("LaunchesVm", "receivePreviousQuery: query : $query")
         _queryPreviousPassed.value = Event(query)
         Log.d("LaunchesVm", "receivePreviousQuery: observable value : ${_queryPreviousPassed.value?.getContentIfNotHandled().toString()}")
-
 
     }
 

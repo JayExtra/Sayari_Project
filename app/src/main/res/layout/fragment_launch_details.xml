@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dim_white"
     tools:context=".ui.launches.launchdetails.LaunchDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -15,14 +16,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/watchStreamButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/secondaryColor"
+                android:fontFamily="@font/ubuntu"
+                android:text="@string/watch_vutton_text"
+                android:textColor="#263238"
+                app:icon="@drawable/ic_play_circle_filled"
+                app:iconGravity="textEnd"
+                app:layout_constraintStart_toStartOf="@id/timerCard"
+                app:layout_constraintTop_toBottomOf="@id/timerCard"
+                tools:ignore="TextContrastCheck,TextContrastCheck" />
+
+            <Button
+                android:id="@+id/shareLaunchBtn"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="@string/share_button_string"
+                android:textColor="#DD2C00"
+                app:icon="@drawable/ic_baseline_share_24"
+                app:iconGravity="textEnd"
+                app:iconTint="@color/secondaryColor"
+                app:layout_constraintEnd_toEndOf="@id/timerCard"
+                app:layout_constraintStart_toEndOf="@id/watchStreamButton"
+                app:layout_constraintTop_toBottomOf="@id/timerCard"
+                app:strokeColor="@color/secondaryColor" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/timerCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:elevation="2dp"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +66,21 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/livestreamImageIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="64dp"
+                        android:src="@drawable/ic_baseline_live_tv_24"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/livestreamTextIndicator"
+                        app:layout_constraintEnd_toStartOf="@+id/livestreamTextIndicator"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/livestreamTextIndicator"
+                        tools:visibility="visible" />
+
                     <ProgressBar
                         android:id="@+id/probabilityProgress"
                         style="?android:attr/progressBarStyle"
@@ -60,25 +110,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/probability_txt"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="@+id/probabilityTxt"
                         app:layout_constraintStart_toStartOf="@+id/probabilityTxt"
                         app:layout_constraintTop_toBottomOf="@+id/probabilityTxt" />
 
                     <TextView
-                        android:id="@+id/textView44"
+                        android:id="@+id/countdwnTimerTxt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="24dp"
                         android:fontFamily="@font/ubuntu_medium"
                         android:text="@string/count_down_timer_text"
                         android:textAlignment="center"
-                        android:textColor="@color/secondaryColor"
+                        android:textColor="#EF6C00"
                         android:textSize="30sp"
                         app:layout_constraintBottom_toBottomOf="@+id/probabilityProgress"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/probabilityProgress"
                         app:layout_constraintTop_toTopOf="@+id/probabilityProgress"
-                        app:layout_constraintVertical_bias="0.38" />
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
                         android:id="@+id/textView45"
@@ -87,10 +139,10 @@
                         android:layout_height="wrap_content"
                         android:text="      d      h      m      s"
                         android:textAlignment="center"
-                        android:textColor="@color/secondaryColor"
-                        app:layout_constraintEnd_toEndOf="@+id/textView44"
-                        app:layout_constraintStart_toStartOf="@+id/textView44"
-                        app:layout_constraintTop_toBottomOf="@+id/textView44" />
+                        android:textColor="#EF6C00"
+                        app:layout_constraintEnd_toEndOf="@+id/countdwnTimerTxt"
+                        app:layout_constraintStart_toStartOf="@+id/countdwnTimerTxt"
+                        app:layout_constraintTop_toBottomOf="@+id/countdwnTimerTxt" />
 
                     <TextView
                         android:id="@+id/launchStatusText"
@@ -98,58 +150,84 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="32dp"
                         android:textAlignment="center"
                         android:textColor="@color/primaryColor"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/launchLocationTxt" />
+
+                    <TextView
+                        android:id="@+id/launchOrbitTxt"
+                        style="@style/Theme.SayariProject.TextAppearancePara"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="32dp"
+                        android:textAlignment="center"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/launchStatusText"
+                        app:layout_constraintStart_toStartOf="@+id/launchStatusText"
+                        app:layout_constraintTop_toBottomOf="@+id/launchStatusText"
+                        app:layout_constraintVertical_bias="0.01999998" />
+
+                    <TextView
+                        android:id="@+id/livestreamTextIndicator"
+                        style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="64dp"
+                        android:layout_marginBottom="32dp"
+                        android:text="@string/livestream_available_text"
+                        android:textAlignment="center"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/livestreamImageIndicator"
+                        app:layout_constraintTop_toBottomOf="@+id/launchOrbitTxt"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/launchLocationTxt"
+                        style="@style/Theme.SayariProject.TextAppearancePara"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/ubuntu"
+                        android:textAlignment="center"
+                        android:textColor="@color/primaryLightColor"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/probabilityProgress" />
+
+                    <TextView
+                        android:id="@+id/launchDetailsDateTxt"
+                        style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="@+id/textView45"
+                        app:layout_constraintStart_toStartOf="@+id/textView45"
+                        app:layout_constraintTop_toBottomOf="@+id/textView45" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-
-            <Button
-                android:id="@+id/watchStreamButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/secondaryColor"
-                android:fontFamily="@font/ubuntu"
-                android:text="@string/watch_vutton_text"
-                android:textColor="@color/white"
-                app:icon="@drawable/ic_play_circle_filled"
-                app:iconGravity="textEnd"
-                app:layout_constraintStart_toStartOf="@id/timerCard"
-                app:layout_constraintTop_toBottomOf="@id/timerCard" />
-
-            <Button
-                android:id="@+id/shareLaunchBtn"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/ubuntu"
-                android:text="@string/share_button_string"
-                android:textColor="@color/secondaryColor"
-                app:icon="@drawable/ic_baseline_share_24"
-                app:iconGravity="textEnd"
-                app:iconTint="@color/secondaryColor"
-                app:layout_constraintEnd_toEndOf="@id/timerCard"
-                app:layout_constraintStart_toEndOf="@id/watchStreamButton"
-                app:layout_constraintTop_toBottomOf="@id/timerCard"
-                app:strokeColor="@color/secondaryColor" />
 
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/missionCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/watchStreamButton">
@@ -372,7 +450,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
-                        android:text="Spacecraft"
+                        android:text="@string/spacecraft_heading_txt"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -417,6 +495,16 @@
                         app:layout_constraintStart_toStartOf="@+id/spacecraftStatusTxt"
                         app:layout_constraintTop_toBottomOf="@+id/spacecraftStatusTxt" />
 
+                    <TextView
+                        android:id="@+id/serialNumberTxt"
+                        style="@style/Theme.SayariProject.TextAppearancePara"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="@+id/spacecraftNameTxt"
+                        app:layout_constraintStart_toStartOf="@+id/spacecraftNameTxt"
+                        app:layout_constraintTop_toBottomOf="@+id/spacecraftNameTxt" />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/spacecraftImageCard"
                         android:layout_width="150dp"
@@ -453,16 +541,6 @@
                                 app:layout_constraintTop_toTopOf="@+id/spacecraftImageView" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:id="@+id/serialNumberTxt"
-                        style="@style/Theme.SayariProject.TextAppearancePara"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toEndOf="@+id/spacecraftNameTxt"
-                        app:layout_constraintStart_toStartOf="@+id/spacecraftNameTxt"
-                        app:layout_constraintTop_toBottomOf="@+id/spacecraftNameTxt" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
@@ -486,21 +564,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
-                        android:text="Agency"
+                        android:text="@string/agency_text"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/agencyImage"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_marginTop="8dp"
-                        android:src="@color/grey"
-                        app:civ_border_color="@color/primaryColor"
-                        app:civ_border_width="1dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView62" />
 
                     <TextView
                         android:id="@+id/launchAgencyNameTxt"
@@ -521,12 +587,23 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        android:text="TextView"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/launchAgencyNameTxt"
                         app:layout_constraintVertical_bias="0.01999998" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/agencyImage"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@color/grey"
+                        app:civ_border_color="@color/primaryColor"
+                        app:civ_border_width="1dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView62" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
@@ -551,7 +628,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
-                        android:text="Program"
+                        android:text="@string/program_heading_txt"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -573,7 +650,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Participants"
+                        android:text="@string/participants_heading_text"
                         app:layout_constraintStart_toStartOf="@+id/programDescTxt"
                         app:layout_constraintTop_toBottomOf="@+id/programDescTxt" />
 
@@ -603,9 +680,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/programCard"
                 app:layout_constraintStart_toStartOf="@id/programCard"
-                app:layout_constraintTop_toBottomOf="@id/programCard">
+                app:layout_constraintTop_toBottomOf="@id/programCard"
+                tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -662,19 +741,23 @@
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:fitsSystemWindows="true"
+            android:layout_height="wrap_content"
             app:contentScrim="@color/white"
             app:expandedTitleGravity="bottom"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:scrimAnimationDuration="300"
-            app:titleEnabled="false">
+            app:statusBarScrim="@color/white">
 
             <ImageView
+                android:id="@+id/launchImageView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@color/grey"/>
+                android:layout_height="350dp"
+                android:scaleType="centerCrop"
+                android:src="@color/grey"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7" />
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/launchToolbar"
@@ -682,7 +765,8 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_back"
-                app:subtitleTextColor="@color/primaryColor" />
+                app:subtitleTextColor="@color/white"
+                app:titleTextColor="@color/white" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

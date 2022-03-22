@@ -112,6 +112,11 @@ class MainActivity : AppCompatActivity() {
                     lockNavDrawer()
                     hideBottomNav()
                 }
+                R.id.launchDetailsFragment -> {
+                    hideTopBar()
+                    lockNavDrawer()
+                    hideBottomNav()
+                }
             }
         }
 
