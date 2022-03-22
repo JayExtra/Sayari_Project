@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -224,7 +225,8 @@ class UpcomingLaunchesFragment : Fragment() {
     }
 
     private fun navigateToLaunchDetails(launch : LaunchList){
-        mLaunchesViewModel.navigateToLaunchDetails(launch)
+       val action = LaunchesFragmentDirections.actionLaunchesFragmentToLaunchDetailsFragment(launch)
+        findNavController().navigate(action)
     }
 
 

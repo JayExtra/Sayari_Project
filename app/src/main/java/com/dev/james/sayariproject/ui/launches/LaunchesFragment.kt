@@ -42,8 +42,6 @@ class LaunchesFragment : Fragment() {
     ): View? {
         _binding = FragmentLaunchesBinding.inflate(inflater , container , false)
 
-        //collect navigation to launch details fragment requests
-        collectNavigationRequests()
         //setup controller and navHostFragment
         navController = findNavController()
         appBarConfiguration = AppBarConfiguration(
@@ -111,15 +109,6 @@ class LaunchesFragment : Fragment() {
 
     }
 
-    private fun collectNavigationRequests() {
-
-        mLaunchesViewModel.navigateToLaunchDetails.observe(viewLifecycleOwner , { launch ->
-            val action = LaunchesFragmentDirections.actionLaunchesFragmentToLaunchDetailsFragment(launch)
-            navController.navigate(action)
-
-        })
-
-    }
 
 
     /** private fun makeInitialLoad() {

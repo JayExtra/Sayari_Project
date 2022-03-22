@@ -6,6 +6,7 @@
     <color name="secondaryColor">#ff6f00</color>
     <color name="secondaryLightColor">#ffa040</color>
     <color name="secondaryDarkColor">#c43e00</color>
+    <color name="dim_white">#f7f7f7</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="white">#ffffff</color>
@@ -24,6 +25,7 @@
     <color name="baby_blue">#D7EEFF</color>
     <color name="twitter_button">#00acee</color>
     <color name="error_red">#fc0303</color>
+    <color name="prime_purple">#5b0675</color>
 
 
 </resources>
