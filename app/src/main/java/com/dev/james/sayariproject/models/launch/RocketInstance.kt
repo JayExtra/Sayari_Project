@@ -8,6 +8,8 @@ import kotlinx.parcelize.Parcelize
 data class RocketInstance(
     val id : Int,
     val name : String,
+    @SerializedName("full_name")
+    val fullName : String,
     val description : String,
     val family : String,
     val manufacturer : Manufacturer,
@@ -32,5 +34,13 @@ data class RocketInstance(
     @SerializedName("successful_launches")
     val successfulLaunches : Int,
     @SerializedName("failed_launches")
-    val failedLaunches : Int
+    val failedLaunches : Int,
+    @SerializedName("maiden_flight")
+    val maidenLaunch : String,
+    @SerializedName("launch_mass")
+    val launchMass : Int,
+    @SerializedName("consecutive_successful_launches")
+    val consecLaunches : Int,
+    @SerializedName("wiki_url")
+    val wikiUrl : String?
 ):Parcelable

@@ -5,8 +5,10 @@ import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dev.james.sayariproject.models.launch.LaunchList
+import com.dev.james.sayariproject.models.launch.RocketInstance
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.utilities.Event
+import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -22,8 +24,11 @@ class LaunchesViewModel @Inject constructor(
     private val _queryPassed = MutableLiveData<Event<String?>>()
     val queryPassed: LiveData<Event<String?>> get() = _queryPassed
 
-    private var _navigateToLaunchDetails : MutableLiveData<LaunchList> = MutableLiveData()
-    val navigateToLaunchDetails get() = _navigateToLaunchDetails
+    private val _rocketInstanceResponse : MutableStateFlow<NetworkResource<RocketInstance>> = MutableStateFlow(NetworkResource.Loading)
+    val rocketInstanceResponse get() = _rocketInstanceResponse.asStateFlow()
+
+  //  private var _navigateToLaunchDetails : MutableLiveData<LaunchList> = MutableLiveData()
+    //val navigateToLaunchDetails get() = _navigateToLaunchDetails
 
     fun receiveQuery(query: String?) {
         _queryPassed.value = Event(query)
@@ -39,9 +44,11 @@ class LaunchesViewModel @Inject constructor(
 
     }
 
-    fun navigateToLaunchDetails(launch : LaunchList) = viewModelScope.launch {
-        _navigateToLaunchDetails.postValue(launch)
+    fun getRocketInstance(id : Int) = viewModelScope.launch {
+        val rocketResponse = repository.getRocketInstance(id)
+        _rocketInstanceResponse.value = rocketResponse
     }
+
 
 
     lateinit var uiState : StateFlow<UiState>

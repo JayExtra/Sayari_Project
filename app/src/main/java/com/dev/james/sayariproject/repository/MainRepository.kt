@@ -15,6 +15,7 @@ import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.models.launch.LaunchList
+import com.dev.james.sayariproject.models.launch.RocketInstance
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -93,6 +94,11 @@ class MainRepository @Inject constructor(
     //returns response containing iss upcoming events
     override suspend fun getSpaceStationEvents(): NetworkResource<EventResponse> {
         return issDataSource.getSpaceStationEvents()
+    }
+
+    //returns a rocket instance
+    override suspend fun getRocketInstance(id: Int): NetworkResource<RocketInstance> {
+        return launchesDataSource.getRocketConfiguration(id)
     }
 
 }
