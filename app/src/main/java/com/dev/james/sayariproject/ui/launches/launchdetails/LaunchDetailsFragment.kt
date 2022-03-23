@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentLaunchDetailsBinding
+import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.Mission
 import com.dev.james.sayariproject.models.launch.RocketConfiguration
@@ -117,6 +118,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
         this.setUpLauncherCard()
 
+
         watchStreamButton.setOnClickListener {
             //check if stream is available
             if(args.stream){
@@ -164,13 +166,13 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
                         maidenFlightDateTxt.text = "Maiden launch : ${rocket.maidenLaunch}"
 
                         //load image
-                        binding?.let {
-                            Glide.with(it.root)
-                                .load(rocket.image)
-                                .placeholder(R.color.grey)
-                                .centerCrop()
-                                .transition(DrawableTransitionOptions.withCrossFade())
-                                .into(it.launcherImageView)
+                        binding?.let { Glide.with(it.root)
+                            .load(rocket.image)
+                            .placeholder(R.color.grey)
+                            .centerCrop()
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .into(it.launcherImageView)
+
                         }
 
                         learnMoreRocketBtn.setOnClickListener {
@@ -191,6 +193,11 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
             }
         }
+    }
+
+
+    private fun FragmentLaunchDetailsBinding.setUpAgencyCard(agency : Agency){
+
     }
 
     private fun FragmentLaunchDetailsBinding.setUpProbabilityBar(probability: Int?){

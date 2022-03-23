@@ -14,6 +14,7 @@ import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
+import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.RocketInstance
 import com.dev.james.sayariproject.utilities.NetworkResource
@@ -99,6 +100,10 @@ class MainRepository @Inject constructor(
     //returns a rocket instance
     override suspend fun getRocketInstance(id: Int): NetworkResource<RocketInstance> {
         return launchesDataSource.getRocketConfiguration(id)
+    }
+
+    override suspend fun getAgency(id: Int): NetworkResource<Agency> {
+        return launchesDataSource.getAgencyDetails(id)
     }
 
 }

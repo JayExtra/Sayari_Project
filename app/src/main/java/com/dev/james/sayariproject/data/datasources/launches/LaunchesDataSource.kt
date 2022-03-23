@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.dev.james.sayariproject.data.remote.paging.LaunchesPagingSource
 import com.dev.james.sayariproject.data.remote.service.LaunchApiService
+import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.RocketInstance
 import com.dev.james.sayariproject.repository.TopArticlesBaseRepo
@@ -28,5 +29,9 @@ class LaunchesDataSource @Inject constructor(
 
     override suspend fun getRocketConfiguration(id: Int): NetworkResource<RocketInstance> = safeApiCall {
         launchesApi.getRocketInstance(id)
+    }
+
+    override suspend fun getAgencyDetails(id: Int): NetworkResource<Agency> = safeApiCall{
+       launchesApi.getAgency(id)
     }
 }
