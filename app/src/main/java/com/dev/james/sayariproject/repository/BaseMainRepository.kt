@@ -8,7 +8,9 @@ import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
+import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
+import com.dev.james.sayariproject.models.launch.RocketInstance
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
 
@@ -45,5 +47,9 @@ interface BaseMainRepository {
     suspend fun getSpaceStation() : NetworkResource<IntSpaceStation>
 
     suspend fun getSpaceStationEvents() : NetworkResource<EventResponse>
+
+    suspend fun getRocketInstance(id : Int) : NetworkResource<RocketInstance>
+
+    suspend fun getAgency(id : Int) : NetworkResource<Agency>
 
 }

@@ -8,8 +8,10 @@
     tools:context=".ui.launches.launchdetails.LaunchDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_anchorGravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,19 +51,31 @@
                 app:layout_constraintTop_toBottomOf="@id/timerCard"
                 app:strokeColor="@color/secondaryColor" />
 
+            <ProgressBar
+                android:id="@+id/launchDetailsProgressBar"
+                style="@style/Theme.SayariProject.Horizontal.ProgressBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/timerCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:elevation="2dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/launchDetailsProgressBar">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -241,11 +255,22 @@
                         style="@style/Theme.SayariProject.TextAppearanceHeadings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/mission_heading"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/missionNameTxt"
+                        style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/textView46"
+                        app:layout_constraintTop_toBottomOf="@id/textView46" />
 
                     <TextView
                         android:id="@+id/missionTxt"
@@ -253,15 +278,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView46"
-                        app:layout_constraintTop_toBottomOf="@+id/textView46" />
+                        app:layout_constraintTop_toBottomOf="@+id/missionNameTxt" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/launcherCard"
@@ -276,12 +300,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <Button
+                        android:id="@+id/learnMoreRocketBtn"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="learn more"
+                        android:textAllCaps="false"
+                        android:textColor="@color/secondaryColor"
+                        app:layout_constraintEnd_toEndOf="@+id/launcherNameTxt"
+                        app:layout_constraintStart_toStartOf="@+id/launcherNameTxt"
+                        app:layout_constraintTop_toBottomOf="@+id/launcherNameTxt" />
+
                     <TextView
                         android:id="@+id/textView48"
                         style="@style/Theme.SayariProject.TextAppearanceHeadings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/launcher_heading"
                         app:layout_constraintStart_toStartOf="parent"
@@ -305,7 +342,7 @@
                         android:id="@+id/vehicleHeightTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/cardView4" />
@@ -347,6 +384,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/mass2LeoTxt"
                         app:layout_constraintTop_toBottomOf="@+id/mass2LeoTxt" />
 
@@ -355,7 +394,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/cardView4" />
 
@@ -395,8 +434,8 @@
                         android:id="@+id/cardView4"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginTop="8dp"
-                        app:cardCornerRadius="5dp"
+                        android:layout_marginTop="16dp"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="0dp"
                         app:layout_constraintStart_toStartOf="@+id/textView48"
                         app:layout_constraintTop_toBottomOf="@+id/textView48">
@@ -413,145 +452,23 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_image_placeholder"
+                                app:srcCompat="@color/grey"
                                 tools:ignore="ImageContrastCheck" />
 
-                            <ProgressBar
-                                android:id="@+id/progressBarLauncher"
-                                style="@style/Theme.SayariProject.CircularProgressBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintBottom_toBottomOf="@+id/launcherImageView"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/launcherImageView" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/spacecraftCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/launcherCard"
-                app:layout_constraintStart_toStartOf="@+id/launcherCard"
-                app:layout_constraintTop_toBottomOf="@+id/launcherCard">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/spacecraftHeadingTxt"
-                        style="@style/Theme.SayariProject.TextAppearanceHeadings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/spacecraft_heading_txt"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/spacecraftNameTxt"
-                        style="@style/Theme.SayariProject.TextAppearanceSubHeading"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/spacecraftImageCard"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/spacecraftImageCard"
-                        app:layout_constraintTop_toTopOf="@+id/spacecraftImageCard"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <TextView
-                        android:id="@+id/launchCrewCountTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/spacecraftImageCard" />
-
-                    <TextView
-                        android:id="@+id/spacecraftStatusTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintStart_toStartOf="@+id/launchCrewCountTxt"
-                        app:layout_constraintTop_toBottomOf="@+id/launchCrewCountTxt" />
-
-                    <TextView
-                        android:id="@+id/landingTimeTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/spacecraftStatusTxt"
-                        app:layout_constraintTop_toBottomOf="@+id/spacecraftStatusTxt" />
-
-                    <TextView
-                        android:id="@+id/serialNumberTxt"
-                        style="@style/Theme.SayariProject.TextAppearancePara"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toEndOf="@+id/spacecraftNameTxt"
-                        app:layout_constraintStart_toStartOf="@+id/spacecraftNameTxt"
-                        app:layout_constraintTop_toBottomOf="@+id/spacecraftNameTxt" />
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/spacecraftImageCard"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_marginTop="8dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintStart_toStartOf="@+id/spacecraftHeadingTxt"
-                        app:layout_constraintTop_toBottomOf="@+id/spacecraftHeadingTxt">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/spacecraftImageView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_image_placeholder"
-                                tools:ignore="ImageContrastCheck" />
-
-                            <ProgressBar
-                                android:id="@+id/progressBarSpacecraft"
-                                style="@style/Theme.SayariProject.CircularProgressBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintBottom_toBottomOf="@+id/spacecraftImageView"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/spacecraftImageView" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/agencyCard"
                 android:layout_width="0dp"
                 android:layout_height="400dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@id/spacecraftCard"
-                app:layout_constraintStart_toStartOf="@id/spacecraftCard"
-                app:layout_constraintTop_toBottomOf="@id/spacecraftCard">
+                app:layout_constraintEnd_toEndOf="@id/launcherCard"
+                app:layout_constraintStart_toStartOf="@id/launcherCard"
+                app:layout_constraintTop_toBottomOf="@+id/launcherCard">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -584,13 +501,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/launchAgencyNameTxt"
+                        app:layout_constraintTop_toBottomOf="@id/agencyServiceTypeTxt"
                         app:layout_constraintVertical_bias="0.01999998" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -604,15 +521,26 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView62" />
+
+                    <TextView
+                        android:id="@+id/agencyServiceTypeTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ubuntu"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="@+id/launchAgencyNameTxt"
+                        app:layout_constraintStart_toStartOf="@+id/launchAgencyNameTxt"
+                        app:layout_constraintTop_toBottomOf="@+id/launchAgencyNameTxt" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/programCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/agencyCard"
                 app:layout_constraintStart_toStartOf="@id/agencyCard"
                 app:layout_constraintTop_toBottomOf="@id/agencyCard">
@@ -638,11 +566,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/programHeading" />
+                        app:layout_constraintTop_toBottomOf="@+id/programTitleTxt" />
 
                     <TextView
                         android:id="@+id/textView66"
@@ -661,7 +589,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="1dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="24dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -671,52 +599,14 @@
                         app:layout_constraintVertical_bias="0.0"
                         tools:listitem="@layout/single_crew_member_card" />
 
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/crewCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@id/programCard"
-                app:layout_constraintStart_toStartOf="@id/programCard"
-                app:layout_constraintTop_toBottomOf="@id/programCard"
-                tools:visibility="visible">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
                     <TextView
-                        android:id="@+id/textView67"
-                        style="@style/Theme.SayariProject.TextAppearanceHeadings"
+                        android:id="@+id/programTitleTxt"
+                        style="@style/Theme.SayariProject.TextAppearanceSubHeading"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="@string/crew_on_board_txt"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/launchCrewRv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="1dp"
-                        android:layout_marginBottom="16dp"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView67"
-                        app:layout_constraintVertical_bias="0.0"
-                        tools:listitem="@layout/single_crew_member_card" />
+                        app:layout_constraintStart_toStartOf="@+id/programHeading"
+                        app:layout_constraintTop_toBottomOf="@+id/programHeading" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -757,16 +647,17 @@
                 android:scaleType="centerCrop"
                 android:src="@color/grey"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.7" />
+                app:layout_collapseParallaxMultiplier="0.7"
+                android:foreground="#96222f3e"
+                android:foregroundTintMode="src_atop"
+                />
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/launchToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:subtitleTextColor="@color/white"
-                app:titleTextColor="@color/white" />
+                app:navigationIcon="@drawable/ic_arrow_back"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
