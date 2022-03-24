@@ -31,8 +31,6 @@ import com.dev.james.sayariproject.databinding.FragmentLaunchDetailsBinding
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.Mission
-import com.dev.james.sayariproject.models.launch.RocketConfiguration
-import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,13 +62,24 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         _binding = FragmentLaunchDetailsBinding.inflate(inflater , container , false)
         val args = arguments.launch
         binding?.setUpUi(args)
+        getRocketConfiguration(args)
+        getAgencyDetails(args)
         return binding?.root
+    }
+
+    private fun getAgencyDetails(args: LaunchList) {
+        //get agency details
+        args.serviceProvider?.id?.let { mLaunchesViewModel.getAgencyResponse(it) }
+    }
+
+    private fun getRocketConfiguration(args: LaunchList) {
+        //get rocket instance
+        args.rocket?.configuration?.let { mLaunchesViewModel.getRocketInstance(it.id) }
     }
 
     private fun FragmentLaunchDetailsBinding.setUpUi(args: LaunchList) {
 
-        //get rocket instance
-        args.rocket?.configuration?.let { mLaunchesViewModel.getRocketInstance(it.id) }
+
 
 
         //setup controller and navHostFragment
@@ -94,7 +103,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         val orbit = args.mission?.orbit?.name ?: "No orbit provided yet"
         launchOrbitTxt.text = orbit
 
-        launchLocationTxt.text = args.pad.location.name
+        launchLocationTxt.text = "${args.pad.location.name} | ${args.pad.name}"
 
         livestreamImageIndicator.isVisible = args.stream
 
@@ -117,6 +126,9 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         this.setUpMissionCard(args.mission)
 
         this.setUpLauncherCard()
+
+        this.setUpAgencyCard()
+
 
 
         watchStreamButton.setOnClickListener {
@@ -196,8 +208,46 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
     }
 
 
-    private fun FragmentLaunchDetailsBinding.setUpAgencyCard(agency : Agency){
+    private fun FragmentLaunchDetailsBinding.setUpAgencyCard(){
+        lifecycleScope.launchWhenStarted {
+            mLaunchesViewModel.agencyInstanceResponse.collectLatest { response ->
+                when(response){
+                    is NetworkResource.Loading -> {
+                        launchDetailsProgressBar.isVisible = true
+                    }
+                    is NetworkResource.Success -> {
+                        launchDetailsProgressBar.isVisible = false
 
+                        val agency = response.value
+
+                        launchAgencyNameTxt.text = agency.name
+                        agencyServiceTypeTxt.text = agency.type
+                        agencyDescriptionTxt.text = agency.description
+
+                        loadAgencyImage(agency)
+                    }
+
+                    is NetworkResource.Failure -> {
+                        val error = response.errorBody
+                        error?.let {
+                            Toast.makeText(requireContext(), "could not fetch agency details. Exited with error: ${it.toString()}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun loadAgencyImage(agency: Agency) {
+        binding?.let {
+            Glide.with(it.root)
+                .load(agency.logo)
+                .centerCrop()
+                .placeholder(R.drawable.sayari_logo2)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(it.agencyImage)
+        }
     }
 
     private fun FragmentLaunchDetailsBinding.setUpProbabilityBar(probability: Int?){
