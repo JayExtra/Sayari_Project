@@ -557,7 +557,7 @@
                         style="@style/Theme.SayariProject.TextAppearanceHeadings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/program_heading_txt"
                         app:layout_constraintStart_toStartOf="parent"
@@ -568,9 +568,9 @@
                         style="@style/Theme.SayariProject.TextAppearancePara"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/programTitleTxt" />
@@ -580,7 +580,7 @@
                         style="@style/Theme.SayariProject.TextAppearanceDimCards"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:text="@string/participants_heading_text"
                         app:layout_constraintStart_toStartOf="@+id/programDescTxt"
                         app:layout_constraintTop_toBottomOf="@+id/programDescTxt" />
@@ -647,13 +647,12 @@
                 android:id="@+id/launchImageView"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
+                android:foreground="#96222f3e"
+                android:foregroundTintMode="src_atop"
                 android:scaleType="centerCrop"
                 android:src="@color/grey"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.7"
-                android:foreground="#96222f3e"
-                android:foregroundTintMode="src_atop"
-                />
+                app:layout_collapseParallaxMultiplier="0.7" />
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/launchToolbar"
