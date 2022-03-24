@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
+import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dev.james.sayariproject.R
@@ -31,6 +33,7 @@ import com.dev.james.sayariproject.databinding.FragmentLaunchDetailsBinding
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.Mission
+import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +53,8 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
     private val arguments : LaunchDetailsFragmentArgs by navArgs()
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private val partnerRcAdapter = AgencyListRecyclerAdapter()
 
     private var countDownTimer: CountDownTimer? = null
 
@@ -79,9 +84,6 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
     private fun FragmentLaunchDetailsBinding.setUpUi(args: LaunchList) {
 
-
-
-
         //setup controller and navHostFragment
         navController = findNavController()
         appBarConfiguration = AppBarConfiguration(
@@ -97,6 +99,12 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         }
 
         Log.d("LaunchDetails", "setUpUi: argument: ${args.toString()} ")
+
+        programParticipantsRv.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = partnerRcAdapter
+        }
     }
 
     private fun FragmentLaunchDetailsBinding.setUpTimerCard(args : LaunchList){
@@ -129,6 +137,8 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
         this.setUpAgencyCard()
 
+        this.setUpProgramCard(args)
+
 
 
         watchStreamButton.setOnClickListener {
@@ -151,6 +161,39 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
 
     }
+
+    private fun FragmentLaunchDetailsBinding.setUpProgramCard(args: LaunchList){
+        //setup card
+        val programs = args.program
+
+        when {
+            programs.isEmpty() -> {
+                programCard.isGone = true
+            }
+            programs.size > 1 -> {
+                programTitleTxt.text = "${programs[0].name} | ${programs[1].name}"
+
+                val programDescription = programs[0].description + programs[1].description
+                programDescTxt.text = programDescription
+
+                val agenciesList = programs[0].agencies
+
+                partnerRcAdapter.submitList(agenciesList)
+
+            }
+            else -> {
+                programTitleTxt.text = programs[0].name
+
+                val programDescription = programs[0].description
+                programDescTxt.text = programDescription
+            }
+        }
+
+
+
+
+    }
+
 
     private fun FragmentLaunchDetailsBinding.setUpLauncherCard(){
         lifecycleScope.launchWhenStarted {
