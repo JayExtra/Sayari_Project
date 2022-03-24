@@ -11,6 +11,7 @@ data class Agency(
     val name : String,
     val abbrev : String,
     val type : String,
+    val description : String,
     @SerializedName("country_code")
     val code : String,
     @SerializedName("logo_url")

@@ -464,7 +464,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/agencyCard"
                 android:layout_width="0dp"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@id/launcherCard"
                 app:layout_constraintStart_toStartOf="@id/launcherCard"
@@ -490,9 +490,12 @@
                         style="@style/Theme.SayariProject.TextAppearanceSubHeading"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toEndOf="@+id/agencyImage"
-                        app:layout_constraintStart_toStartOf="@+id/agencyImage"
+                        android:layout_marginEnd="16dp"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/agencyImage" />
 
                     <TextView
@@ -502,13 +505,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/agencyServiceTypeTxt"
-                        app:layout_constraintVertical_bias="0.01999998" />
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/agencyServiceTypeTxt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ubuntu"
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="@+id/launchAgencyNameTxt"
+                        app:layout_constraintStart_toStartOf="@+id/launchAgencyNameTxt"
+                        app:layout_constraintTop_toBottomOf="@+id/launchAgencyNameTxt" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/agencyImage"
@@ -521,16 +534,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView62" />
-
-                    <TextView
-                        android:id="@+id/agencyServiceTypeTxt"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ubuntu"
-                        android:textAlignment="center"
-                        app:layout_constraintEnd_toEndOf="@+id/launchAgencyNameTxt"
-                        app:layout_constraintStart_toStartOf="@+id/launchAgencyNameTxt"
-                        app:layout_constraintTop_toBottomOf="@+id/launchAgencyNameTxt" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
