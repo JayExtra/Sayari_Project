@@ -538,7 +538,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:fontFamily="@font/ubuntu_medium"
-                    android:text="crew onboard : 7"
                     android:textColor="@color/primaryColor"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="@+id/expCommanderCard"

@@ -591,13 +591,22 @@ class IssFragment : Fragment() {
         val astroInsta = bottomSheetView.findViewById<ImageView>(R.id.instagramIcon)
         val astroWiki = bottomSheetView.findViewById<ImageView>(R.id.astroWikipediaImgView)
         val closeDialog = bottomSheetView.findViewById<TextView>(R.id.closeDialogTxt)
+        val totalFlightsTxt = bottomSheetView.findViewById<TextView>(R.id.totalFlightsCountTxt)
+        val totalLandingsTxt = bottomSheetView.findViewById<TextView>(R.id.totalLandingsCountTxt)
+
+        //total count
+        totalFlightsTxt.text = astronaut.flights.size.toString()
+        //total landings
+        totalLandingsTxt.text = astronaut.landings.size.toString()
+
+        Log.d("IssFrag", "showAstronautDialog: ${astronaut.landings}")
 
         //setup the rest of the views
         astroNameTv.text = astronaut.name
         astroAgencyTv.text = astronaut.agency.name
         astroStatusTv.text = astronaut.status.name
-        astroDobTv.text = astronaut.date_of_birth
-        astroCountryTv.text = astronaut.nationality
+        astroDobTv.text = "DoB: ${astronaut.date_of_birth}"
+        astroCountryTv.text = "Nationality: ${astronaut.nationality}"
         astroBioTv.text = astronaut.bio
         setImage(astronaut , astroImageView)
 

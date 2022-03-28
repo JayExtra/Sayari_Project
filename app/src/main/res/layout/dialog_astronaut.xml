@@ -11,12 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:src="@drawable/ic_icon_twitter_dark"
         app:layout_constraintEnd_toStartOf="@+id/instagramIcon"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/astroStatusTxt"
-        app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt"
-        app:srcCompat="@drawable/ic_twitter_icon"
-        app:tint="@color/primaryColor" />
+        app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt" />
 
     <ImageView
         android:id="@+id/instagramIcon"
@@ -27,21 +25,19 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/twitterIcon"
         app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt"
-        app:srcCompat="@drawable/ic_iinstagram"
-        app:tint="@color/primaryColor" />
+        android:src="@drawable/ic_iinstagram" />
 
     <ImageView
         android:id="@+id/astroWikipediaImgView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/ic_wikipedia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/instagramIcon"
-        app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt"
-        app:srcCompat="@drawable/ic_wikipedia"
-        app:tint="@color/primaryColor" />
+        app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt" />
 
     <TextView
         android:id="@+id/closeDialogTxt"
@@ -98,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="54dp"
         android:text="0"
         android:textSize="34sp"
         app:layout_constraintEnd_toStartOf="@+id/totalLandingsCountTxt"
@@ -111,7 +107,7 @@
         style="@style/Theme.SayariProject.StatisticsDigits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="54dp"
         android:layout_marginEnd="32dp"
         android:text="0"
         android:textSize="34sp"
@@ -173,15 +169,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/closeDialogTxt" />
 
-    <TextView
-        android:id="@+id/astroBioTxt"
-        style="@style/Theme.SayariProject.TextAppearancePara"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="39dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/astroCountryTxt"
-        app:layout_constraintTop_toBottomOf="@+id/astroCountryTxt" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/astroCountryTxt"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/astroBioTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
