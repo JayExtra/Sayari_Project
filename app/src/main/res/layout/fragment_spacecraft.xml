@@ -54,7 +54,7 @@
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/craftImage" />
+                app:layout_constraintTop_toBottomOf="@+id/craftImg" />
 
             <TextView
                 android:id="@+id/humanRatedTxt"
@@ -297,7 +297,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/aboutCrftTxt" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/craftImage"
+                android:id="@+id/craftImg"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:src="@color/grey"
@@ -405,10 +405,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminateTint="@color/secondaryColor"
-                app:layout_constraintBottom_toBottomOf="@+id/craftImage"
-                app:layout_constraintEnd_toEndOf="@+id/craftImage"
-                app:layout_constraintStart_toStartOf="@+id/craftImage"
-                app:layout_constraintTop_toTopOf="@+id/craftImage" />
+                app:layout_constraintBottom_toBottomOf="@+id/craftImg"
+                app:layout_constraintEnd_toEndOf="@+id/craftImg"
+                app:layout_constraintStart_toStartOf="@+id/craftImg"
+                app:layout_constraintTop_toTopOf="@+id/craftImg" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

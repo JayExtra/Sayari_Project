@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.data.datasources.iss
 
+import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
@@ -11,4 +12,7 @@ interface BaseIssDataSource {
 
     //get space station events
     suspend fun getSpaceStationEvents() : NetworkResource<EventResponse>
+
+    //get astronaut data
+    suspend fun getAstronaut(id : Int) : NetworkResource<Astronaut>
 }

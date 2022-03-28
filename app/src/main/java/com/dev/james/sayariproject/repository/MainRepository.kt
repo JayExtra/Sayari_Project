@@ -10,6 +10,7 @@ import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSourc
 import com.dev.james.sayariproject.data.datasources.iss.BaseIssDataSource
 import com.dev.james.sayariproject.data.datasources.iss.IssDataSource
 import com.dev.james.sayariproject.models.articles.Article
+import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
@@ -104,6 +105,10 @@ class MainRepository @Inject constructor(
 
     override suspend fun getAgency(id: Int): NetworkResource<Agency> {
         return launchesDataSource.getAgencyDetails(id)
+    }
+
+    override suspend fun getAstronaut(id: Int): NetworkResource<Astronaut> {
+        return issDataSource.getAstronaut(id)
     }
 
 }

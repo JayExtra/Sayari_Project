@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.dev.james.sayariproject.data.datasources.discover.IMAGE_LIMIT
 import com.dev.james.sayariproject.di.modules.EventsRetrofitResponse
 import com.dev.james.sayariproject.models.articles.Article
+import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
@@ -51,5 +52,7 @@ interface BaseMainRepository {
     suspend fun getRocketInstance(id : Int) : NetworkResource<RocketInstance>
 
     suspend fun getAgency(id : Int) : NetworkResource<Agency>
+
+    suspend fun getAstronaut(id : Int) : NetworkResource<Astronaut>
 
 }

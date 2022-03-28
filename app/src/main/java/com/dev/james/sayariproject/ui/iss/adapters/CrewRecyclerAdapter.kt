@@ -17,7 +17,9 @@ import com.dev.james.sayariproject.databinding.SingleCrewMemberCardBinding
 import com.dev.james.sayariproject.models.iss.Astronaut
 import com.dev.james.sayariproject.models.iss.Crew
 
-class CrewRecyclerAdapter : ListAdapter<Crew, CrewRecyclerAdapter.CrewViewHolder>(DiffCallBack()) {
+class CrewRecyclerAdapter(
+    private val action : (Int) -> Unit
+) : ListAdapter<Crew, CrewRecyclerAdapter.CrewViewHolder>(DiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrewViewHolder {
         val binding = SingleCrewMemberCardBinding.inflate(LayoutInflater.from(parent.context) , parent , false)
@@ -43,7 +45,13 @@ class CrewRecyclerAdapter : ListAdapter<Crew, CrewRecyclerAdapter.CrewViewHolder
                 astroNameTxt.text = crew.astronaut.name
                 astroAgency.text = crew.astronaut.agency.name
                 roleTxt.text = crew.role.role
+
+                binding.root.setOnClickListener {
+                    action.invoke(crew.astronaut.id)
+                }
             }
+
+
         }
 
         private fun loadImage(binding: SingleCrewMemberCardBinding, astronaut: Astronaut) {

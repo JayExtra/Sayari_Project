@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/top_corner_radius">
+
+    <ImageView
+        android:id="@+id/twitterIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/instagramIcon"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/astroStatusTxt"
+        app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt"
+        app:srcCompat="@drawable/ic_twitter_icon"
+        app:tint="@color/primaryColor" />
+
+    <ImageView
+        android:id="@+id/instagramIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/astroWikipediaImgView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/twitterIcon"
+        app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt"
+        app:srcCompat="@drawable/ic_iinstagram"
+        app:tint="@color/primaryColor" />
+
+    <ImageView
+        android:id="@+id/astroWikipediaImgView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/instagramIcon"
+        app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt"
+        app:srcCompat="@drawable/ic_wikipedia"
+        app:tint="@color/primaryColor" />
+
+    <TextView
+        android:id="@+id/closeDialogTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/ubuntu"
+        android:text="close"
+        android:textAllCaps="false"
+        android:textColor="@color/secondaryColor"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/astronautNameTxt"
+        style="@style/Theme.SayariProject.TextAppearanceHeadings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/astronautImage"
+        app:layout_constraintTop_toTopOf="@+id/astronautImage" />
+
+    <TextView
+        android:id="@+id/astroAgencyTxt"
+        style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/sub_grey"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/astronautNameTxt"
+        app:layout_constraintStart_toStartOf="@+id/astronautNameTxt"
+        app:layout_constraintTop_toBottomOf="@+id/astronautNameTxt" />
+
+    <TextView
+        android:id="@+id/astroStatusTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu"
+        android:textColor="@color/sub_grey"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/astroAgencyTxt"
+        app:layout_constraintStart_toStartOf="@+id/astroAgencyTxt"
+        app:layout_constraintTop_toBottomOf="@+id/astroAgencyTxt" />
+
+    <TextView
+        android:id="@+id/totalFlightsCountTxt"
+        style="@style/Theme.SayariProject.StatisticsDigits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="0"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@+id/totalLandingsCountTxt"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/astronautImage" />
+
+    <TextView
+        android:id="@+id/totalLandingsCountTxt"
+        style="@style/Theme.SayariProject.StatisticsDigits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="0"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/totalFlightsCountTxt"
+        app:layout_constraintTop_toBottomOf="@+id/astronautImage" />
+
+    <TextView
+        android:id="@+id/textView52"
+        style="@style/Theme.SayariProject.StatisticsDigits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flights"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/totalFlightsCountTxt"
+        app:layout_constraintStart_toStartOf="@+id/totalFlightsCountTxt"
+        app:layout_constraintTop_toBottomOf="@+id/totalFlightsCountTxt" />
+
+    <TextView
+        android:id="@+id/textView53"
+        style="@style/Theme.SayariProject.StatisticsDigits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Landings"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/totalLandingsCountTxt"
+        app:layout_constraintStart_toStartOf="@+id/totalLandingsCountTxt"
+        app:layout_constraintTop_toBottomOf="@+id/totalLandingsCountTxt" />
+
+    <TextView
+        android:id="@+id/astroDobTxt"
+        style="@style/Theme.SayariProject.TextAppearancePara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView52" />
+
+    <TextView
+        android:id="@+id/astroCountryTxt"
+        style="@style/Theme.SayariProject.TextAppearancePara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/astroDobTxt"
+        app:layout_constraintTop_toBottomOf="@+id/astroDobTxt" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/astronautImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:src="@color/grey"
+        app:civ_border_color="@color/primaryColor"
+        app:civ_border_width="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/closeDialogTxt" />
+
+    <TextView
+        android:id="@+id/astroBioTxt"
+        style="@style/Theme.SayariProject.TextAppearancePara"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/astroCountryTxt"
+        app:layout_constraintTop_toBottomOf="@+id/astroCountryTxt" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
