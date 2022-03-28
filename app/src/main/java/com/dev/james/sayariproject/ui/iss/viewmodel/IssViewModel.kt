@@ -3,13 +3,16 @@ package com.dev.james.sayariproject.ui.iss.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.utilities.Event
 import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -35,6 +38,10 @@ class IssViewModel @Inject constructor(
     private var _selectedChip : MutableLiveData<Event<String>> = MutableLiveData()
     val selectedChip get() = _selectedChip
 
+    //observer for the astronaut details
+    private var _showAstronaut : MutableSharedFlow<NetworkResource<Astronaut>> = MutableSharedFlow()
+    val showAstronaut get() = _showAstronaut.asSharedFlow()
+
     //get iss response from api using repository
     init {
       viewModelScope.launch {
@@ -48,6 +55,11 @@ class IssViewModel @Inject constructor(
 
     fun getSelectedChip(chip : String) {
         _selectedChip.value = Event(chip)
+    }
+
+    fun getAstronaut(id : Int) = viewModelScope.launch {
+        val astronaut = repository.getAstronaut(id)
+        _showAstronaut.emit(astronaut)
     }
 
     fun getDockedVehiclesStatistics(value: IntSpaceStation) = viewModelScope.launch{

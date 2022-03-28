@@ -2,6 +2,7 @@ package com.dev.james.sayariproject.data.datasources.iss
 
 import com.dev.james.sayariproject.data.remote.service.EventsApiService
 import com.dev.james.sayariproject.data.remote.service.LaunchApiService
+import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.repository.TopArticlesBaseRepo
@@ -19,6 +20,11 @@ class IssDataSource @Inject constructor(
     override suspend fun getSpaceStationEvents() = safeApiCall {
         eventsApi.getAllEvents(null , EVENTS_OFFSET , EVENTS_LIMIT , PROGRAM_ID)
     }
+
+    override suspend fun getAstronaut(id: Int): NetworkResource<Astronaut> = safeApiCall {
+        api.getAstronaut(id)
+    }
+
 
 }
 private const val EVENTS_LIMIT = 10

@@ -156,7 +156,7 @@ class SpaceCraftFragment : Fragment() {
                         return false
                     }
                 })
-                .into(it.craftImage)
+                .into(it.craftImg)
         }
     }
 

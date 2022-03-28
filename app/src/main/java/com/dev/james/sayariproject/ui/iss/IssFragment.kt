@@ -16,6 +16,7 @@ import android.transition.Transition
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
@@ -28,12 +29,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentIssBinding
+import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.iss.FlightVehicle
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.ui.iss.adapters.CrewRecyclerAdapter
@@ -42,6 +46,7 @@ import com.dev.james.sayariproject.ui.iss.adapters.IssEventsRecyclerAdapter
 import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.ui.iss.viewmodel.IssViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,7 +70,14 @@ class IssFragment : Fragment() {
 
     private val issViewModel: IssViewModel by viewModels()
 
-    private val crewRcAdapter = CrewRecyclerAdapter()
+    private val crewRcAdapter = CrewRecyclerAdapter{ astroId ->
+        getAstronaut(astroId)
+    }
+
+    private fun getAstronaut(astroId: Int) {
+        issViewModel.getAstronaut(astroId)
+    }
+
     private val partnerRcAdapter = PartnersRecyclerView()
     private val dockedVehiclesAdapter = DockedVehiclesAdapter { vehicle ->
         vehicle?.let {
@@ -172,6 +184,8 @@ class IssFragment : Fragment() {
                 dockedCapTxt.text = dockedVehiclesStats.totalDockedVehicles.toString()
 
         })
+
+        collectAstronautSharedFlow()
     }
 
     private fun FragmentIssBinding.observeChipSelection() {
@@ -519,6 +533,96 @@ class IssFragment : Fragment() {
         Log.d("IssFrag", "navigateToVehicleFragment: vehicle => ${vehicle.toString()} ")
         val action = IssFragmentDirections.actionIssFragment2ToSpaceCraftFragment(vehicle)
         findNavController().navigate(action)
+
+    }
+
+    private fun collectAstronautSharedFlow(){
+        //collect astronaut data and show dialog
+        lifecycleScope.launchWhenStarted {
+            issViewModel.showAstronaut.collectLatest { resource ->
+                when(resource){
+                    is NetworkResource.Loading -> {
+                        //show some loading bar but for now no need
+                        Log.d("IssFrag", "collectAstronautSharedFlow: fetching astronaut data... ")
+                    }
+                    is NetworkResource.Success -> {
+                        //show dialog
+                        showAstronautDialog(resource.value)
+                    }
+                    is NetworkResource.Failure -> {
+                        val error = resource.errorBody
+                        error?.let {
+                            binding?.root?.let { it1 ->
+                                Snackbar.make(
+                                    it1,
+                                    "could not get astronaut data : $error",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    private fun showAstronautDialog(astronaut: Astronaut) {
+        //launch dialog
+        val bottomSheetDialog = BottomSheetDialog(
+            requireContext(),
+            R.style.BottomSheetDialogTheme
+        )
+        val bottomSheetView = LayoutInflater.from(activity?.applicationContext).inflate(
+            R.layout.dialog_astronaut,
+            binding?.root ,
+            false
+        )
+
+        val astroImageView = bottomSheetView.findViewById<ImageView>(R.id.astronautImage)
+        val astroNameTv = bottomSheetView.findViewById<TextView>(R.id.astronautNameTxt)
+        val astroAgencyTv = bottomSheetView.findViewById<TextView>(R.id.astroAgencyTxt)
+        val astroStatusTv = bottomSheetView.findViewById<TextView>(R.id.astroStatusTxt)
+        val astroDobTv = bottomSheetView.findViewById<TextView>(R.id.astroDobTxt)
+        val astroCountryTv = bottomSheetView.findViewById<TextView>(R.id.astroCountryTxt)
+        val astroBioTv = bottomSheetView.findViewById<TextView>(R.id.astroBioTxt)
+        val astroTwitter = bottomSheetView.findViewById<ImageView>(R.id.twitterIcon)
+        val astroInsta = bottomSheetView.findViewById<ImageView>(R.id.instagramIcon)
+        val astroWiki = bottomSheetView.findViewById<ImageView>(R.id.astroWikipediaImgView)
+        val closeDialog = bottomSheetView.findViewById<TextView>(R.id.closeDialogTxt)
+
+        //setup the rest of the views
+        astroNameTv.text = astronaut.name
+        astroAgencyTv.text = astronaut.agency.name
+        astroStatusTv.text = astronaut.status.name
+        astroDobTv.text = astronaut.date_of_birth
+        astroCountryTv.text = astronaut.nationality
+        astroBioTv.text = astronaut.bio
+        setImage(astronaut , astroImageView)
+
+        closeDialog.setOnClickListener {
+            //close dialog
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.show()
+
+    }
+
+    private fun setImage(astronaut: Astronaut, astroImageView: ImageView?) {
+
+        astroImageView?.let {
+            Glide.with(requireContext())
+                .load(astronaut.profile_image)
+                .centerCrop()
+                .placeholder(R.drawable.sayari_logo2)
+                .error(R.color.grey)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(it)
+        }
+
 
     }
 
