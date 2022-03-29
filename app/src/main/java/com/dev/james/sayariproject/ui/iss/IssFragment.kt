@@ -1,12 +1,9 @@
 package com.dev.james.sayariproject.ui.iss
 
 import android.animation.ValueAnimator
-import android.app.Dialog
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -18,6 +15,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -29,7 +27,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -56,7 +53,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -76,6 +72,7 @@ class IssFragment : Fragment() {
 
     private fun getAstronaut(astroId: Int) {
         issViewModel.getAstronaut(astroId)
+        Toast.makeText(requireContext(), "showing astronaut details..", Toast.LENGTH_LONG).show()
     }
 
     private val partnerRcAdapter = PartnersRecyclerView()
@@ -569,6 +566,7 @@ class IssFragment : Fragment() {
     }
 
     private fun showAstronautDialog(astronaut: Astronaut) {
+
         //launch dialog
         val bottomSheetDialog = BottomSheetDialog(
             requireContext(),
@@ -599,7 +597,8 @@ class IssFragment : Fragment() {
         //total landings
         totalLandingsTxt.text = astronaut.landings.size.toString()
 
-        Log.d("IssFrag", "showAstronautDialog: ${astronaut.landings}")
+   //     Log.d("IssFrag", "showAstronautDialog: ${astronaut.landings}")
+        Log.d("IssFrag", "showAstronautDialog: ${astronaut.instagram}")
 
         //setup the rest of the views
         astroNameTv.text = astronaut.name
@@ -615,9 +614,64 @@ class IssFragment : Fragment() {
             bottomSheetDialog.dismiss()
         }
 
+        astroInsta.setOnClickListener{
+            val profileUrl = astronaut.instagram
+            if(profileUrl!=null){
+                goToInstagram(profileUrl)
+            }else{
+                Toast.makeText(requireContext(), "${astronaut.name} does not have an instagram account", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
+        astroTwitter.setOnClickListener {
+            //show twitter profile
+            if(astronaut.twitter != null){
+                goToTwitter(astronaut.twitter)
+                Log.d("IssFrag", "showAstronautDialog: twitter profile: ${astronaut.twitter}")
+            }else{
+                Toast.makeText(requireContext(), "${astronaut.name} does not have a twitter account", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        astroWiki.setOnClickListener {
+            //go to astronaut wiki page
+            goToWikiPage(astronaut.wiki)
+        }
+
         bottomSheetDialog.setContentView(bottomSheetView)
         bottomSheetDialog.show()
 
+    }
+
+    private fun goToTwitter(profileUrl: String) {
+        //launch twitter web or app if installed
+      val username = profileUrl.substring(profileUrl.lastIndexOf("/") + 1)
+        Log.d("IssFrag", "goToTwitter: username = $username  ")
+        try{
+            requireContext().packageManager.getPackageInfo("com.twitter.android", 0)
+            val twitterIntent = Intent().apply {
+                this.action = Intent.ACTION_VIEW
+                this.data = Uri.parse("twitter://user?screen_name=$username")
+                this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(twitterIntent)
+        }catch (e : PackageManager.NameNotFoundException) {
+            Log.d("IssFrag", "goToTwitter: no twitter app found. $e")
+            val twitterWebIntent = Intent().apply {
+                this.data = Uri.parse(profileUrl)
+            }
+            Toast.makeText(requireContext(), "opening twitter web", Toast.LENGTH_SHORT).show()
+            startActivity(twitterWebIntent)
+        }
+    }
+
+    private fun goToWikiPage(wikiUrl : String){
+        val wikiWebIntent = Intent().apply {
+            this.data = Uri.parse(wikiUrl)
+        }
+        Toast.makeText(requireContext(), "opening wikipedia page", Toast.LENGTH_SHORT).show()
+        startActivity(wikiWebIntent)
     }
 
     private fun setImage(astronaut: Astronaut, astroImageView: ImageView?) {
@@ -632,6 +686,39 @@ class IssFragment : Fragment() {
                 .into(it)
         }
 
+
+    }
+
+    private fun goToInstagram(url : String){
+        //start intent to instagram app , if not installed go to browser web app
+        val pm = requireContext().packageManager
+
+        try{
+            if(pm.getPackageInfo("com.instagram.android",0) != null){
+                var newUrl = url
+                if(newUrl.endsWith("/")){
+                    newUrl = url.substring(0,url.length - 1)
+                }
+                val username = newUrl.substring(newUrl.lastIndexOf("/") + 1)
+                Log.d("IssFrag", "goToInstagram: $username")
+                val instaIntent = Intent().apply{
+                    this.action = Intent.ACTION_VIEW
+                    this.data = Uri.parse("http://instagram.com/_u/$username")
+                    this.`package` = "com.instagram.android"
+                }
+                Toast.makeText(requireContext(), "opening instagram app", Toast.LENGTH_SHORT).show()
+                startActivity(instaIntent)
+            }
+            
+        }catch ( ignored : PackageManager.NameNotFoundException){
+            Log.d("IssFrag", "goToInstagram: name not found exception $ignored ")
+            val instaWebIntent = Intent().apply {
+                this.data = Uri.parse(url)
+            }
+            Toast.makeText(requireContext(), "opening instagram web", Toast.LENGTH_SHORT).show()
+            startActivity(instaWebIntent)
+        }
+           
 
     }
 
