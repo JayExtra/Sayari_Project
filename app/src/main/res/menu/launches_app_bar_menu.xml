@@ -11,7 +11,7 @@
         android:iconTint="@color/primaryColor"/>
     <item
         android:title="settings"
-        android:id="@+id/settingsFragment"
+        android:id="@+id/settings_fragment"
         app:showAsAction="never"/>
 
 </menu>

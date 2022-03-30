@@ -99,6 +99,12 @@ class LaunchesFragment : Fragment() {
 
         })
 
+        val settingsOptions  = binding.newsTopAppBar.menu.findItem(R.id.settings_fragment)
+        settingsOptions.setOnMenuItemClickListener {
+            findNavController().navigate(R.id.settingsFragment2)
+            true
+        }
+
 
         val navHeader = binding.navigationView.getHeaderView(0)
         val navText = navHeader.findViewById<TextView>(R.id.versionNameTxt)
@@ -109,7 +115,20 @@ class LaunchesFragment : Fragment() {
 
     }
 
+ //   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+  //      inflater.inflate(R.menu.launches_app_bar_menu , menu)
+ //   }
 
+   // override fun onOptionsItemSelected(item: MenuItem): Boolean {
+     //   return when(item.itemId){
+       //     R.id.settings_fragment -> {
+         //       Log.d("LaunchFrag", "onOptionsItemSelected: settings selected ")
+           //     findNavController().navigate(R.id.settingsFragment2)
+             //   true
+           // }
+            //else -> super.onOptionsItemSelected(item)
+        //}
+    //}
 
     /** private fun makeInitialLoad() {
         val currentTab = binding.launchesTabLayout.selectedTabPosition
