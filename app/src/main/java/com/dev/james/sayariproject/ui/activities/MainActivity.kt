@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
+import com.dev.james.sayariproject.ui.settings.SettingsFragment
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
@@ -162,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId){
             R.id.settings_fragment -> {
       //          Log.d("MainActivity", "onOptionsItemSelected: settings selected ")
-                navController.navigate(R.id.action_homeFragment_to_settingsFragment2)
+                navController.navigate(R.id.settingsFragment2)
                 true
             }
             R.id.rate_us -> {

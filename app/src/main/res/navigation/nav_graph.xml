@@ -24,9 +24,6 @@
             android:id="@+id/action_homeFragment_to_newsFragment"
             app:destination="@id/newsFragment"
             app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_homeFragment_to_settingsFragment2"
-            app:destination="@id/settingsFragment2" />
     </fragment>
     <fragment
         android:id="@+id/launchesFragment"
