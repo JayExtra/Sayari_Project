@@ -24,6 +24,9 @@
             android:id="@+id/action_homeFragment_to_newsFragment"
             app:destination="@id/newsFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment2" />
     </fragment>
     <fragment
         android:id="@+id/launchesFragment"
@@ -132,4 +135,9 @@
             android:name="launch"
             app:argType="com.dev.james.sayariproject.models.launch.LaunchList" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment2"
+        android:name="com.dev.james.sayariproject.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

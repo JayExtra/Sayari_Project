@@ -117,6 +117,11 @@ class MainActivity : AppCompatActivity() {
                     lockNavDrawer()
                     hideBottomNav()
                 }
+                R.id.settingsFragment2 -> {
+                    hideTopBar()
+                    lockNavDrawer()
+                    hideBottomNav()
+                }
             }
         }
 
@@ -156,7 +161,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.settings_fragment -> {
-                Log.d("MainActivity", "onOptionsItemSelected: settings selected ")
+      //          Log.d("MainActivity", "onOptionsItemSelected: settings selected ")
+                navController.navigate(R.id.action_homeFragment_to_settingsFragment2)
                 true
             }
             R.id.rate_us -> {
