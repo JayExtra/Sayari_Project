@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -40,6 +41,11 @@ class AboutFragment : Fragment() {
     }
 
     private fun FragmentAboutBinding.setupUi(){
+        (activity as AppCompatActivity).setSupportActionBar(aboutToolbar)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(true)
+        (activity as AppCompatActivity).supportActionBar!!.title=""
+
         navController = findNavController()
         aboutToolbar.setNavigationOnClickListener {
             navController.popBackStack()

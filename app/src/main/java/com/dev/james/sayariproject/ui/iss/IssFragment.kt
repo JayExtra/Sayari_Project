@@ -16,6 +16,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -239,6 +240,10 @@ class IssFragment : Fragment() {
         //get first selected chip on fragment launch
         getInitialSelectedChip()
         //setup controller and navHostFragment
+        (activity as AppCompatActivity).setSupportActionBar(issToolbar)
+        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(true)
+        (activity as AppCompatActivity).supportActionBar!!.title=""
         navController = findNavController()
         appBarConfiguration = AppBarConfiguration(
             navController.graph

@@ -18,12 +18,13 @@ class WelcomeScreenViewModel @Inject constructor(
     private val datastoreRepository: DatastoreRepository
 ) : ViewModel() {
 
-    //get on boarding status
+ /**   //get on boarding status
     val onBoardingValue : StateFlow<Boolean> get() =
         datastoreRepository.getOnBoardingStatus()
             .stateIn(viewModelScope , SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000) , false )
 
-    val onBrdingValue = datastoreRepository.getOnBoardingStatus().asLiveData()
+ **/
+    val onBoardingValue = datastoreRepository.getOnBoardingStatus().asLiveData()
 
     //set on boarding value
     fun setOnBoardingValue(value : Boolean) = viewModelScope.launch {

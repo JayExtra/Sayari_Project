@@ -13,5 +13,9 @@
         android:title="settings"
         android:id="@+id/settings_fragment"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/rateUsAction"
+        android:title="rate us"
+        app:showAsAction="never"/>
 
 </menu>
