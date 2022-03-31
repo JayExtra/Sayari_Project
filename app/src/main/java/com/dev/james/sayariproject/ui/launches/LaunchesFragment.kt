@@ -18,11 +18,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentLaunchesBinding
+import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesViewpagerAdapter
 import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.O)
@@ -34,6 +36,9 @@ class LaunchesFragment : Fragment() {
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val mLaunchesViewModel : LaunchesViewModel by viewModels()
+
+    @Inject
+    lateinit var ratingDialog: RatingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,6 +107,12 @@ class LaunchesFragment : Fragment() {
         val settingsOptions  = binding.newsTopAppBar.menu.findItem(R.id.settings_fragment)
         settingsOptions.setOnMenuItemClickListener {
             findNavController().navigate(R.id.settingsFragment2)
+            true
+        }
+
+        val ratingDialogOption = binding.newsTopAppBar.menu.findItem(R.id.rateUsAction)
+        ratingDialogOption.setOnMenuItemClickListener {
+            ratingDialog.show(parentFragmentManager , null)
             true
         }
 

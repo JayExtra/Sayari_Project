@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -371,6 +372,11 @@ class EventsFragment : Fragment() {
         //ui setup here
         binding.apply {
             //setup controller and navHostFragment
+            (activity as AppCompatActivity).setSupportActionBar(eventsToolbar)
+            (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(true)
+            (activity as AppCompatActivity).supportActionBar!!.title=""
+
             navController = findNavController()
             appBarConfiguration = AppBarConfiguration(
                 navController.graph
@@ -378,6 +384,7 @@ class EventsFragment : Fragment() {
             eventsToolbar.setNavigationOnClickListener {
                 navController.popBackStack()
             }
+
 
             //recyclerview
             eventsRecyclerView.adapter = eventsAdapter.withLoadStateFooter(

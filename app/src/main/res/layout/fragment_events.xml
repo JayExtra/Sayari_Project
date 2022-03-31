@@ -294,6 +294,7 @@
                 android:id="@+id/eventsToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:visibility="visible"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_back"
                 app:subtitleTextColor="@color/primaryColor" />

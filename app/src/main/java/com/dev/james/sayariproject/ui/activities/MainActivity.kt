@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.eventsFragment2 -> {
                     hideTopBar()
                     lockNavDrawer()
-                    hideBottomNav()
+                   hideBottomNav()
                 }
                 R.id.issFragment2 -> {
                     hideTopBar()

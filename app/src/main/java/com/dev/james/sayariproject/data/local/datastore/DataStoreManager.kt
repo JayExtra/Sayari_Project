@@ -1,15 +1,25 @@
 package com.dev.james.sayariproject.data.local.datastore
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_DARK_MODE_ENABLED
+import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_FIFTEEN_MIN_ENABLED
+import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_FIVE_MIN_ENABLED
+import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_FROM_FAVOURITE_AGENCIES_ENABLED
+import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_THIRTY_MIN_ENABLED
 import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.STORE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import java.io.IOException
 import javax.inject.Inject
 
 class DataStoreManager @Inject constructor(
@@ -31,8 +41,39 @@ class DataStoreManager @Inject constructor(
     fun readBooleanValue(key : Preferences.Key<Boolean>) : Flow<Boolean> {
         return context.dataStore.data.map {
             it[key]?:false
+        }.catch { exception ->
+            if(exception is IOException){
+                Log.e("DatastoreManager", "readBooleanValue: error reading exception", exception)
+                emit(false)
+            }
         }
     }
 
+     val settingsPreferencesFlow = context.dataStore.data.catch { exception ->
+        if(exception is IOException){
+            Log.e("DatastoreManager", "Error:error fetching preferences ", exception )
+            emit(emptyPreferences())
+        }else{
+            throw exception
+        }
+    }.map { preferences ->
+             val dayNightModeValue = preferences[IS_DARK_MODE_ENABLED] ?: false
+             val favouriteAgenciesValue = preferences[IS_FROM_FAVOURITE_AGENCIES_ENABLED] ?: false
+             val thirtyMinutesValue = preferences[IS_THIRTY_MIN_ENABLED] ?: true
+             val fifteenMinutesValue = preferences[IS_FIFTEEN_MIN_ENABLED] ?: false
+             val fiveMinutesValue = preferences[IS_FIVE_MIN_ENABLED] ?: true
+
+         AllPreferences(dayNightModeValue , favouriteAgenciesValue ,
+         thirtyMinutesValue , fifteenMinutesValue , fiveMinutesValue)
+
+         }
+
 
 }
+data class AllPreferences(
+    val nightDarkStatus : Boolean,
+    val favouriteAgencies : Boolean,
+    val thirtyMinStatus : Boolean,
+    val fifteenMinStatus : Boolean,
+    val fiveMinStatus : Boolean
+)

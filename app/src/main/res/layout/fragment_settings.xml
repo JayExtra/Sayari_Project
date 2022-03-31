@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/lightDarkModeImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -59,7 +59,7 @@
         app:srcCompat="@drawable/ic_baseline_light_mode" />
 
     <TextView
-        android:id="@+id/textView47"
+        android:id="@+id/lightDarkModeTxt"
         style="@style/Theme.SayariProject.TextAppearanceHeadings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,9 +67,9 @@
         android:text="@string/light_mode_text"
         android:textColor="@color/primaryLightColor"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView9"
-        app:layout_constraintStart_toEndOf="@+id/imageView9"
-        app:layout_constraintTop_toTopOf="@+id/imageView9"
+        app:layout_constraintBottom_toBottomOf="@+id/lightDarkModeImg"
+        app:layout_constraintStart_toEndOf="@+id/lightDarkModeImg"
+        app:layout_constraintTop_toTopOf="@+id/lightDarkModeImg"
         app:layout_constraintVertical_bias="0.23000002" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -81,9 +81,9 @@
         android:checked="false"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView47"
+        app:layout_constraintBottom_toBottomOf="@+id/lightDarkModeTxt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView47"
+        app:layout_constraintTop_toTopOf="@+id/lightDarkModeTxt"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
     <View
@@ -93,8 +93,8 @@
         android:layout_marginTop="32dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="@+id/lightDarkModeSwitch"
-        app:layout_constraintStart_toStartOf="@+id/imageView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView47" />
+        app:layout_constraintStart_toStartOf="@+id/lightDarkModeImg"
+        app:layout_constraintTop_toBottomOf="@+id/lightDarkModeTxt" />
 
     <TextView
         android:id="@+id/textView49"
@@ -197,7 +197,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:buttonTint="@color/secondaryColor"
-        android:checked="true"
+        android:checked="false"
         app:layout_constraintBottom_toBottomOf="@+id/textView54"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView54"
@@ -247,7 +247,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:buttonTint="@color/secondaryColor"
-        android:checked="true"
+        android:checked="false"
         app:layout_constraintBottom_toBottomOf="@+id/textView56"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView56" />
