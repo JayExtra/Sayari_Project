@@ -2,19 +2,21 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Theme.SayariProject.NestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dim_white"
     tools:context=".ui.launches.launchdetails.LaunchDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView2"
+        style="@style/Theme.SayariProject.NestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_anchorGravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Theme.SayariProject.NestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -241,7 +243,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/watchStreamButton">
@@ -292,6 +294,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/missionCard"
                 app:layout_constraintStart_toStartOf="@+id/missionCard"
                 app:layout_constraintTop_toBottomOf="@+id/missionCard">
@@ -466,6 +469,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="@id/launcherCard"
                 app:layout_constraintStart_toStartOf="@id/launcherCard"
                 app:layout_constraintTop_toBottomOf="@+id/launcherCard">
@@ -543,6 +547,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/agencyCard"
                 app:layout_constraintStart_toStartOf="@id/agencyCard"
@@ -585,6 +590,15 @@
                         app:layout_constraintStart_toStartOf="@+id/programDescTxt"
                         app:layout_constraintTop_toBottomOf="@+id/programDescTxt" />
 
+                    <TextView
+                        android:id="@+id/programTitleTxt"
+                        style="@style/Theme.SayariProject.TextAppearanceSubHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@+id/programHeading"
+                        app:layout_constraintTop_toBottomOf="@+id/programHeading" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/programParticipantsRv"
                         android:layout_width="0dp"
@@ -601,15 +615,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView66"
                         app:layout_constraintVertical_bias="0.0"
                         tools:listitem="@layout/single_crew_member_card" />
-
-                    <TextView
-                        android:id="@+id/programTitleTxt"
-                        style="@style/Theme.SayariProject.TextAppearanceSubHeading"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintStart_toStartOf="@+id/programHeading"
-                        app:layout_constraintTop_toBottomOf="@+id/programHeading" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -635,13 +640,12 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbarLayout"
+            style="@style/Theme.SayariProject.CollapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="@color/white"
             app:expandedTitleGravity="bottom"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:scrimAnimationDuration="300"
-            app:statusBarScrim="@color/white">
+            app:scrimAnimationDuration="300">
 
             <ImageView
                 android:id="@+id/launchImageView"
@@ -659,7 +663,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back"/>
+                app:navigationIcon="@drawable/ic_arrow_back" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

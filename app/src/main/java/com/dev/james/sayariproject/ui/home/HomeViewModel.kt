@@ -1,14 +1,12 @@
 package com.dev.james.sayariproject.ui.home
 
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dev.james.sayariproject.models.articles.Article
 import com.dev.james.sayariproject.repository.BaseMainRepository
+import com.dev.james.sayariproject.repository.DatastoreRepository
 import com.dev.james.sayariproject.utilities.Event
 import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +28,7 @@ class HomeViewModel @Inject constructor(
     private val _latestArticlesLiveData : MutableLiveData<Event<NetworkResource<List<Article>>>> =
         MutableLiveData()
     val latestArticlesLiveData get() = _latestArticlesLiveData
+
 
 
     lateinit var uiState : StateFlow<UiState>

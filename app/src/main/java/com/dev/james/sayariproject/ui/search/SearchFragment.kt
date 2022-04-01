@@ -23,6 +23,7 @@ import com.dev.james.sayariproject.ui.search.adapter.MissionsRecyclerAdapter
 import com.dev.james.sayariproject.ui.search.viewmodel.DiscoverViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.chip.Chip
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -51,7 +52,13 @@ class SearchFragment : Fragment() {
         startObservingNewsList()
         startCollectingImagesFlow()
         observeMissions()
+        initMaterialTransitions()
         return binding?.root
+    }
+    private fun initMaterialTransitions() {
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+        reenterTransition = MaterialFadeThrough()
     }
 
     private fun startCollectingImagesFlow() {

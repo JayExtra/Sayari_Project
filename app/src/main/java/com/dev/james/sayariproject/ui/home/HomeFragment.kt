@@ -28,6 +28,7 @@ import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
 import com.dev.james.sayariproject.ui.home.adapters.LatestArticlesRecyclerAdapter
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -69,6 +70,7 @@ class HomeFragment : Fragment() {
     }
 
     fun setupUi(){
+        initMaterialTransitions()
         homeViewModel.getTopArticles()
         homeViewModel.getLatestArticles()
 
@@ -103,6 +105,12 @@ class HomeFragment : Fragment() {
                 }
             })
         }
+    }
+
+    private fun initMaterialTransitions() {
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+        reenterTransition = MaterialFadeThrough()
     }
 
     override fun onResume() {

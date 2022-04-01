@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -71,10 +72,12 @@ class SettingsFragment : Fragment() {
         }
         lightDarkModeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
+                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 settingsViewModel.setLightDarkModeValue(true)
                 lightDarkModeTxt.text = "Dark mode"
                 lightDarkModeImg.setImageResource(R.drawable.ic_baseline_dark_mode)
             }else{
+              //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 settingsViewModel.setLightDarkModeValue(false)
                 lightDarkModeTxt.text = "Light mode"
                 lightDarkModeImg.setImageResource(R.drawable.ic_baseline_light_mode)
@@ -91,6 +94,17 @@ class SettingsFragment : Fragment() {
             fiveminCheckbox.isChecked = it.fiveMinStatus
             favCheckBox.isChecked = it.favouriteAgencies
             lightDarkModeSwitch.isChecked = it.nightDarkStatus
+
+            if(it.nightDarkStatus){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                lightDarkModeTxt.text = "Dark mode"
+                lightDarkModeImg.setImageResource(R.drawable.ic_baseline_dark_mode)
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                lightDarkModeTxt.text = "Light mode"
+                lightDarkModeImg.setImageResource(R.drawable.ic_baseline_light_mode)
+
+            }
 
         })
     }

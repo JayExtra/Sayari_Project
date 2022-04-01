@@ -11,7 +11,7 @@
         <item name="colorOnSecondary">@color/secondaryDarkColor</item>
 
         <!-- com.dev.james.sayariproject.models.iss.Status bar color. -->
-       <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
          <!--Customize your theme here. -->
     </style>
 
@@ -195,9 +195,53 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="Theme.SayariProject.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicatorColor">@color/primaryColor</item>
+        <item name="tabSelectedTextColor">@color/primaryColor</item>
+        <item name="tabTextColor">@color/primaryColor</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="background">@color/white</item>
+    </style>
 
+    <style name="Theme.SayariProject.MaterialToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/white</item>
+    </style>
+    <style name="Theme.SayariProject.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:background">@color/white</item>
+    </style>
 
+    <style name="Theme.SayariProject.SettingsCards" parent="Widget.MaterialComponents.CardView">
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
 
+    <style name="Theme.SayariProject.NestedScrollView">
+        <item name="android:background">@color/dim_white</item>
+    </style>
+
+    <style name="Theme.SayariProject.CollapsingToolbar" parent="Widget.Design.CollapsingToolbar">
+        <item name="contentScrim">@color/white</item>
+        <item name="statusBarScrim">@color/white</item>
+    </style>
+
+    <style name="Theme.SayariProject.EventsCount">
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+    <style name="Theme.SayariProject.EventsCountLabelA">
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+    <style name="Theme.SayariProject.EventsCountLabelB">
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="Theme.SayariProject.DiscoverSubHeadings" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+
+    <style name="Theme.SayariProject.IssImageStyle">
+        <item name="android:tint">@color/primaryColor</item>
+    </style>
 
 
 </resources>

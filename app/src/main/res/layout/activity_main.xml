@@ -28,11 +28,11 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/topAppBar"
+                    style="@style/Theme.SayariProject.MaterialToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/primaryLightColor"
-                    android:backgroundTint="@color/white"
                     app:elevation="0dp"
+                    app:menu="@menu/app_bar_menu"
                     app:navigationIcon="@drawable/ic_menu"
                     app:title="" />
             </com.google.android.material.appbar.AppBarLayout>
@@ -55,7 +55,6 @@
                 android:layout_marginEnd="48dp"
                 android:layout_marginBottom="10dp"
                 android:padding="1dp"
-                app:backgroundTint="@color/white"
                 app:itemIconTint="@drawable/bottom_navigation_selector"
                 app:itemTextAppearanceInactive="@style/Theme.SayariProject.TextAppearanceBottomAppBar"
                 app:itemTextColor="@color/secondaryColor"
