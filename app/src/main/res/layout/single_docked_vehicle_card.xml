@@ -51,7 +51,7 @@
 
     <TextView
         android:id="@+id/vehicleName"
-        style="@style/Theme.SayariProject.TextAppearanceDimCards"
+        style="@style/Theme.SayariProject.TextAppearanceSubHeading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

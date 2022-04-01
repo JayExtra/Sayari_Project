@@ -99,6 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/the_iss_heading"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBarLoading" />
@@ -400,6 +401,7 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
+                    style="@style/Theme.SayariProject.IssImageStyle"
                     android:layout_width="250dp"
                     android:layout_height="250dp"
                     android:layout_marginTop="32dp"
@@ -511,34 +513,32 @@
 
                 <TextView
                     android:id="@+id/expStartDateTxt"
+                    style="@style/Theme.SayariProject.DiscoverSubHeadings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/ubuntu_medium"
-                    android:textColor="@color/primaryColor"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/expeditionTxt"
+                    style="@style/Theme.SayariProject.DiscoverSubHeadings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:fontFamily="@font/ubuntu_medium"
-                    android:textColor="@color/primaryColor"
                     android:textSize="34sp"
                     app:layout_constraintStart_toStartOf="@+id/expStartDateTxt"
                     app:layout_constraintTop_toBottomOf="@+id/expStartDateTxt" />
 
                 <TextView
                     android:id="@+id/crewCountTxt"
+                    style="@style/Theme.SayariProject.DiscoverSubHeadings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:fontFamily="@font/ubuntu_medium"
-                    android:textColor="@color/primaryColor"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="@+id/expCommanderCard"
                     app:layout_constraintTop_toBottomOf="@+id/expCommanderCard" />
@@ -801,13 +801,13 @@
 
                 <TextView
                     android:id="@+id/capacityTxtPrcntg"
+                    style="@style/Theme.SayariProject.TextAppearanceSubHeading"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginEnd="48dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
                     android:fontFamily="@font/ubuntu_medium"
                     android:textAlignment="center"
-                    android:textColor="@color/primaryColor"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/dockingPrcntgCapProg"
                     app:layout_constraintEnd_toEndOf="@+id/dockingPrcntgCapProg"
@@ -816,11 +816,11 @@
 
                 <TextView
                     android:id="@+id/dockedCapTxt"
+                    style="@style/Theme.SayariProject.TextAppearanceSubHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu_medium"
                     android:text="0"
-                    android:textColor="@color/primaryColor"
                     android:textSize="34sp"
                     app:layout_constraintBottom_toBottomOf="@+id/dockedCapProgress"
                     app:layout_constraintEnd_toEndOf="@+id/dockedCapProgress"
@@ -829,11 +829,11 @@
 
                 <TextView
                     android:id="@+id/freePortsCapacityTxt"
+                    style="@style/Theme.SayariProject.TextAppearanceSubHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu_medium"
                     android:text="0"
-                    android:textColor="@color/primaryColor"
                     android:textSize="34sp"
                     app:layout_constraintBottom_toBottomOf="@+id/freeCapProgress"
                     app:layout_constraintEnd_toEndOf="@+id/freeCapProgress"
@@ -956,6 +956,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:visibility="visible"
+        style="@style/Theme.SayariProject.MaterialToolbar"
         app:layout_collapseMode="pin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

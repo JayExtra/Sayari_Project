@@ -30,8 +30,7 @@
             android:id="@+id/settingsTopAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/primaryLightColor"
-            android:backgroundTint="@color/white"
+            style="@style/Theme.SayariProject.MaterialToolbar"
             app:elevation="0dp"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="" />
@@ -133,6 +132,7 @@
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
+        style="@style/Theme.SayariProject.SettingsCards"
         app:layout_constraintEnd_toEndOf="@+id/favCheckBox"
         app:layout_constraintStart_toStartOf="@+id/textView50"
         app:layout_constraintTop_toBottomOf="@+id/textView50">
@@ -307,6 +307,7 @@
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
+        style="@style/Theme.SayariProject.SettingsCards"
         app:layout_constraintEnd_toEndOf="@+id/divider10"
         app:layout_constraintStart_toStartOf="@+id/textView59"
         app:layout_constraintTop_toBottomOf="@+id/textView59"

@@ -22,6 +22,7 @@ import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesViewpagerAdapter
 import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -59,6 +60,8 @@ class LaunchesFragment : Fragment() {
         binding.newsTopAppBar.setNavigationOnClickListener {
             binding.drawerLayout.open()
         }
+
+        initMaterialTransitions()
 
         //launchesViewModel.getLaunches(0)
         val fragmentList = arrayListOf<Fragment>(
@@ -124,6 +127,12 @@ class LaunchesFragment : Fragment() {
 
         return binding.root
 
+    }
+
+    private fun initMaterialTransitions() {
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+        reenterTransition = MaterialFadeThrough()
     }
 
  //   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

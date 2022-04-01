@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
@@ -17,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
+import com.dev.james.sayariproject.ui.activities.viewmodels.MainActivityViewModel
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.settings.SettingsFragment
 import com.google.android.material.shape.CornerFamily
@@ -31,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private val activityViewModel : MainActivityViewModel by viewModels()
+
 
     @Inject
     lateinit var ratingDialog: RatingDialog
@@ -42,6 +47,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         styleBottomNavBar()
+
+        observePreferences()
 
 
         //setup controller and navHostFragment
@@ -133,6 +140,7 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setNavigationOnClickListener {
             binding.drawerLayout.open()
         }
+        binding.topAppBar.title = ""
 
         val navHeader = binding.navigationView.getHeaderView(0)
         val navText = navHeader.findViewById<TextView>(R.id.versionNameTxt)
@@ -141,6 +149,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun observePreferences() {
+        activityViewModel.checkSavedPreferences.observe(this , {
+            if(it.nightDarkStatus){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        })
+    }
 
 
     private fun styleBottomNavBar() {

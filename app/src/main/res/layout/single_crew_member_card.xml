@@ -18,23 +18,21 @@
 
     <TextView
         android:id="@+id/astroAgency"
+        style="@style/Theme.SayariProject.TextAppearanceSubTitles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/ubuntu"
-        android:textColor="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="@+id/astroNameTxt"
         app:layout_constraintStart_toStartOf="@+id/astroNameTxt"
         app:layout_constraintTop_toBottomOf="@+id/astroNameTxt" />
 
     <TextView
         android:id="@+id/astroNameTxt"
+        style="@style/Theme.SayariProject.TextAppearanceSubTitles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/ubuntu_medium"
-        android:textColor="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/astroImg"
@@ -56,11 +54,10 @@
 
     <TextView
         android:id="@+id/roleTxt"
+        style="@style/Theme.SayariProject.TextAppearanceSubTitles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/ubuntu"
-        android:textColor="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/astroAgency"
         app:layout_constraintTop_toBottomOf="@+id/astroAgency" />
