@@ -8,6 +8,8 @@ import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmen
 import com.dev.james.sayariproject.data.datasources.discover.DiscoverFragmentDatasource
 import com.dev.james.sayariproject.data.datasources.events.BaseEventsDatasource
 import com.dev.james.sayariproject.data.datasources.events.EventsDatasource
+import com.dev.james.sayariproject.data.datasources.favourites.BaseFavouritesDataSource
+import com.dev.james.sayariproject.data.datasources.favourites.FavouritesDataSource
 import com.dev.james.sayariproject.data.remote.service.EventsApiService
 import com.dev.james.sayariproject.data.datasources.home.ArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.home.BaseTopArticlesDataSource
@@ -196,14 +198,16 @@ object AppModule {
         launchesDatasource: LaunchesBaseDatasource,
         discoverFragmentDatasource: BaseDiscoverFragmentDatasource,
         eventsDatasource: BaseEventsDatasource,
-        issDataSource: BaseIssDataSource
+        issDataSource: BaseIssDataSource,
+        favouritesDataSource: BaseFavouritesDataSource
     ) : BaseMainRepository {
         return MainRepository(articlesDataSource ,
             topArticlesDataSource,
             launchesDatasource ,
             discoverFragmentDatasource,
             eventsDatasource,
-            issDataSource
+            issDataSource,
+            favouritesDataSource
         )
     }
 
@@ -245,6 +249,15 @@ object AppModule {
         eventsApi : EventsApiService
     ) : BaseIssDataSource {
         return IssDataSource(api , eventsApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouritesDataSource(
+        api : LaunchApiService,
+        dao: Dao
+    ) : BaseFavouritesDataSource {
+        return FavouritesDataSource(dao , api)
     }
 
     /*Caching data */

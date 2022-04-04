@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmentDatasource
 import com.dev.james.sayariproject.data.datasources.events.BaseEventsDatasource
 import com.dev.james.sayariproject.data.datasources.events.EventsDatasource
+import com.dev.james.sayariproject.data.datasources.favourites.BaseFavouritesDataSource
 import com.dev.james.sayariproject.data.datasources.home.BaseTopArticlesDataSource
 import com.dev.james.sayariproject.data.datasources.launches.LaunchesBaseDatasource
 import com.dev.james.sayariproject.data.datasources.home.SpaceFlightApiDataSource
@@ -14,6 +15,8 @@ import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.favourites.AgencyResponse
+import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
@@ -28,7 +31,8 @@ class MainRepository @Inject constructor(
     private val launchesDataSource: LaunchesBaseDatasource,
     private val discoverFragmentDatasource: BaseDiscoverFragmentDatasource,
     private val eventsDatasource: BaseEventsDatasource,
-    private val issDataSource:BaseIssDataSource
+    private val issDataSource:BaseIssDataSource,
+    private val favouriteAgenciesDatasource : BaseFavouritesDataSource
 ) : BaseMainRepository {
 
     // retrieves articles data stream
@@ -109,6 +113,18 @@ class MainRepository @Inject constructor(
 
     override suspend fun getAstronaut(id: Int): NetworkResource<Astronaut> {
         return issDataSource.getAstronaut(id)
+    }
+
+    override suspend fun getFavouriteAgenciesFromApi(name: String): NetworkResource<AgencyResponse> {
+        return favouriteAgenciesDatasource.getAgencyByName(name)
+    }
+
+    override suspend fun saveFavouriteAgency(agency: Result) {
+        return favouriteAgenciesDatasource.saveFavouriteAgency(agency)
+    }
+
+    override fun getFavouriteAgenciesFromDb(): Flow<List<Result>> {
+        return favouriteAgenciesDatasource.getFavouriteAgenciesFromDb()
     }
 
 }
