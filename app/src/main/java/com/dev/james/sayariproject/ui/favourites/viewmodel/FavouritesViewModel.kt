@@ -22,8 +22,15 @@ class FavouritesViewModel @Inject constructor(
     private var _agencySearchResult : MutableStateFlow<List<Result>> = MutableStateFlow(emptyList())
     val agencySearchResult get() = _agencySearchResult.asStateFlow()
 
-    private var _uiActions = MutableSharedFlow<UiActions>()
-    val uiActions get() = _uiActions.asSharedFlow()
+    private var _uiActions : MutableStateFlow<UiActions> = MutableStateFlow(
+        UiActions(null ,
+            showProgressBar = false,
+            showNetImage = false,
+            showNetErrMessage = false,
+            showRetryButton = false
+        )
+    )
+    val uiActions get() = _uiActions.asStateFlow()
 
 
     private var favouriteAgenciesList : StateFlow<List<Result>?> =
@@ -44,7 +51,8 @@ class FavouritesViewModel @Inject constructor(
 
         when(val agencyResponse = repository.getFavouriteAgenciesFromApi(name)){
             is NetworkResource.Loading -> {
-                _uiActions.emit(
+                Log.d("FavVm", "searchAgencyFromApi: loading...")
+                _uiActions.value =
                     UiActions(
                         errorMessage = null ,
                         showProgressBar = true,
@@ -52,10 +60,12 @@ class FavouritesViewModel @Inject constructor(
                         showNetImage = false,
                         showRetryButton = false
                     )
-                )
+
             }
             is NetworkResource.Success -> {
-                _uiActions.emit(
+                Log.d("FavVm", "searchAgencyFromApi: data => ${agencyResponse.value.results}")
+
+                _uiActions.value =
                     UiActions(
                         errorMessage = null ,
                         showProgressBar = false,
@@ -63,10 +73,10 @@ class FavouritesViewModel @Inject constructor(
                         showNetImage = false,
                         showRetryButton = false
                     )
-                )
+
                 val agencyList = agencyResponse.value.results
                 if(agencyList.isEmpty()){
-                    _uiActions.emit(
+                    _uiActions.value =
                         UiActions(
                             errorMessage = "Could not find the agency defined , please try again",
                             showProgressBar = false,
@@ -74,17 +84,19 @@ class FavouritesViewModel @Inject constructor(
                             showNetImage = false,
                             showRetryButton = false
                         )
-                    )
+
                 }else {
                     _agencySearchResult.value = agencyList
                 }
             }
             is NetworkResource.Failure -> {
+
                 val error = agencyResponse.errorBody
                 val errorCode = agencyResponse.errorCode
+                Log.d("FavVm", "searchAgencyFromApi: error => $errorCode : ${error.toString()}")
                 errorCode?.let {
                     if (errorCode == NET_ERROR_CODE){
-                        _uiActions.emit(
+                        _uiActions.value =
                             UiActions(
                                 errorMessage = null,
                                 showProgressBar = false,
@@ -92,10 +104,10 @@ class FavouritesViewModel @Inject constructor(
                                 showNetImage = true,
                                 showRetryButton = true
                             )
-                        )
+
                     }else{
                         error?.let {
-                            _uiActions.emit(
+                            _uiActions.value =
                                 UiActions(
                                     errorMessage = it.toString(),
                                     showProgressBar = false,
@@ -103,7 +115,7 @@ class FavouritesViewModel @Inject constructor(
                                     showNetImage = true,
                                     showRetryButton = true
                                 )
-                            )
+
                         }
                     }
                 }

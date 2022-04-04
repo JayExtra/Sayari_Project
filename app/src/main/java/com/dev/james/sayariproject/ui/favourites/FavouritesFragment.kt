@@ -2,13 +2,18 @@ package com.dev.james.sayariproject.ui.favourites
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentFavouritesBinding
 import com.dev.james.sayariproject.ui.favourites.adapters.FavouriteAgenciesRecyclerAdapter
@@ -35,12 +40,56 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentFavouritesBinding.inflate(inflater , container , false)
+        binding?.setUpUi()
+        binding?.collectFlows()
         return binding?.root
     }
 
     private fun FragmentFavouritesBinding.setUpUi(){
         //common ui attributes initialisation
+
+        favouritesToolBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        newsSearchTextInput.setOnEditorActionListener { _, actionId, _ ->
+            if(actionId == EditorInfo.IME_ACTION_GO){
+                //PERFORM UPDATE
+                searchAgency()
+                true
+            }else{
+                false
+            }
+        }
+
+        newsSearchTextInput.setOnKeyListener { _, keyCode, keyEvent ->
+            if(keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+                searchAgency()
+                true
+            }else{
+                false
+            }
+        }
+
+        newsSearchTextInput.addTextChangedListener {
+            if(it.toString().isEmpty()){
+               searchAgency()
+                agencySearchTextViewLayout.isFocusable = false
+
+            }
+        }
+
+
+
+        favAgenciesRv.adapter = favAgenciesRcAdapter
+        favAgenciesRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL , false)
+
+
+
+
     }
+
+
 
     private fun FragmentFavouritesBinding.collectFlows(){
         lifecycleScope.launchWhenStarted {
@@ -58,6 +107,21 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
                 }
             }
 
+        }
+    }
+
+    private fun FragmentFavouritesBinding.searchAgency(){
+        newsSearchTextInput.text?.trim().let {
+            if(it!=null){
+                if(it.isNotEmpty()){
+                    agencySearchTextViewLayout.isErrorEnabled = false
+                    favAgenciesRv.scrollToPosition(0)
+                    favViewModel.searchAgencyFromApi(it.toString())
+                } else {
+                    agencySearchTextViewLayout.isErrorEnabled = true
+                    agencySearchTextViewLayout.error = "please key in a correct search phrase"
+                }
+            }
         }
     }
 
