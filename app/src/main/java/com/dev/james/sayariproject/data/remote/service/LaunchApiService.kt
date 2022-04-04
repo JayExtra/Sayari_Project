@@ -1,6 +1,7 @@
 package com.dev.james.sayariproject.data.remote.service
 
 import com.dev.james.sayariproject.models.astronaut.Astronaut
+import com.dev.james.sayariproject.models.favourites.AgencyResponse
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.Launch
@@ -44,6 +45,13 @@ interface LaunchApiService {
     suspend fun getAstronaut(
         @Path("id") id:Int
     ) : Astronaut
+
+    @GET("agencies")
+    suspend fun getAgencyFromApi(
+        @Query("search")name : String,
+        @Query("limit") limit : Int?,
+        @Query("offset") offset : Int?
+    ) : AgencyResponse
 
 
 }

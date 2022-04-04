@@ -8,6 +8,8 @@ import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.favourites.AgencyResponse
+import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
@@ -54,5 +56,11 @@ interface BaseMainRepository {
     suspend fun getAgency(id : Int) : NetworkResource<Agency>
 
     suspend fun getAstronaut(id : Int) : NetworkResource<Astronaut>
+
+    suspend fun getFavouriteAgenciesFromApi(name : String) : NetworkResource<AgencyResponse>
+
+    suspend fun saveFavouriteAgency(agency : Result)
+
+    fun getFavouriteAgenciesFromDb() : Flow<List<Result>>
 
 }
