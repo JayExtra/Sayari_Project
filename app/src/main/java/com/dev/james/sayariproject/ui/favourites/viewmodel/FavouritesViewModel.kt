@@ -23,7 +23,7 @@ class FavouritesViewModel @Inject constructor(
     val agencySearchResult get() = _agencySearchResult.asStateFlow()
 
 
-    private var favouriteAgenciesList : StateFlow<List<Result>?> =
+    val favouriteAgenciesList : StateFlow<List<Result>?> =
         repository.getFavouriteAgenciesFromDb().stateIn(
             viewModelScope , SharingStarted.Lazily , null
         )
@@ -39,6 +39,15 @@ class FavouritesViewModel @Inject constructor(
 
     fun searchAgencyFromApi(name : String) = viewModelScope.launch {
         _agencySearchResult.value = repository.getFavouriteAgenciesFromApi(name)
+    }
+
+    fun deleteFavouriteAgency(id : Int) = viewModelScope.launch {
+        try {
+            repository.deleteFavouriteAgency(id)
+        }catch (e : Exception)  {
+            Log.d("FavVm", "deleteFavouriteAgency: exception => ${e.localizedMessage}")
+        }
+
     }
 
 

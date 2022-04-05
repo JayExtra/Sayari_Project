@@ -17,9 +17,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentFavouritesBinding
+import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.ui.favourites.adapters.FavouriteAgenciesRecyclerAdapter
 import com.dev.james.sayariproject.ui.favourites.viewmodel.FavouritesViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -35,6 +37,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
     private val favAgenciesRcAdapter = FavouriteAgenciesRecyclerAdapter { agency ->
         //trigger save agency to db
         Log.d("FavFragment", "Agency selected: $agency ")
+        favViewModel.saveFavouriteAgency(agency)
     }
 
     override fun onCreateView(
@@ -138,6 +141,31 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
             }
         }
 
+        lifecycleScope.launchWhenStarted {
+            favViewModel.favouriteAgenciesList.collectLatest { agencyList ->
+                agencyChipGroup.isVisible = true
+                agencyList?.let { agencies ->
+                    agencies.forEach { agency ->
+                        addChip(agency)
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    private fun FragmentFavouritesBinding.addChip(agency: Result) {
+        val chip = Chip(requireContext())
+        chip.text = agency.name
+
+        chip.isCloseIconVisible = true
+        chip.setOnCloseIconClickListener {
+            agencyChipGroup.removeView(chip)
+            favViewModel.deleteFavouriteAgency(agency.id)
+        }
+
+        agencyChipGroup.addView(chip)
 
     }
 
