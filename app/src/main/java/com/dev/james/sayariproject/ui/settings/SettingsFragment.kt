@@ -84,6 +84,11 @@ class SettingsFragment : Fragment() {
             }
         }
 
+        setupFavouritesCard.setOnClickListener {
+            val action = SettingsFragmentDirections.actionSettingsFragment2ToFavouritesFragment()
+            findNavController().navigate(action)
+        }
+
        observePreferencesChanges()
     }
     //setup the checkboxes and switches

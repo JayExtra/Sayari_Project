@@ -19,14 +19,11 @@ class FavouritesViewModel @Inject constructor(
     private val repository: BaseMainRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private var _agencySearchResult : MutableStateFlow<List<Result>> = MutableStateFlow(emptyList())
+    private var _agencySearchResult : MutableStateFlow<NetworkResource<AgencyResponse>> = MutableStateFlow(NetworkResource.Loading)
     val agencySearchResult get() = _agencySearchResult.asStateFlow()
 
-    private var _uiActions = MutableSharedFlow<UiActions>()
-    val uiActions get() = _uiActions.asSharedFlow()
 
-
-    private var favouriteAgenciesList : StateFlow<List<Result>?> =
+    val favouriteAgenciesList : StateFlow<List<Result>?> =
         repository.getFavouriteAgenciesFromDb().stateIn(
             viewModelScope , SharingStarted.Lazily , null
         )
@@ -41,88 +38,17 @@ class FavouritesViewModel @Inject constructor(
     }
 
     fun searchAgencyFromApi(name : String) = viewModelScope.launch {
+        _agencySearchResult.value = repository.getFavouriteAgenciesFromApi(name)
+    }
 
-        when(val agencyResponse = repository.getFavouriteAgenciesFromApi(name)){
-            is NetworkResource.Loading -> {
-                _uiActions.emit(
-                    UiActions(
-                        errorMessage = null ,
-                        showProgressBar = true,
-                        showNetErrMessage = false,
-                        showNetImage = false,
-                        showRetryButton = false
-                    )
-                )
-            }
-            is NetworkResource.Success -> {
-                _uiActions.emit(
-                    UiActions(
-                        errorMessage = null ,
-                        showProgressBar = false,
-                        showNetErrMessage = false,
-                        showNetImage = false,
-                        showRetryButton = false
-                    )
-                )
-                val agencyList = agencyResponse.value.results
-                if(agencyList.isEmpty()){
-                    _uiActions.emit(
-                        UiActions(
-                            errorMessage = "Could not find the agency defined , please try again",
-                            showProgressBar = false,
-                            showNetErrMessage = true,
-                            showNetImage = false,
-                            showRetryButton = false
-                        )
-                    )
-                }else {
-                    _agencySearchResult.value = agencyList
-                }
-            }
-            is NetworkResource.Failure -> {
-                val error = agencyResponse.errorBody
-                val errorCode = agencyResponse.errorCode
-                errorCode?.let {
-                    if (errorCode == NET_ERROR_CODE){
-                        _uiActions.emit(
-                            UiActions(
-                                errorMessage = null,
-                                showProgressBar = false,
-                                showNetErrMessage = true,
-                                showNetImage = true,
-                                showRetryButton = true
-                            )
-                        )
-                    }else{
-                        error?.let {
-                            _uiActions.emit(
-                                UiActions(
-                                    errorMessage = it.toString(),
-                                    showProgressBar = false,
-                                    showNetErrMessage = true,
-                                    showNetImage = true,
-                                    showRetryButton = true
-                                )
-                            )
-                        }
-                    }
-                }
-
-
-            }
+    fun deleteFavouriteAgency(id : Int) = viewModelScope.launch {
+        try {
+            repository.deleteFavouriteAgency(id)
+        }catch (e : Exception)  {
+            Log.d("FavVm", "deleteFavouriteAgency: exception => ${e.localizedMessage}")
         }
-
 
     }
 
+
 }
-
-data class UiActions(
-    val errorMessage : String?,
-    val showProgressBar : Boolean,
-    val showNetImage : Boolean,
-    val showNetErrMessage : Boolean,
-    val showRetryButton : Boolean
-)
-
-private const val NET_ERROR_CODE = 404

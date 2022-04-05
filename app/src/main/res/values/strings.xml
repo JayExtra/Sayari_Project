@@ -76,4 +76,5 @@
     <string name="notification_intervals">Notification intervals</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="view_privacy_policy">View privacy policy</string>
+    <string name="agency_search_error">agency name does not appear in our database</string>
 </resources>

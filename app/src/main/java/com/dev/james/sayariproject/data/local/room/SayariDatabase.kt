@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [ActiveMissions::class , Result::class] , version = 1)
+@Database(entities = [ActiveMissions::class , Result::class] , version = 2)
 abstract class SayariDatabase : RoomDatabase() {
 
     abstract fun dbDao() : Dao

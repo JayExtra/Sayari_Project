@@ -116,8 +116,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:indeterminateTint="@color/secondaryColor"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/favRetryButton"
         app:layout_constraintStart_toStartOf="@+id/favRetryButton"
-        app:layout_constraintTop_toBottomOf="@+id/favRetryButton" />
+        app:layout_constraintTop_toBottomOf="@+id/favRetryButton"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

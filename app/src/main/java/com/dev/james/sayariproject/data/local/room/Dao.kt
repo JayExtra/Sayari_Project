@@ -24,4 +24,7 @@ interface Dao {
     @Query("SELECT * FROM favourite_agencies ")
     fun getFavouriteAgencies() : Flow<List<Result>>
 
+    @Query("DELETE FROM favourite_agencies WHERE id = :id ")
+    suspend fun deleteFavAgency(id : Int)
+
 }

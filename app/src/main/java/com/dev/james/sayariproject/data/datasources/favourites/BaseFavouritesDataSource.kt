@@ -15,4 +15,7 @@ interface BaseFavouritesDataSource {
 
     //will return list of favourite agencies from database
     fun getFavouriteAgenciesFromDb() : Flow<List<Result>>
+
+    //will delete the favourite agency
+    suspend fun deleteFavouriteAgency(id : Int)
 }

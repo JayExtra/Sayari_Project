@@ -63,4 +63,6 @@ interface BaseMainRepository {
 
     fun getFavouriteAgenciesFromDb() : Flow<List<Result>>
 
+    suspend fun deleteFavouriteAgency(id : Int)
+
 }

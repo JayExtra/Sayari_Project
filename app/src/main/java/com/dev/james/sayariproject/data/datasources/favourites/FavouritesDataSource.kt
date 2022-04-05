@@ -27,6 +27,10 @@ class FavouritesDataSource @Inject constructor(
         return dao.getFavouriteAgencies()
     }
 
+    override suspend fun deleteFavouriteAgency(id: Int) {
+        dao.deleteFavAgency(id)
+    }
+
 }
 
 private const val DEFAULT_LIMIT = 10
