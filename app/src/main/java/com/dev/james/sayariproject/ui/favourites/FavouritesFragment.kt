@@ -1,6 +1,7 @@
 package com.dev.james.sayariproject.ui.favourites
 
 import android.os.Bundle
+import android.os.NetworkOnMainThreadException
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentFavouritesBinding
 import com.dev.james.sayariproject.ui.favourites.adapters.FavouriteAgenciesRecyclerAdapter
 import com.dev.james.sayariproject.ui.favourites.viewmodel.FavouritesViewModel
+import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -28,6 +30,7 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
     private val binding get() = _binding
 
     private val favViewModel : FavouritesViewModel by viewModels()
+
 
     private val favAgenciesRcAdapter = FavouriteAgenciesRecyclerAdapter { agency ->
         //trigger save agency to db
@@ -93,30 +96,60 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
 
     private fun FragmentFavouritesBinding.collectFlows(){
         lifecycleScope.launchWhenStarted {
-            favViewModel.agencySearchResult.collectLatest { agencyList ->
-                favAgenciesRcAdapter.submitList(agencyList)
-            }
+            favViewModel.agencySearchResult.collectLatest { resource ->
+                when(resource){
+                    is NetworkResource.Loading -> {
+                        networkErrImg.isVisible = false
+                        netErrorMessageFav.isVisible = false
+                        favRetryButton.isVisible = false
+                    }
+                    is NetworkResource.Success -> {
+                        if(resource.value.results.isNotEmpty()){
+                            favAgenciesRcAdapter.submitList(resource.value.results)
+                            favouritesProgressBar.isVisible = false
+                            networkErrImg.isVisible = false
+                            netErrorMessageFav.isVisible = false
+                            favRetryButton.isVisible = false
+                        }else {
+                            favAgenciesRcAdapter.submitList(emptyList())
+                            favouritesProgressBar.isVisible = false
+                            networkErrImg.isVisible = false
+                            netErrorMessageFav.isVisible = true
+                            favRetryButton.isVisible = false
+                            netErrorMessageFav.text = getString(R.string.agency_search_error)
+                        }
+                    }
+                    is NetworkResource.Failure ->{
+                        val errorBody = resource.errorBody.toString()
+                        val errorCode = resource.errorCode
+                        Log.d("FavFrag", "collectFlows: error => $errorCode : $errorBody")
+                        favouritesProgressBar.isVisible = false
+                        networkErrImg.isVisible = true
+                        netErrorMessageFav.isVisible = true
+                        favAgenciesRcAdapter.submitList(emptyList())
+                        netErrorMessageFav.text = getString(R.string.net_err_mess)
+                        favRetryButton.isVisible = true
 
-            favViewModel.uiActions.collectLatest { uiActions ->
-                favouritesProgressBar.isVisible = uiActions.showProgressBar
-                netErrorMessageFav.isVisible = uiActions.showNetErrMessage
-                networkErrImg.isVisible = uiActions.showNetImage
-                favRetryButton.isVisible = uiActions.showRetryButton
-                if(uiActions.errorMessage!=null){
-                    netErrorMessageFav.text = uiActions.errorMessage
+                        favRetryButton.setOnClickListener {
+                            searchAgency()
+                        }
+                    }
                 }
             }
-
         }
+
+
     }
 
     private fun FragmentFavouritesBinding.searchAgency(){
         newsSearchTextInput.text?.trim().let {
             if(it!=null){
                 if(it.isNotEmpty()){
+                    favouritesProgressBar.isVisible = true
                     agencySearchTextViewLayout.isErrorEnabled = false
                     favAgenciesRv.scrollToPosition(0)
                     favViewModel.searchAgencyFromApi(it.toString())
+
                 } else {
                     agencySearchTextViewLayout.isErrorEnabled = true
                     agencySearchTextViewLayout.error = "please key in a correct search phrase"

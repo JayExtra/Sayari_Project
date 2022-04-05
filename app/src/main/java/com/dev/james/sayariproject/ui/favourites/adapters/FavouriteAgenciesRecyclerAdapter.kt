@@ -48,7 +48,7 @@ class FavouriteAgenciesRecyclerAdapter(
             binding.apply {
                 astroNameTxt.text = agency.name
                 astroAgency.text = agency.country_code
-                roleTxt.text = agency.abbrev
+                roleTxt.text = agency.founding_year
 
                 //load image
                 loadImage(binding , agency)
