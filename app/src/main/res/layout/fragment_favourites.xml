@@ -21,7 +21,7 @@
         app:errorIconDrawable="@drawable/ic_error"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favouritesToolBar"
+        app:layout_constraintTop_toBottomOf="@+id/textView47"
         app:startIconDrawable="@drawable/ic_search">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -121,5 +121,16 @@
         app:layout_constraintStart_toStartOf="@+id/favRetryButton"
         app:layout_constraintTop_toBottomOf="@+id/favRetryButton"
         tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView47"
+        style="@style/Theme.SayariProject.TextAppearanceHeadings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Favourites"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favouritesToolBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

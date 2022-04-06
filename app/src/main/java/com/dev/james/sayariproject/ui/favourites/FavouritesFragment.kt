@@ -23,6 +23,7 @@ import com.dev.james.sayariproject.ui.favourites.viewmodel.FavouritesViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
@@ -142,8 +143,10 @@ class FavouritesFragment : Fragment(R.layout.fragment_favourites) {
         }
 
         lifecycleScope.launchWhenStarted {
-            favViewModel.favouriteAgenciesList.collectLatest { agencyList ->
+            favViewModel.favouriteAgenciesList.collect{ agencyList ->
                 agencyChipGroup.isVisible = true
+                Log.d("FavFrag", "collectFlows: fav agencies => $agencyList")
+                agencyChipGroup.removeAllViews()
                 agencyList?.let { agencies ->
                     agencies.forEach { agency ->
                         addChip(agency)
