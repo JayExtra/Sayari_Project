@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.search.adapter
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,10 +18,14 @@ import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleImageCardBinding
 import com.dev.james.sayariproject.models.articles.Article
 
-class GalleryRecyclerAdapter : ListAdapter<Article , GalleryRecyclerAdapter.GalleryViewHolder>(DiffCallback()) {
+class GalleryRecyclerAdapter(
+    val action : (String) -> Unit
+) : ListAdapter<Article , GalleryRecyclerAdapter.GalleryViewHolder>(DiffCallback()) {
+    private lateinit var context : Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
         val binding = SingleImageCardBinding.inflate(LayoutInflater.from(parent.context) , parent , false)
+        context = parent.context
         return GalleryViewHolder(binding)
     }
 
@@ -39,7 +44,12 @@ class GalleryRecyclerAdapter : ListAdapter<Article , GalleryRecyclerAdapter.Gall
             loadImage(article , binding)
             binding.publisherImg.setCircleBackgroundColorResource(R.color.white)
             binding.publisherImg.setImageResource(R.drawable.sayari_logo2)
+
+            binding.root.setOnClickListener {
+                action.invoke(context.getString(R.string.feature_message))
+            }
         }
+
 
         private fun loadImage(article: Article, binding: SingleImageCardBinding) {
             Glide.with(binding.root)
