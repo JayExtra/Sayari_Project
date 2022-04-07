@@ -43,7 +43,11 @@
         android:id="@+id/searchFragment"
         android:name="com.dev.james.sayariproject.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/redirectorFragment"
         android:name="com.dev.james.sayariproject.ui.welcome.fragment.RedirectorFragment"

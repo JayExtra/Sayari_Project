@@ -12,20 +12,18 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.james.sayariproject.databinding.FragmentSearchBinding
-import com.dev.james.sayariproject.models.articles.Article
-import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
 import com.dev.james.sayariproject.ui.search.adapter.DiscoverViewPagerAdapter
 import com.dev.james.sayariproject.ui.search.adapter.GalleryRecyclerAdapter
 import com.dev.james.sayariproject.ui.search.adapter.MissionsRecyclerAdapter
 import com.dev.james.sayariproject.ui.search.viewmodel.DiscoverViewModel
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -36,9 +34,15 @@ class SearchFragment : Fragment() {
 
     private val discoverViewModel : DiscoverViewModel by viewModels()
 
-    private val missionsAdapter = MissionsRecyclerAdapter()
-
-    private val galleryAdapter = GalleryRecyclerAdapter()
+    private val missionsAdapter = MissionsRecyclerAdapter { message ->
+        showSnackBar(message)
+    }
+    private val galleryAdapter = GalleryRecyclerAdapter{ message ->
+        showSnackBar(message)
+    }
+    private fun showSnackBar(message: String) {
+        binding?.root?.let { Snackbar.make(it, message , Snackbar.LENGTH_SHORT ).show() }
+    }
 
     private lateinit var observedQuery : String
     override fun onCreateView(
@@ -190,6 +194,13 @@ class SearchFragment : Fragment() {
                 Log.d("SearchFrag", "setUpUi: retry btn clicked ")
                 retryArticles()
             }
+
+            moreNewsTxt.setOnClickListener {
+                val action = SearchFragmentDirections.actionSearchFragmentToNewsFragment()
+                findNavController().navigate(action)
+            }
+
+
 
             //missions rv
             missionsRv.adapter = missionsAdapter

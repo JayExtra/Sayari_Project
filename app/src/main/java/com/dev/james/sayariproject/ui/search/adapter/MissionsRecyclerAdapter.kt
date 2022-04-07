@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.search.adapter
 
+import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -19,7 +20,10 @@ import com.dev.james.sayariproject.databinding.SingleMissionCardBinding
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import de.hdodenhof.circleimageview.CircleImageView
 
-class MissionsRecyclerAdapter : ListAdapter<ActiveMissions , MissionsRecyclerAdapter.MissionsViewHolder>(DiffCallback())  {
+class MissionsRecyclerAdapter(
+    private val action : (String) -> Unit
+) : ListAdapter<ActiveMissions , MissionsRecyclerAdapter.MissionsViewHolder>(DiffCallback())  {
+    private lateinit var context : Context
 
     inner class MissionsViewHolder(
         private val binding : SingleMissionCardBinding
@@ -30,6 +34,9 @@ class MissionsRecyclerAdapter : ListAdapter<ActiveMissions , MissionsRecyclerAda
                 missionName.text = mission.title
             }
             loadImage(binding , mission , patch)
+            binding.root.setOnClickListener {
+                action.invoke(context.getString(R.string.feature_message))
+            }
         }
 
         private fun loadImage(
@@ -96,6 +103,7 @@ class MissionsRecyclerAdapter : ListAdapter<ActiveMissions , MissionsRecyclerAda
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MissionsViewHolder {
         val binding = SingleMissionCardBinding.inflate(LayoutInflater.from(parent.context) ,parent ,  false)
+        context = parent.context
         return MissionsViewHolder(binding)
     }
 
