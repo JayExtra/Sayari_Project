@@ -2,6 +2,8 @@ package com.dev.james.sayariproject.di.modules
 
 import android.app.Application
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.room.Room
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmentDatasource
@@ -273,6 +275,7 @@ object AppModule {
 
 
     private val cacheInterceptor = object : Interceptor {
+        @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response {
             val response: Response = chain.proceed(chain.request())

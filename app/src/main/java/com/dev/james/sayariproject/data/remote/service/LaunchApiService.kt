@@ -6,6 +6,7 @@ import com.dev.james.sayariproject.models.iss.IntSpaceStation
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.Launch
 import com.dev.james.sayariproject.models.launch.RocketInstance
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -52,6 +53,13 @@ interface LaunchApiService {
         @Query("limit") limit : Int?,
         @Query("offset") offset : Int?
     ) : AgencyResponse
+
+    @GET("launch/upcoming")
+    suspend fun getUpcomingLaunchesForSync(
+        @Query("search")query :String?,
+        @Query("limit") limit : Int?,
+        @Query("offset") offset : Int?
+    ) : Response<Launch>
 
 
 }

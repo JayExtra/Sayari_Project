@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.activities
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,12 +17,16 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
+import com.dev.james.sayariproject.data.work_manager.DataSyncWorker
+import com.dev.james.sayariproject.data.work_manager.LaunchSchedulerWorker
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
 import com.dev.james.sayariproject.ui.activities.viewmodels.MainActivityViewModel
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.settings.SettingsFragment
+import com.dev.james.sayariproject.utilities.SAYARI_UNIQUE_WORK_REQUEST
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +40,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val activityViewModel : MainActivityViewModel by viewModels()
+
+    private lateinit var workManager : WorkManager
+    private lateinit var dataSyncWorker: OneTimeWorkRequest
+    private lateinit var schedulerWorker : OneTimeWorkRequest
 
 
     @Inject
@@ -217,6 +226,95 @@ class MainActivity : AppCompatActivity() {
 
     private fun unlockNavDrawer(){
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        initWorkProcess()
+    }
+
+    private fun initWorkProcess(){
+        workManager = WorkManager.getInstance(applicationContext)
+        dataSyncWorker = OneTimeWorkRequestBuilder<DataSyncWorker>()
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .setRequiresBatteryNotLow(true)
+                    .build()
+            )
+            .build()
+
+        schedulerWorker = OneTimeWorkRequestBuilder<LaunchSchedulerWorker>()
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiresBatteryNotLow(true)
+                    .build()
+            )
+            .build()
+
+        workManager.beginUniqueWork(
+            SAYARI_UNIQUE_WORK_REQUEST ,
+            ExistingWorkPolicy.KEEP,
+            dataSyncWorker
+        ).then(schedulerWorker).enqueue()
+
+        observeWorkerStatus()
+    }
+
+    private fun observeWorkerStatus() {
+        workManager.getWorkInfosForUniqueWorkLiveData(SAYARI_UNIQUE_WORK_REQUEST).observe(this) {
+            val syncInfo = it.find { syncInf ->
+                syncInf.id == dataSyncWorker.id
+            }
+            val schedulerInfo = it.find { schedulerInf ->
+                schedulerInf.id == schedulerWorker.id
+            }
+
+            when(syncInfo?.state){
+                WorkInfo.State.RUNNING ->{
+                    Log.d("MainActivity", "observeWorkerStatus: data sync worker => running... ")
+                }
+                WorkInfo.State.SUCCEEDED -> {
+                    Log.d("MainActivity", "observeWorkerStatus: data sync worker => succeeded!... ")
+                }
+                WorkInfo.State.FAILED -> {
+                    Log.d("MainActivity", "observeWorkerStatus: data sync worker => failed! ")
+                }
+                WorkInfo.State.ENQUEUED -> {
+                    Log.d("MainActivity", "observeWorkerStatus: data sync worker => enqueued.. ")
+                }
+                WorkInfo.State.CANCELLED -> {
+                    Log.d("MainActivity", "observeWorkerStatus: data sync worker => cancelled! ")
+                }
+                WorkInfo.State.BLOCKED -> Log.d("MainActivity", "observeWorkerStatus: data sync worker => blocked ")
+
+                else -> Log.d("MainActivity", "data sync worker: some error , I don't know")
+
+            }
+
+            when(schedulerInfo?.state){
+                WorkInfo.State.RUNNING ->{
+                    Log.d("MainActivity", "observeWorkerStatus: scheduler worker => running... ")
+                }
+                WorkInfo.State.SUCCEEDED -> {
+                    Log.d("MainActivity", "observeWorkerStatus: scheduler worker => succeeded! ")
+                }
+                WorkInfo.State.FAILED -> {
+                    Log.d("MainActivity", "observeWorkerStatus: scheduler worker => failed! ")
+                }
+                WorkInfo.State.ENQUEUED -> {
+                    Log.d("MainActivity", "observeWorkerStatus: scheduler worker => enqueued.. ")
+                }
+                WorkInfo.State.CANCELLED -> {
+                    Log.d("MainActivity", "observeWorkerStatus: scheduler worker => cancelled! ")
+                }
+                WorkInfo.State.BLOCKED -> Log.d("MainActivity", "observeWorkerStatus: scheduler worker => blocked ")
+
+                else -> Log.d("MainActivity", "scheduler worker: some error , I don't know")
+
+            }
+        }
     }
 
 

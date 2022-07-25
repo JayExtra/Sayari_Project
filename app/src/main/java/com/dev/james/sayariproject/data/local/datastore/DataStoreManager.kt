@@ -15,10 +15,7 @@ import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.
 import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_THIRTY_MIN_ENABLED
 import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.STORE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import java.io.IOException
 import javax.inject.Inject
 
@@ -48,6 +45,9 @@ class DataStoreManager @Inject constructor(
             }
         }
     }
+
+    suspend fun readBooleanValueOnce(key : Preferences.Key<Boolean>) =
+        context.dataStore.data.first()[key] ?: false
 
      val settingsPreferencesFlow = context.dataStore.data.catch { exception ->
         if(exception is IOException){

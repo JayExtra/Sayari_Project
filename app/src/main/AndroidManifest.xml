@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.dev.james.sayariproject">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
 
     <application
         android:name=".ui.activities.SayariApp"
@@ -20,9 +23,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!-- If you are using androidx.startup to initialize other components -->
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <receiver android:name=".data.broadcast_receivers.launch.FifteenMinuteLaunchAlertReceiver" />
+        <receiver android:name=".data.broadcast_receivers.launch.FiveMinuteLaunchAlertReceiver" />
+        <receiver android:name=".data.broadcast_receivers.launch.LaunchWindowOpenAlertReceiver" />
+        <receiver android:name=".data.broadcast_receivers.launch.ThirtyMinuteLaunchAlertReceiver" />
+        <receiver android:name=".data.broadcast_receivers.midninight.MidnightAlertReceiver" />
+        <receiver android:name=".data.broadcast_receivers.phone_reboot.PhoneRebootReceiver"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

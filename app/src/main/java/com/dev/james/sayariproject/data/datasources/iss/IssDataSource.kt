@@ -18,7 +18,7 @@ class IssDataSource @Inject constructor(
     }
 
     override suspend fun getSpaceStationEvents() = safeApiCall {
-        eventsApi.getAllEvents(null , EVENTS_OFFSET , EVENTS_LIMIT , PROGRAM_ID)
+        eventsApi.getAllIssEvents(null , EVENTS_OFFSET , EVENTS_LIMIT , PROGRAM_ID)
     }
 
     override suspend fun getAstronaut(id: Int): NetworkResource<Astronaut> = safeApiCall {
