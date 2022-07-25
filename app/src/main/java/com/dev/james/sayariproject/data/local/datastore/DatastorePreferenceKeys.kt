@@ -29,4 +29,12 @@ object DatastorePreferenceKeys {
     //show notification five 5 before
     val IS_FIVE_MIN_ENABLED : Preferences.Key<Boolean> =
         booleanPreferencesKey("is_five_minutes_enabled")
+
+    val HAS_PERFORMED_SYNC : Preferences.Key<Boolean> =
+        booleanPreferencesKey("has_performed_sync")
+
+    val HAS_LAUNCH_SCHEDULER_FIRED_ONCE : Preferences.Key<Boolean> =
+        booleanPreferencesKey("has_fired_once")
+
+
 }

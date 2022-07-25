@@ -11,24 +11,28 @@ import java.io.IOException
 
 class EventsPagingSource(
     private val eventsApiService: EventsApiService,
-    private val query : String?,
-    private val program : Int?
+    private val query : String?
+   // private val program : Int?
 ) : PagingSource<Int , Events>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Events> {
         val offset = params.key ?: STARTING_OFFSET_INDEX
         val limit = if(query == null) params.loadSize else EVENTS_SEARCH_LOAD_SIZE
         
         return try {
-            val response = eventsApiService.getAllEvents(query , limit , offset , program)
+            val response = eventsApiService.getAllEvents(
+                query = query ,
+                limit = limit ,
+                offset = offset)
             val list = response.results
-  //          Log.d("EventsPag", "load: ${response.results}")
-            Log.d("EventsPag", "offset: $offset , limit: $limit")
+             Log.d("EventsPagingSource", "load: ${response.results}")
+            Log.d("EventsPagingSource", "offset: $offset , limit: $limit")
 
             LoadResult.Page(
                 data = list,
                 prevKey = if(offset == STARTING_OFFSET_INDEX) null else offset - limit,
                 nextKey = if(response.next == null) null else offset + limit
             )
+
         } catch (t : Throwable){
             var exception = t
             if(t is IOException){

@@ -170,24 +170,24 @@ class IssFragment : Fragment() {
 
     private fun FragmentIssBinding.setUpObservables() {
         //observable for our docked vehicles statistics
-        issViewModel.dockedVehiclesStats.observe(viewLifecycleOwner , { dockedVehiclesStats ->
-              //feed ui
-                dockingPrcntgCapProg.progress = dockedVehiclesStats.percentageCapacity
-                capacityTxtPrcntg.text = "${dockedVehiclesStats.percentageCapacity}% capacity"
+        issViewModel.dockedVehiclesStats.observe(viewLifecycleOwner) { dockedVehiclesStats ->
+            //feed ui
+            dockingPrcntgCapProg.progress = dockedVehiclesStats.percentageCapacity
+            capacityTxtPrcntg.text = "${dockedVehiclesStats.percentageCapacity}% capacity"
 
-                freeCapProgress.progress = dockedVehiclesStats.percentageFreePorts
-                freePortsCapacityTxt.text = dockedVehiclesStats.freePorts.toString()
+            freeCapProgress.progress = dockedVehiclesStats.percentageFreePorts
+            freePortsCapacityTxt.text = dockedVehiclesStats.freePorts.toString()
 
-                dockedCapProgress.progress = dockedVehiclesStats.percentageDockedVehicle
-                dockedCapTxt.text = dockedVehiclesStats.totalDockedVehicles.toString()
+            dockedCapProgress.progress = dockedVehiclesStats.percentageDockedVehicle
+            dockedCapTxt.text = dockedVehiclesStats.totalDockedVehicles.toString()
 
-        })
+        }
 
         collectAstronautSharedFlow()
     }
 
     private fun FragmentIssBinding.observeChipSelection() {
-        issViewModel.selectedChip.observe(viewLifecycleOwner, { event ->
+        issViewModel.selectedChip.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { selectedChipString ->
                 Log.d("IssFrag", "observeChipSelection: $selectedChipString ")
 
@@ -232,7 +232,7 @@ class IssFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
     }
 
     private fun FragmentIssBinding.setUpUi() {

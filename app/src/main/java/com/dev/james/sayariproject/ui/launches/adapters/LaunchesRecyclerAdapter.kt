@@ -92,7 +92,9 @@ class LaunchesRecyclerAdapter(
 
                 override fun onFinish() {
                     Log.d("LaunchesRv", "onFinish: timer has finished its work")
-
+                    binding.launchCountdownTimer.text = "started!"
+                    binding.launchCardTimerLabel.isVisible = false
+                    binding.launchStatus.isVisible = false
                 }
 
             }
