@@ -93,25 +93,25 @@ class SettingsFragment : Fragment() {
     }
     //setup the checkboxes and switches
     private fun FragmentSettingsBinding.observePreferencesChanges(){
-        settingsViewModel.settingsPreferencesFlow.observe(viewLifecycleOwner , {
+        settingsViewModel.settingsPreferencesFlow.observe(viewLifecycleOwner) {
             thrtyminCheckBox.isChecked = it.thirtyMinStatus
             fftnMinCheckBox.isChecked = it.fifteenMinStatus
             fiveminCheckbox.isChecked = it.fiveMinStatus
             favCheckBox.isChecked = it.favouriteAgencies
             lightDarkModeSwitch.isChecked = it.nightDarkStatus
 
-            if(it.nightDarkStatus){
+            if (it.nightDarkStatus) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 lightDarkModeTxt.text = "Dark mode"
                 lightDarkModeImg.setImageResource(R.drawable.ic_baseline_dark_mode)
-            }else{
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 lightDarkModeTxt.text = "Light mode"
                 lightDarkModeImg.setImageResource(R.drawable.ic_baseline_light_mode)
 
             }
 
-        })
+        }
     }
 
 }
