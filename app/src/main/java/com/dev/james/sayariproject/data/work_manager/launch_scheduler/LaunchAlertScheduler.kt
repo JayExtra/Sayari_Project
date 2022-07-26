@@ -265,6 +265,7 @@ class LaunchAlertScheduler @Inject constructor(
     }
 
     private fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.getDefault()): Date? {
+        Log.d("LaunchRecyclerAdapter", "timezone: $timeZone ")
         val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
         parser.timeZone = timeZone
         return parser.parse(this )

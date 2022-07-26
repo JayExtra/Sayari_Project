@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -22,6 +23,7 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleLauchItemBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
+import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -60,7 +62,7 @@ class LaunchesRecyclerAdapter(
                 launchCardTitle.text = launch.name
                 launchCardDesc.text = launch.serviceProvider?.name
                 orbitTxt.text = launch.mission?.orbit?.abbrev
-                dateTxt.text = getLaunchDateString(launch)
+                dateTxt.text = launch.startWindow.formatDateFromApi(context)
                 val padName = launch.pad.name
                 val location = launch.pad.location.name
 
@@ -107,7 +109,7 @@ class LaunchesRecyclerAdapter(
         private fun getLaunchDate(launch: LaunchList): Long {
             val zonedDateTime = ZonedDateTime.parse(launch.startWindow)
             val createdDateFormatted =
-                zonedDateTime.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
+                zonedDateTime.withZoneSameInstant(ZoneId.systemDefault())
             val launchDate = Date.from(
                 createdDateFormatted.withZoneSameLocal(ZoneId.systemDefault()).toInstant()
             ).time
@@ -117,19 +119,32 @@ class LaunchesRecyclerAdapter(
 
         }
 
-        private fun getLaunchDateString(launch: LaunchList): String {
-            val dateFormat = ZonedDateTime.parse(launch.startWindow)
 
-            val dateTimeFormatter: DateTimeFormatter =
-                DateTimeFormatter.ofPattern("dd-M-yyyy", Locale.ROOT)
+        //will format the date from API into local time
+        private fun String.formatDateFromApi(context : Context) : String {
+            return try {
+                val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                inputFormat.timeZone = TimeZone.getTimeZone("GMT")
+                val passedDate: Date = inputFormat.parse(this) as Date
 
+                //Here you put how you want your date to be, this looks like this Tue,Nov 2, 2021, 12:23 pm
+                val outputFormatDay = SimpleDateFormat("dd-MM-yyyy HH:mm", currentLocale)
+                outputFormatDay.timeZone = TimeZone.getDefault()
+                val newDateString = outputFormatDay.format(passedDate)
 
-            val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
+                newDateString
 
-            // val formattedDate1 = createdDateFormatted.format(DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN))
+            }catch (_ : Exception){
+                "00:00:00"
+            }
+        }
 
-            return createdDateFormatted.format(dateTimeFormatter)
-
+        private fun String.toDate(dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.getDefault()): Date? {
+            Log.d("LaunchRecyclerAdapter", "timezone: $timeZone ")
+            val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
+            parser.timeZone = timeZone
+            return parser.parse(this )
         }
 
         private fun setUpImage(launch: LaunchList, binding: SingleLauchItemBinding) {
