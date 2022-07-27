@@ -244,7 +244,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/eventsCount" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/favouritesCount"
                     style="@style/Theme.SayariProject.EventsCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -263,8 +263,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu_light"
                     android:text="events"
-                    app:layout_constraintStart_toEndOf="@+id/textView11"
-                    app:layout_constraintTop_toTopOf="@+id/textView11" />
+                    app:layout_constraintStart_toEndOf="@+id/favouritesCount"
+                    app:layout_constraintTop_toTopOf="@+id/favouritesCount" />
 
                 <TextView
                     android:id="@+id/textView13"
@@ -274,8 +274,8 @@
                     android:fontFamily="@font/ubuntu_light"
                     android:text="FAVOURITES"
                     android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView11"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                    app:layout_constraintStart_toStartOf="@+id/favouritesCount"
+                    app:layout_constraintTop_toBottomOf="@+id/favouritesCount" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/eventsDistChart"

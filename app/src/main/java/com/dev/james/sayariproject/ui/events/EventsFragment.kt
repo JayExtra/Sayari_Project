@@ -227,14 +227,23 @@ class EventsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             eventsViewModel.eventCountStateFlow.collectLatest { event ->
                 event.getContentIfNotHandled()?.let { count ->
-                    val animator = ValueAnimator.ofInt(0 , count)
+                    val animator = ValueAnimator.ofInt(0 , count.thisMonth)
                     animator.duration = 1000
                     animator.addUpdateListener { animation ->
                         if (animation != null) {
                             eventsCount.text = animation.animatedValue.toString()
                         }
                     }
+                    val animator2 = ValueAnimator.ofInt(0 , count.favouriteAgencies)
+                    animator2.duration = 1000
+                    animator.addUpdateListener { animation ->
+                        if (animation != null) {
+                            favouritesCount.text = animation.animatedValue.toString()
+                        }
+                    }
+
                     animator.start()
+                    animator2.start()
                 }
 
             }

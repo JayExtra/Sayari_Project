@@ -3,6 +3,7 @@ package com.dev.james.sayariproject.data.datasources.events
 import androidx.paging.PagingData
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
 
@@ -13,4 +14,5 @@ interface BaseEventsDatasource {
     //returns list of events for collapsible appbar filters
     //suspend fun getEventsForAppBar() : NetworkResource<List<Events>>
     suspend fun getEventsAppBar() : NetworkResource<EventResponse>
+    suspend fun getFavouriteAgencies() : List<Result>
 }

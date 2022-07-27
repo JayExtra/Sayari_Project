@@ -131,6 +131,10 @@ class MainRepository @Inject constructor(
         favouriteAgenciesDatasource.deleteFavouriteAgency(id)
     }
 
+    override suspend fun getFavouriteAgencies(): List<Result> {
+        return eventsDatasource.getFavouriteAgencies()
+    }
+
 }
 
 private const val SPACE_STATION_ID = 4

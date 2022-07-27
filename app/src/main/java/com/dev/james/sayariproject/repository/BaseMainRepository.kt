@@ -65,4 +65,6 @@ interface BaseMainRepository {
 
     suspend fun deleteFavouriteAgency(id : Int)
 
+    suspend fun getFavouriteAgencies() : List<Result>
+
 }

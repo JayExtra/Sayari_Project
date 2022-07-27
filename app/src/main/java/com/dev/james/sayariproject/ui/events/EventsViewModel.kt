@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.iss.Agency
 import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.utilities.Event
 import com.dev.james.sayariproject.utilities.NetworkResource
@@ -34,7 +35,9 @@ class EventsViewModel @Inject constructor(
     private val _chartDataState : MutableStateFlow<Event<List<Float>>> = MutableStateFlow(Event(listOf(0f)))
     val chartDataState get() = _chartDataState
 
-    private val _eventCountStateFlow : MutableStateFlow<Event<Int>> = MutableStateFlow(Event(0))
+    private val _eventCountStateFlow : MutableStateFlow<Event<EventsThisMonthFavAgencies>> = MutableStateFlow(Event(
+        EventsThisMonthFavAgencies(0 , 0)
+    ))
     val eventCountStateFlow get() = _eventCountStateFlow
 
     val uiState : StateFlow<UiState>
@@ -138,15 +141,52 @@ class EventsViewModel @Inject constructor(
         }
     }
 
-    private fun getEventsThisMonth(events: List<Events>) {
-        val filteredEvents = mutableListOf<Events>()
-        val currentMonth = getCurrentMonth().uppercase()
-        events.forEach { event ->
-            val month = dateFormatter(event.date)
-//            Log.d("EventsVm", "getEventsThisMonth: months :$month ,month today : $currentMonth")
-            if(month == currentMonth) filteredEvents.add(event)
+    private suspend fun getEventsThisMonth(events: List<Events>) {
+        try{
+
+            val currentMonth = getCurrentMonth().uppercase()
+
+            val fromFavourites = repository.getFavouriteAgencies().map{
+                Agency(
+                    id = it.id,
+                    url = it.url,
+                    type = it.type,
+                    name = it.name
+                )
+            }
+
+            Log.d("EventsViewModel", "getEventsThisMonth: saved agencies : $fromFavourites")
+
+            val filteredEvents = events.filter { event ->
+                val month = dateFormatter(event.date)
+                month == currentMonth
+            }
+
+            val filteredEventsForFav = events.filter { event ->
+                val month = dateFormatter(event.date)
+                month == currentMonth && event.program.isNotEmpty()
+            }
+
+
+          val filteredByFavourites = filteredEventsForFav.filter { event ->
+                  event.program[0].agencies.containsAll(fromFavourites) //||
+                      //  event.program[1].agencies.containsAll(fromFavourites)
+            }
+
+
+            _eventCountStateFlow.value = Event(
+                EventsThisMonthFavAgencies(
+                    thisMonth = filteredEvents.size ,
+                    favouriteAgencies =  filteredByFavourites.size
+                )
+            )
+
+        }catch (e : Exception){
+
+            Log.e("EventsViewModel", "getEventsThisMonth: ${e.localizedMessage}" )
+
         }
-        _eventCountStateFlow.value = Event(filteredEvents.size)
+
 
     }
 
@@ -178,6 +218,11 @@ class EventsViewModel @Inject constructor(
         return formatter.format(this)
     }
 }
+
+data class EventsThisMonthFavAgencies(
+    val thisMonth : Int ,
+    val favouriteAgencies : Int
+)
 
 sealed class UiAction {
     data class Search(val query : String) : UiAction()
