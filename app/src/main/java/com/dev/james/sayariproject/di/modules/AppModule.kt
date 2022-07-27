@@ -240,8 +240,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideEventsDatasource(api : EventsApiService) : BaseEventsDatasource {
-        return EventsDatasource(api)
+    fun provideEventsDatasource(
+        api : EventsApiService,
+        dao : Dao
+    ) : BaseEventsDatasource {
+        return EventsDatasource(api , dao)
     }
 
     @Provides

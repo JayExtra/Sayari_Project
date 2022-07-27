@@ -1,6 +1,7 @@
 package com.dev.james.sayariproject.models.events
 
 import android.os.Parcelable
+import com.dev.james.sayariproject.models.launch.Program
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -23,4 +24,5 @@ data class Events(
     val imageUrl : String,
     val date : String,
     val probability : Int?,
+    val program : List<Program>
 ) : Parcelable
