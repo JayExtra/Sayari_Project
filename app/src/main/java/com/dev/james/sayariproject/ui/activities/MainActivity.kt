@@ -159,13 +159,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observePreferences() {
-        activityViewModel.checkSavedPreferences.observe(this , {
-            if(it.nightDarkStatus){
+        activityViewModel.checkSavedPreferences.observe(this) {
+            if (it.nightDarkStatus) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }else{
+            } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
-        })
+        }
     }
 
 
