@@ -23,6 +23,7 @@
     <style name="Theme.SayariProject.MaterialToolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:background">@color/primaryColor</item>
         <item name="navigationIconTint">@color/white</item>
+
     </style>
 
     <style name="Theme.SayariProject.TextAppearanceHeadings" parent="TextAppearance.MaterialComponents.Headline1">

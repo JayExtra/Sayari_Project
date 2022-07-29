@@ -223,6 +223,7 @@ class EventsFragment : Fragment() {
     }
 
     private fun FragmentEventsBinding.bindToolbarValues(){
+        eventsToolbar
         //load count animation
         lifecycleScope.launchWhenStarted {
             eventsViewModel.eventCountStateFlow.collectLatest { event ->

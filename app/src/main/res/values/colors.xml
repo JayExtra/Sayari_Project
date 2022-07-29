@@ -9,7 +9,7 @@
     <color name="colorOnPrimary">#ffffff</color>
     <color name="dim_white">#f7f7f7</color>
     <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#ffffff</color>
     <color name="white">#ffffff</color>
     <color name="grey">#D8D8D8</color>
     <color name="light_toolbar_color">#212121</color>

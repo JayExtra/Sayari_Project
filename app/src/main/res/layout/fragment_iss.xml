@@ -427,7 +427,7 @@
                     android:id="@+id/activeTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/ubuntu_medium"
                     android:text="@string/active_txt"
@@ -464,7 +464,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32dp"
                     android:fontFamily="@font/ubuntu_medium"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -472,13 +472,15 @@
 
                 <com.ms.square.android.expandabletextview.ExpandableTextView
                     android:id="@+id/descTxtExpText"
-                    android:layout_width="5dp"
-                    android:layout_height="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     app:animDuration="200"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/aboutTxt"
                     app:layout_constraintTop_toBottomOf="@+id/aboutTxt"
-                    app:maxCollapsedLines="4">
+                    app:maxCollapsedLines="6">
 
                     <ImageButton
                         android:id="@id/expand_collapse"
@@ -496,6 +498,7 @@
                         android:layout_marginLeft="0dp"
                         android:layout_marginRight="0dp"
                         android:textSize="16sp" />
+
 
                 </com.ms.square.android.expandabletextview.ExpandableTextView>
 
