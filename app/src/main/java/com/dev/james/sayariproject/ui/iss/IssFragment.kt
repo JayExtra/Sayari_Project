@@ -79,7 +79,8 @@ class IssFragment : Fragment() {
     private val partnerRcAdapter = PartnersRecyclerView()
     private val dockedVehiclesAdapter = DockedVehiclesAdapter { vehicle ->
         vehicle?.let {
-            navigateToVehicleFragment(vehicle)
+          //  Log.d("IssFragment", "vehicle selected: ${it.launch.program[1]}")
+           navigateToVehicleFragment(vehicle)
         } ?: Log.d("IssFrag" , "No vehicle detected")
     }
 

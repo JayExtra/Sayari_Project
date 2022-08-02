@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Agency(
     val id: Int,
+    val url: String,
     val name: String,
-    val type: String,
-    val url: String
+    val type: String
 ):Parcelable

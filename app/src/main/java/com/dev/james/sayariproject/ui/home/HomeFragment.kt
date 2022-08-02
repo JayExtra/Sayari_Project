@@ -122,93 +122,109 @@ class HomeFragment : Fragment() {
       //all top news slider operations occur here
     private fun setUpTopNewsViewPager() {
         //set up the adapter
-        homeViewModel.topArticlesLiveData.observe(viewLifecycleOwner , { event ->
-            event.getContentIfNotHandled()?.let { resource ->
+        homeViewModel.topArticlesLiveData.observe(viewLifecycleOwner) { resource ->
 
-                when(resource){
-                    is NetworkResource.Loading -> {
-                        Log.i("HomeFragment", "setUpTopNewsViewPager: loading content... ")
+            when (resource) {
+                is NetworkResource.Loading -> {
+                    Log.i("HomeFragment", "setUpTopNewsViewPager: loading content... ")
+                }
+                is NetworkResource.Success -> {
+                    val topArticles = resource.value
+                    val viewPagerAdapter = HomeViewPagerAdapter(topArticles) { url ->
+                        launchBrowser(url)
                     }
-                    is NetworkResource.Success -> {
-                        val topArticles =  resource.value
-                        val viewPagerAdapter = HomeViewPagerAdapter(topArticles) { url ->
-                            launchBrowser(url)
-                        }
-                        Log.i("HomeFragment", "setUpTopNewsViewPager: featured articles ${topArticles.toString()}... ")
+                    Log.i(
+                        "HomeFragment",
+                        "setUpTopNewsViewPager: featured articles ${topArticles.toString()}... "
+                    )
 
-                        binding.topNewsViewPager.adapter = viewPagerAdapter
-                        setUpPageIndicatorDots()
-                    }
-
-                    is NetworkResource.Failure -> {
-                        val errorCode = resource.errorCode
-                        val errorBody = resource.errorBody
-                        Toast.makeText(requireContext(), "error ($errorCode): ${errorBody.toString()} ", Toast.LENGTH_LONG).show()
-                        Log.d("HomeFragment", "setUpTopNewsViewPager: oh oh : $errorCode : ${errorBody.toString()}")
-                    }
+                    binding.topNewsViewPager.adapter = viewPagerAdapter
+                    setUpPageIndicatorDots()
                 }
 
+                is NetworkResource.Failure -> {
+                    val errorCode = resource.errorCode
+                    val errorBody = resource.errorBody
+                    Toast.makeText(
+                        requireContext(),
+                        "error ($errorCode): ${errorBody.toString()} ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    Log.d(
+                        "HomeFragment",
+                        "setUpTopNewsViewPager: oh oh : $errorCode : ${errorBody.toString()}"
+                    )
+                }
             }
-        })
 
-    }
+
+        }
+
+      }
 
     private fun setUpLatestNews(){
-        homeViewModel.latestArticlesLiveData.observe(viewLifecycleOwner , { event ->
-            event.getContentIfNotHandled()?.let { resource ->
+        homeViewModel.latestArticlesLiveData.observe(viewLifecycleOwner) { resource ->
 
-                when(resource){
-                    is NetworkResource.Loading -> {
-                        binding.homeProgressBar.isVisible = true
-                        makeInvisible()
-                    }
-
-                    is NetworkResource.Success -> {
-                        makeVisible()
-                        setUpTopNewsViewPager()
-                        binding.homeProgressBar.isVisible = false
-                        binding.retryButton.isInvisible = true
-                        Log.d("HomeFrag", "setUpLatestNews: ${resource.value}")
-                        val latestArticles = resource.value
-                        val listSize = latestArticles.size
-                        val topArticles = latestArticles.filter { it.featured }
-                        Log.d("HomeFrag", "filtered list: $topArticles , listtSize: ${listSize.toString()} ")
-                        articlesRecyclerAdapter.submitList(latestArticles)
-                    }
-
-                    is NetworkResource.Failure -> {
-                        binding.homeProgressBar.isVisible = false
-                        val errorCode = resource.errorCode
-                        val errorBody = resource.errorBody
-                        Toast.makeText(requireContext(), "error ($errorCode): ${errorBody.toString()} ", Toast.LENGTH_LONG).show()
-                        Log.d("HomeFragment", "setUpTopNewsViewPager: oh oh : $errorCode : ${errorBody.toString()}")
-
-                        if(articlesRecyclerAdapter.itemCount == 0 ){
-                            binding.apply {
-                                netErrorMess.isVisible = true
-                                networkErrorImage.isVisible = true
-                                retryButton.isVisible = true
-
-                                retryButton.setOnClickListener {
-                                    makeInvisible()
-                                    homeViewModel.getLatestArticles()
-                                    homeViewModel.getTopArticles()
-                                }
-                            }
-                        }else{
-                            binding.apply {
-                                netErrorMess.isVisible = false
-                                networkErrorImage.isVisible = false
-                            }
-                        }
-
-                    }
+            when (resource) {
+                is NetworkResource.Loading -> {
+                    binding.homeProgressBar.isVisible = true
+                    makeInvisible()
                 }
 
+                is NetworkResource.Success -> {
+                    makeVisible()
+                    setUpTopNewsViewPager()
+                    binding.homeProgressBar.isVisible = false
+                    binding.retryButton.isInvisible = true
+                    Log.d("HomeFrag", "setUpLatestNews: ${resource.value}")
+                    val latestArticles = resource.value
+                    val listSize = latestArticles.size
+                    val topArticles = latestArticles.filter { it.featured }
+                    Log.d(
+                        "HomeFrag",
+                        "filtered list: $topArticles , listtSize: ${listSize.toString()} "
+                    )
+                    articlesRecyclerAdapter.submitList(latestArticles)
+                }
 
+                is NetworkResource.Failure -> {
+                    binding.homeProgressBar.isVisible = false
+                    val errorCode = resource.errorCode
+                    val errorBody = resource.errorBody
+                    Toast.makeText(
+                        requireContext(),
+                        "error ($errorCode): ${errorBody.toString()} ",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    Log.d(
+                        "HomeFragment",
+                        "setUpTopNewsViewPager: oh oh : $errorCode : ${errorBody.toString()}"
+                    )
+
+                    if (articlesRecyclerAdapter.itemCount == 0) {
+                        binding.apply {
+                            netErrorMess.isVisible = true
+                            networkErrorImage.isVisible = true
+                            retryButton.isVisible = true
+
+                            retryButton.setOnClickListener {
+                                makeInvisible()
+                                homeViewModel.getLatestArticles()
+                                homeViewModel.getTopArticles()
+                            }
+                        }
+                    } else {
+                        binding.apply {
+                            netErrorMess.isVisible = false
+                            networkErrorImage.isVisible = false
+                        }
+                    }
+
+                }
             }
 
-        })
+
+        }
     }
 
     private fun makeVisible(){

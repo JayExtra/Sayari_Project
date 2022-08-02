@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialog_corner_radius_shape"
     tools:context=".ui.iss.SpaceCraftFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -23,12 +22,23 @@
                 android:id="@+id/humanRatedImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@+id/vehicleNameTxt"
                 app:layout_constraintTop_toBottomOf="@+id/vehicleNameTxt"
                 app:srcCompat="@drawable/ic_baseline_check_circle_24"
                 tools:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/craftImgProgress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/secondaryColor"
+                app:layout_constraintBottom_toBottomOf="@+id/craftImg"
+                app:layout_constraintEnd_toEndOf="@+id/craftImg"
+                app:layout_constraintStart_toStartOf="@+id/craftImg"
+                app:layout_constraintTop_toTopOf="@+id/craftImg" />
 
             <TextView
                 android:id="@+id/vehicleSerialTxt"
@@ -36,7 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toStartOf="@+id/humanRatedTxt"
                 app:layout_constraintHorizontal_bias="0.56"
@@ -276,61 +286,6 @@
                 app:layout_constraintStart_toStartOf="@+id/textView36"
                 app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
-            <View
-                android:id="@+id/divider5"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/launcherTxt" />
-
-            <View
-                android:id="@+id/divider6"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/aboutCrftTxt" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/craftImg"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:src="@color/grey"
-                app:civ_border_color="@color/secondaryLightColor"
-                app:civ_border_width="1dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spaceCraftToolbar" />
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/spaceCraftToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:subtitleTextColor="@color/primaryColor" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/agencyLogoImg"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp"
-                android:src="@color/grey"
-                app:civ_border_color="@color/white"
-                app:civ_border_width="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView35"
-                app:layout_constraintTop_toBottomOf="@+id/textView35" />
-
             <TextView
                 android:id="@+id/textView26"
                 style="@style/Theme.SayariProject.TextAppearanceDimCards"
@@ -390,6 +345,26 @@
                 app:layout_constraintTop_toBottomOf="@+id/flightLifeTxt" />
 
             <View
+                android:id="@+id/divider5"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/launcherTxt" />
+
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/aboutCrftTxt" />
+
+            <View
                 android:id="@+id/divider7"
                 android:layout_width="409dp"
                 android:layout_height="1dp"
@@ -399,16 +374,40 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
-            <ProgressBar
-                android:id="@+id/craftImgProgress"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminateTint="@color/secondaryColor"
-                app:layout_constraintBottom_toBottomOf="@+id/craftImg"
-                app:layout_constraintEnd_toEndOf="@+id/craftImg"
-                app:layout_constraintStart_toStartOf="@+id/craftImg"
-                app:layout_constraintTop_toTopOf="@+id/craftImg" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/spaceCraftToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:subtitleTextColor="@color/primaryColor" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/craftImg"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@color/grey"
+                app:civ_border_color="@color/secondaryLightColor"
+                app:civ_border_width="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spaceCraftToolbar" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/agencyLogoImg"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:src="@color/grey"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView35"
+                app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
