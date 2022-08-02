@@ -7,17 +7,22 @@ import com.dev.james.sayariproject.models.iss.Agency
 
 @Parcelize
 data class Program(
+    @SerializedName("id")
     val id : Int,
+    @SerializedName("url")
     val url : String,
+    @SerializedName("name")
     val name : String,
+    @SerializedName("description")
     val description : String,
+    @SerializedName("agencies")
     val agencies : List<Agency>,
     @SerializedName("image_url")
     val imageUrl : String,
     @SerializedName("start_date")
-    val startDate : String,
+    val startDate : String?,
     @SerializedName("wiki_url")
     val wikiUrl : String,
     @SerializedName("info_url")
-    val infoUrl : String,
+    val infoUrl : String?,
 ) : Parcelable

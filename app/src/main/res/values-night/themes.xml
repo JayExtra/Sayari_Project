@@ -88,5 +88,11 @@
         <item name="android:tint">@color/white</item>
     </style>
 
+    <style name="Theme.SayariProject.StatisticsDigits" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">@font/ubuntu_medium</item>
+    </style>
+
 
 </resources>

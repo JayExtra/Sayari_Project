@@ -21,11 +21,11 @@ class HomeViewModel @Inject constructor(
 )  : ViewModel() {
 
 
-    private val _topArticlesLiveData : MutableLiveData<Event<NetworkResource<List<Article>>>> =
+    private val _topArticlesLiveData : MutableLiveData<NetworkResource<List<Article>>> =
         MutableLiveData()
     val topArticlesLiveData get() = _topArticlesLiveData
 
-    private val _latestArticlesLiveData : MutableLiveData<Event<NetworkResource<List<Article>>>> =
+    private val _latestArticlesLiveData : MutableLiveData<NetworkResource<List<Article>>> =
         MutableLiveData()
     val latestArticlesLiveData get() = _latestArticlesLiveData
 
@@ -76,21 +76,24 @@ class HomeViewModel @Inject constructor(
         repository.getArticlesStream(queryString).cachedIn(viewModelScope)
 
     fun getTopArticles() = viewModelScope.launch {
-        _topArticlesLiveData.value = Event(NetworkResource.Loading)
-        _topArticlesLiveData.value = Event(repository.getTopArticles())
+        _topArticlesLiveData.value = NetworkResource.Loading
+        _topArticlesLiveData.value = repository.getTopArticles()
     }
 
     fun getLatestArticles() = viewModelScope.launch {
-        _latestArticlesLiveData.value = Event(NetworkResource.Loading)
-        _latestArticlesLiveData.value = Event(repository.getLatestArticles())
+        _latestArticlesLiveData.value = NetworkResource.Loading
+        _latestArticlesLiveData.value = repository.getLatestArticles()
     }
 
     override fun onCleared() {
         super.onCleared()
         savedStateHandle[LAST_SEARCH_QUERY] = uiState.value.query
+        getTopArticles().cancel()
+        getLatestArticles().cancel()
     }
 
 }
+
 
 
 

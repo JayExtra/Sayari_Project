@@ -30,7 +30,7 @@ data class VehicleConfig(
     val flightLife : String,
     @SerializedName("image_url")
     val imageUrl : String,
-    @SerializedName("wiki_url")
+    @SerializedName("wiki_link")
     val wikiUrl : String?,
     @SerializedName("info_link")
     val infoLink : String
