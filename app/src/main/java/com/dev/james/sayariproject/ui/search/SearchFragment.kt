@@ -12,6 +12,9 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.james.sayariproject.databinding.FragmentSearchBinding
@@ -24,6 +27,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -67,38 +72,42 @@ class SearchFragment : Fragment() {
 
     private fun startCollectingImagesFlow() {
 
-            discoverViewModel.myArticlesListForImages.observe(viewLifecycleOwner ,{ event ->
+            discoverViewModel.myArticlesListForImages.observe(viewLifecycleOwner) { resource ->
 
-                event.getContentIfNotHandled()?.let { resource ->
 
-                    when(resource){
+                    when (resource) {
                         is NetworkResource.Loading -> {
                             Log.d("DiscFrag", "startCollectingImagesFlow: getting images..")
                         }
                         is NetworkResource.Success -> {
-                            Log.d("DiscFrag", "startCollectingImagesFlow: results : ${resource.value} ")
+                            Log.d(
+                                "DiscFrag",
+                                "startCollectingImagesFlow: results : ${resource.value} "
+                            )
                             val images = resource.value.take(10)
                             galleryAdapter.submitList(images)
                         }
                         is NetworkResource.Failure -> {
                             val error = resource.errorBody
                             error?.let {
-                                Log.d("DiscFrag", "startCollectingImagesFlow: failure: ${it.toString()} ")
+                                Log.d(
+                                    "DiscFrag",
+                                    "startCollectingImagesFlow: failure: ${it.toString()} "
+                                )
                             }
                         }
                     }
 
-                }
 
-            } )
+
+            }
 
     }
 
     private fun startObservingNewsList() {
-        discoverViewModel.newsList.observe(viewLifecycleOwner , { event ->
-            event.getContentIfNotHandled()?.let { resource ->
+        discoverViewModel.newsList.observe(viewLifecycleOwner) { resource ->
 
-                when(resource){
+                when (resource) {
                     is NetworkResource.Loading -> {
                         Log.d("DiscFrag", "startObservingNewsList: loading... ")
                         binding?.apply {
@@ -110,15 +119,19 @@ class SearchFragment : Fragment() {
                     is NetworkResource.Success -> {
                         binding?.apply {
                             discoverViewPager.isVisible = true
-                            discoverDotsIndicator.isVisible=true
+                            discoverDotsIndicator.isVisible = true
                             searchProgressBar.isInvisible = true
                             netErrMessage.isInvisible = true
                             buttonRetry.isInvisible = true
-                            val filteredArticles =  resource.value
-                            val viewPagerAdapter = DiscoverViewPagerAdapter(filteredArticles) { url ->
-                                launchBrowser(url)
-                            }
-                            Log.i("DiscFrag", "startObservingNewsList: featured articles ${filteredArticles.toString()}... ")
+                            val filteredArticles = resource.value
+                            val viewPagerAdapter =
+                                DiscoverViewPagerAdapter(filteredArticles) { url ->
+                                    launchBrowser(url)
+                                }
+                            Log.i(
+                                "DiscFrag",
+                                "startObservingNewsList: featured articles ${filteredArticles.toString()}... "
+                            )
 
                             discoverViewPager?.let {
                                 it.adapter = viewPagerAdapter
@@ -127,24 +140,27 @@ class SearchFragment : Fragment() {
                         }
                     }
                     is NetworkResource.Failure -> {
-                        Log.d("DiscFrag", "startObservingNewsList: error: ${resource.errorBody.toString()} ")
-                       binding?.apply {
-                           discoverViewPager.isInvisible = true
-                           discoverDotsIndicator.isInvisible = true
-                           searchProgressBar.isInvisible = true
-                           netErrMessage.isVisible = true
-                           val error = resource.errorBody
-                           error?.let {
-                               netErrMessage.text = resource.errorBody.toString()
-                           }
-                           buttonRetry.isVisible = true
+                        Log.d(
+                            "DiscFrag",
+                            "startObservingNewsList: error: ${resource.errorBody.toString()} "
+                        )
+                        binding?.apply {
+                            discoverViewPager.isInvisible = true
+                            discoverDotsIndicator.isInvisible = true
+                            searchProgressBar.isInvisible = true
+                            netErrMessage.isVisible = true
+                            val error = resource.errorBody
+                            error?.let {
+                                netErrMessage.text = resource.errorBody.toString()
+                            }
+                            buttonRetry.isVisible = true
 
-                       }
+                        }
                     }
 
                 }
-            }
-        })
+
+        }
     }
 
     private fun setUpPageIndicatorDots() {
@@ -157,7 +173,7 @@ class SearchFragment : Fragment() {
 
     //have observable to listen to filter changes
     private fun startObservingFilters() {
-        discoverViewModel.stringParameter?.observe(viewLifecycleOwner , { event ->
+        discoverViewModel.stringParameter.observe(viewLifecycleOwner) { event ->
 
             event.getContentIfNotHandled()?.let { query ->
                 //trigger ui refresh and change the data
@@ -165,10 +181,10 @@ class SearchFragment : Fragment() {
                 discoverViewModel.getArticlesForImages(query)
                 collectMissions(query)
                 observedQuery = query
-     //           Toast.makeText(requireContext(), "filter param : $query" , Toast.LENGTH_LONG).show()
+                //           Toast.makeText(requireContext(), "filter param : $query" , Toast.LENGTH_LONG).show()
             }
 
-        })
+        }
     }
 
     private fun setUpUi() {
@@ -219,12 +235,13 @@ class SearchFragment : Fragment() {
     }
 
     private fun observeMissions(){
-        discoverViewModel.missionsList.observe(viewLifecycleOwner , { event ->
-            event.getContentIfNotHandled()?.let { missions ->
-                Log.d("SearchFrag", "observeMissions: $missions ")
-                missionsAdapter.submitList(missions)
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                discoverViewModel.missionsList.collect {
+                    missionsAdapter.submitList(it)
+                }
             }
-        })
+        }
     }
 
     private fun getInitialChipSelected() {

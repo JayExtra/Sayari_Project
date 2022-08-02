@@ -23,14 +23,14 @@ class DiscoverViewModel @Inject constructor(
     val stringParameter get() = _stringParameter
 
     //images stateflow
-    private var _articles : MutableLiveData<Event<NetworkResource<List<Article>>>> = MutableLiveData()
+    private var _articles : MutableLiveData<NetworkResource<List<Article>>> = MutableLiveData()
     val myArticlesListForImages get() = _articles
 
-  private var _newsList :  MutableLiveData<Event<NetworkResource<List<Article>>>> = MutableLiveData()
+  private var _newsList :  MutableLiveData<NetworkResource<List<Article>>> = MutableLiveData()
     val newsList get() = _newsList
 
-    private var _missionsList :  MutableLiveData<Event<List<ActiveMissions>>> = MutableLiveData()
-    val missionsList get() = _missionsList
+    private val _missionsListFlow :  MutableStateFlow<List<ActiveMissions>> = MutableStateFlow(emptyList())
+    val missionsList get() = _missionsListFlow.asStateFlow()
 
     private lateinit var storedQuery : String
     private lateinit var storedMissionQuery : String
@@ -58,32 +58,26 @@ class DiscoverViewModel @Inject constructor(
        if(initialQuery == "Sun"){
 
            val articles = repository.getFilteredNews(SUN_QUERY)
-           _newsList.value = Event(NetworkResource.Loading)
-           _newsList.value = Event(articles)
+           _newsList.value = NetworkResource.Loading
+           _newsList.value = articles
        }else{
            val articles = repository.getFilteredNews(initialQuery)
-           _newsList.value = Event(NetworkResource.Loading)
-           _newsList.value = Event(articles)
+           _newsList.value = NetworkResource.Loading
+           _newsList.value = articles
        }
 
     }
 
     //getting missions from DB:
-    fun getMissionsByCategory(category : String) {
+    fun getMissionsByCategory(category : String) = viewModelScope.launch {
         val initialQuery: String = savedStateHandle.get<String>(LAST_MISSION_QUERY) ?: category
-        try {
-            val missions = repository.getMissions(initialQuery)
-            storedMissionQuery = initialQuery
-            viewModelScope.launch {
-                missions.collect { missions ->
-                    _missionsList.value = Event(missions)
-                }
-            }
+        repository.getMissions(initialQuery).collect{
+               _missionsListFlow.value = it
+        }
+        storedMissionQuery = initialQuery
+
   //          missionsFlow = repository.getMissions(category).asLiveData()
 
-        }catch (e : Exception){
-            Log.d("DiscoverVm", "getMissionsByCategory: ${e.toString()}")
-        }
     }
 
     //getting images from network
@@ -96,48 +90,48 @@ class DiscoverViewModel @Inject constructor(
                     "opportunity" ,null,null,null
                 )
                 Log.d("DiscVm", "getArticlesForImages: mars: ${result.toString()} ")
-                _articles.value = Event(NetworkResource.Loading)
-                _articles.value = Event(result)
+                _articles.value = NetworkResource.Loading
+                _articles.value = result
             }
             "Moon" -> {
                 val result = repository.getArticlesForImages(
                     "LRO" , "Artemis" , "Apollo" , "chandrayaan","chang'e" ,"lunar rover",
                     "lunar" , null , null
                 )
-                _articles.value = Event(NetworkResource.Loading)
-                _articles.value =  Event(result)
+                _articles.value = NetworkResource.Loading
+                _articles.value = result
             }
             "Solar System" -> {
                 val result = repository.getArticlesForImages(
                     "pluto" , "venus" , "mercury" , "saturn","jupiter" ,null,
                     "osiris" , "lucy" , "cassini"
                 )
-                _articles.value = Event(NetworkResource.Loading)
-                _articles.value =  Event(result)
+                _articles.value = NetworkResource.Loading
+                _articles.value =  result
             }
             "Astronomy" -> {
                 val result = repository.getArticlesForImages(
                     "hubble" , null  , "chandra" , "galaxy","spitzer" ,null,
                     "black hole" , null, null
                 )
-                _articles.value = Event(NetworkResource.Loading)
-                _articles.value =  Event(result)
+                _articles.value = NetworkResource.Loading
+                _articles.value =  result
             }
             "Exoplanets" -> {
                 val result = repository.getArticlesForImages(
                     "TESS" , "kepler telescope" , "exoplanet" , "habitable",null ,null,
                     null , null , null
                 )
-                _articles.value = Event(NetworkResource.Loading)
-                _articles.value =  Event(result)
+                _articles.value = NetworkResource.Loading
+                _articles.value =  result
             }
             "Sun" -> {
                 val result = repository.getArticlesForImages(
                     "parker solar probe" , "coronal" , null , null,null ,null,
                     null , null , null
                 )
-                _articles.value = Event(NetworkResource.Loading)
-                _articles.value =  Event(result)
+                _articles.value = NetworkResource.Loading
+                _articles.value =  result
             }
             else -> {
                 Log.d("discoverViewModel", "getArticlesForImages: no category found")
