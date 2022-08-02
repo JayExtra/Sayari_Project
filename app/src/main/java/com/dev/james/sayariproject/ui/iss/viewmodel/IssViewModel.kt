@@ -10,6 +10,7 @@ import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.utilities.Event
 import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,6 +23,9 @@ import kotlin.math.roundToInt
 class IssViewModel @Inject constructor(
     private val repository : BaseMainRepository
 ) : ViewModel() {
+
+    private var getSpaceStationJob : Job? = null
+
     //define an observer that we will use monitor data changes in the UI
     private var _spaceStation : MutableStateFlow<NetworkResource<IntSpaceStation>> = MutableStateFlow(NetworkResource.Loading)
     val spaceStation get() = _spaceStation
@@ -42,15 +46,11 @@ class IssViewModel @Inject constructor(
     private var _showAstronaut : MutableSharedFlow<NetworkResource<Astronaut>> = MutableSharedFlow()
     val showAstronaut get() = _showAstronaut.asSharedFlow()
 
-    //get iss response from api using repository
-    init {
-      viewModelScope.launch {
-          val spaceStationData = repository.getSpaceStation()
-          val spaceStationEventsData = repository.getSpaceStationEvents()
 
-          _spaceStation.value = spaceStationData
-          _spaceStationEvents.value = Event(spaceStationEventsData)
-      }
+    //get iss response from api using repository
+
+    init {
+        getSpaceStationData()
     }
 
     fun getSelectedChip(chip : String) {
@@ -86,6 +86,22 @@ class IssViewModel @Inject constructor(
     private fun calculateCapacityPercentage(d: Int, t: Int): Int {
         return ((d.toDouble() / t) * 100).roundToInt()
     }
+
+    private fun getSpaceStationData() {
+        getSpaceStationJob = viewModelScope.launch {
+            val spaceStationData = repository.getSpaceStation()
+            val spaceStationEventsData = repository.getSpaceStationEvents()
+
+            _spaceStation.value = spaceStationData
+            _spaceStationEvents.value = Event(spaceStationEventsData)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        getSpaceStationJob?.cancel()
+    }
+
 
 }
 

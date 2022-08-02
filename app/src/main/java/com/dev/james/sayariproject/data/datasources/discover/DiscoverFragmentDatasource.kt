@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.data.datasources.discover
 
+import android.util.Log
 import com.dev.james.sayariproject.data.local.room.Dao
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
 import com.dev.james.sayariproject.models.articles.Article
@@ -8,6 +9,7 @@ import com.dev.james.sayariproject.repository.TopArticlesBaseRepo
 import com.dev.james.sayariproject.utilities.ARTICLE_STARTING_INDEX
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class DiscoverFragmentDatasource @Inject constructor(
