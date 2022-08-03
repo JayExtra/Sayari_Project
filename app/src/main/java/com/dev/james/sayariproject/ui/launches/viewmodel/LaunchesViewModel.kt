@@ -10,6 +10,7 @@ import com.dev.james.sayariproject.repository.BaseMainRepository
 import com.dev.james.sayariproject.utilities.Event
 import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -57,6 +58,7 @@ class LaunchesViewModel @Inject constructor(
 
     lateinit var accept: (UiAction) -> Unit
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getLaunches(queryString: String?, fragId: Int) {
 
   //      Log.d("LaunchesViewModel", "getLaunches: function called")

@@ -137,6 +137,9 @@
         <argument
             android:name="launch"
             app:argType="com.dev.james.sayariproject.models.launch.LaunchList" />
+        <argument
+            android:name="fragment_id"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment2"

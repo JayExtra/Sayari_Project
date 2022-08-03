@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
@@ -33,7 +34,6 @@ import com.dev.james.sayariproject.databinding.FragmentLaunchDetailsBinding
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.Mission
-import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +66,8 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
     ): View? {
         _binding = FragmentLaunchDetailsBinding.inflate(inflater , container , false)
         val args = arguments.launch
-        binding?.setUpUi(args)
+        val fragId = arguments.fragmentId
+        binding?.setUpUi(args , fragId)
         getRocketConfiguration(args)
         getAgencyDetails(args)
         return binding?.root
@@ -82,7 +83,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         args.rocket?.configuration?.let { mLaunchesViewModel.getRocketInstance(it.id) }
     }
 
-    private fun FragmentLaunchDetailsBinding.setUpUi(args: LaunchList) {
+    private fun FragmentLaunchDetailsBinding.setUpUi(args: LaunchList, fragId: Int) {
 
         //setup controller and navHostFragment
         navController = findNavController()
@@ -91,7 +92,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         )
 
         binding?.setUpToolbar(args.name , args.image)
-        binding?.setUpTimerCard(args)
+        binding?.setUpTimerCard(args , fragId)
 
         launchToolbar.setNavigationOnClickListener {
             Log.d("LaunchDetails", "navigation click listener invoked ")
@@ -107,7 +108,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         }
     }
 
-    private fun FragmentLaunchDetailsBinding.setUpTimerCard(args : LaunchList){
+    private fun FragmentLaunchDetailsBinding.setUpTimerCard(args: LaunchList, fragId: Int){
         val orbit = args.mission?.orbit?.name ?: "No orbit provided yet"
         launchOrbitTxt.text = orbit
 
@@ -119,15 +120,32 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
         if(args.stream) livestreamImageIndicator.startBlinkingAnimation()
 
-        launchStatusText.text = args.status?.name
+        if(args.status?.id == 4 && fragId == 2 ){
+            launchStatusText.text = args.status.name
+            failReasonTxt.isVisible = true
+            launchStatusText.setTextColor(ContextCompat.getColor(requireContext() , R.color.error_red))
+            failReasonTxt.text = args.fail
+        } else if(args.status?.id == 3 && fragId == 2 ) {
+            failReasonTxt.isVisible = false
+            launchStatusText.setTextColor(ContextCompat.getColor(requireContext() , R.color.active_green))
+            launchStatusText.text = args.status.name
+        }else {
+            failReasonTxt.isVisible = false
+            launchStatusText.text = args.status?.name
+        }
+
 
         launchDetailsDateTxt.text = args.startWindow.convertDate(requireContext())
 
         this.changeStatusColor(args.status?.id)
 
+
         val date = args.startWindow.getDateToCurrentTimezone(requireContext())
 
         this.startTimer(date , requireContext())
+
+
+
 
         this.setUpProbabilityBar(args.probability)
 

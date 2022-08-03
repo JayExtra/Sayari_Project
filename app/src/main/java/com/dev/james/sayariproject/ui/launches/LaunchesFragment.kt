@@ -61,6 +61,8 @@ class LaunchesFragment : Fragment() {
             binding.drawerLayout.open()
         }
 
+        binding.newsTopAppBar.title = getString(R.string.application_name)
+
         initMaterialTransitions()
 
         //launchesViewModel.getLaunches(0)

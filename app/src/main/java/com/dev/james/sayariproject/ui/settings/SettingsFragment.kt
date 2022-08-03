@@ -38,6 +38,7 @@ class SettingsFragment : Fragment() {
 
     private fun FragmentSettingsBinding.setUpUi(){
         //set up all common ui stuff here
+        settingsTopAppBar.title = getString(R.string.application_name)
         settingsTopAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }

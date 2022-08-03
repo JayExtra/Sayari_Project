@@ -138,13 +138,13 @@ class UpcomingLaunchesFragment : Fragment() {
         uiState: StateFlow<UiState>,
         onQueryChanged: (UiAction.Search) -> Unit
     ){
-        mLaunchesViewModel.queryPassed.observe(viewLifecycleOwner , { event ->
+        mLaunchesViewModel.queryPassed.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { query ->
                 Log.d("UpcomingFrag", "bindSearch: query received : $query")
-                updateLaunchListFromInput(onQueryChanged , query)
+                updateLaunchListFromInput(onQueryChanged, query)
                 hasSearched = true
             }
-        })
+        }
 
     }
 
@@ -225,8 +225,13 @@ class UpcomingLaunchesFragment : Fragment() {
     }
 
     private fun navigateToLaunchDetails(launch : LaunchList){
-       val action = LaunchesFragmentDirections.actionLaunchesFragmentToLaunchDetailsFragment(launch)
+       val action = LaunchesFragmentDirections.actionLaunchesFragmentToLaunchDetailsFragment(launch , FRAGMENT_ID )
+        Log.d("UpcomingLaunchesFragment", "navigateToLaunchDetails: $launch")
         findNavController().navigate(action)
+    }
+
+    companion object {
+        const val FRAGMENT_ID = 1
     }
 
 

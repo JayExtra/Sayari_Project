@@ -26,7 +26,9 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
-class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousLaunchesRecyclerAdapter.PreviousLaunchesViewHolder>(DiffUtilCallback()) {
+class PreviousLaunchesRecyclerAdapter(
+    private val onCardClick : (LaunchList) -> Unit
+) : PagingDataAdapter<LaunchList , PreviousLaunchesRecyclerAdapter.PreviousLaunchesViewHolder>(DiffUtilCallback()) {
 
     private lateinit var  context : Context
 
@@ -75,7 +77,13 @@ class PreviousLaunchesRecyclerAdapter : PagingDataAdapter<LaunchList , PreviousL
                 val location = launch.pad.location.name
 
                 launchLocation.text = "$padName | $location "
+
+                binding.root.setOnClickListener {
+                    onCardClick.invoke(launch)
+                }
             }
+
+
 
 
             setStatus(launch , binding)
