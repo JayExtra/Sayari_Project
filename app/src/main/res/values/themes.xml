@@ -53,6 +53,16 @@
         <item name="fontFamily">@font/ubuntu_medium</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="Theme.SayariProject.TextAppearanceSpacecraftSubTitles" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="Theme.SayariProject.TextAppearanceSpacecraftSmallTitles" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
     <style name="Theme.SayariProject.TextAppearanceHeadings" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/ubuntu</item>

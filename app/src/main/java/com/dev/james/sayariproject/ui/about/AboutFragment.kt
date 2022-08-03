@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.dev.james.sayariproject.BuildConfig
+import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentAboutBinding
 import com.dev.james.sayariproject.utilities.TWITTER_PROFILE
 import com.dev.james.sayariproject.utilities.TWITTER_PROFILE_WEB
@@ -44,7 +45,7 @@ class AboutFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(aboutToolbar)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(true)
-        (activity as AppCompatActivity).supportActionBar!!.title=""
+        (activity as AppCompatActivity).supportActionBar!!.title= getString(R.string.application_name)
 
         navController = findNavController()
         aboutToolbar.setNavigationOnClickListener {

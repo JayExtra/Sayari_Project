@@ -244,7 +244,7 @@ class IssFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(issToolbar)
         (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar!!.setHomeButtonEnabled(true)
-        (activity as AppCompatActivity).supportActionBar!!.title=""
+        (activity as AppCompatActivity).supportActionBar!!.title= getString(R.string.application_name)
         navController = findNavController()
         appBarConfiguration = AppBarConfiguration(
             navController.graph

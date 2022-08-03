@@ -94,5 +94,19 @@
         <item name="android:fontFamily">@font/ubuntu_medium</item>
     </style>
 
+    <style name="Theme.SayariProject.TextAppearanceSpacecraftSubTitles" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:textColor">@color/secondaryColor</item>
+    </style>
+
+    <style name="Theme.SayariProject.TextAppearanceSpacecraftSmallTitles" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:textColor">@color/sub_grey</item>
+    </style>
+
+
+
 
 </resources>

@@ -174,7 +174,6 @@
         android:layout_height="wrap_content"
         android:elevation="0dp"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
         app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -293,10 +292,10 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/eventsToolbar"
+                style="@style/Theme.SayariProject.MaterialToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:visibility="visible"
-                style="@style/Theme.SayariProject.MaterialToolbar"
                 app:layout_collapseMode="pin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

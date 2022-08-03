@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,7 +45,19 @@ class PreviousLaunchesFragment : Fragment() {
     private val binding get() = _binding!!
     private val launchesViewModel : LaunchesViewModel by  viewModels({requireParentFragment()})
     private var hasSearched : Boolean? = null
-    private val adapter = PreviousLaunchesRecyclerAdapter()
+    private val adapter = PreviousLaunchesRecyclerAdapter { launch ->
+        navigateToLaunchDetailsScreen(launch)
+    }
+
+    companion object {
+        const val FRAGMENT_ID = 2
+    }
+
+    private fun navigateToLaunchDetailsScreen(launch: LaunchList) {
+       val action = LaunchesFragmentDirections.actionLaunchesFragmentToLaunchDetailsFragment(launch , FRAGMENT_ID)
+        findNavController().navigate(action)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

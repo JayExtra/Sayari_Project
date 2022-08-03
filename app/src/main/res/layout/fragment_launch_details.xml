@@ -148,7 +148,7 @@
                         app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
-                        android:id="@+id/textView45"
+                        android:id="@+id/dateIndicatorsTxt"
                         style="@style/Theme.SayariProject.TextAppearanceDimCards"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -179,13 +179,13 @@
                         style="@style/Theme.SayariProject.TextAppearancePara"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginBottom="32dp"
                         android:textAlignment="center"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/launchStatusText"
                         app:layout_constraintStart_toStartOf="@+id/launchStatusText"
-                        app:layout_constraintTop_toBottomOf="@+id/launchStatusText"
+                        app:layout_constraintTop_toBottomOf="@+id/failReasonTxt"
                         app:layout_constraintVertical_bias="0.01999998" />
 
                     <TextView
@@ -193,7 +193,7 @@
                         style="@style/Theme.SayariProject.TextAppearanceDimCards"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="64dp"
                         android:layout_marginBottom="32dp"
                         android:text="@string/livestream_available_text"
@@ -229,9 +229,24 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:textAlignment="center"
-                        app:layout_constraintEnd_toEndOf="@+id/textView45"
-                        app:layout_constraintStart_toStartOf="@+id/textView45"
-                        app:layout_constraintTop_toBottomOf="@+id/textView45" />
+                        app:layout_constraintEnd_toEndOf="@+id/dateIndicatorsTxt"
+                        app:layout_constraintStart_toStartOf="@+id/dateIndicatorsTxt"
+                        app:layout_constraintTop_toBottomOf="@+id/dateIndicatorsTxt" />
+
+                    <TextView
+                        android:id="@+id/failReasonTxt"
+                        style="@style/Theme.SayariProject.TextAppearancePara"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="TextView"
+                        android:textAlignment="center"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/launchStatusText" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 

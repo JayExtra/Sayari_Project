@@ -132,7 +132,7 @@
 
             <TextView
                 android:id="@+id/textView15"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSubTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -144,7 +144,7 @@
 
             <TextView
                 android:id="@+id/textView16"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSubTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Width"
@@ -154,7 +154,7 @@
 
             <TextView
                 android:id="@+id/textView21"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSubTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Crew "
@@ -165,7 +165,7 @@
 
             <TextView
                 android:id="@+id/textView30"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSubTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Payload"
@@ -175,7 +175,7 @@
 
             <TextView
                 android:id="@+id/textView31"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSubTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="cap."
@@ -185,7 +185,7 @@
 
             <TextView
                 android:id="@+id/textView32"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSubTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="cap."
@@ -228,7 +228,7 @@
 
             <TextView
                 android:id="@+id/agencyNameTxt"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearancePara"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -288,7 +288,7 @@
 
             <TextView
                 android:id="@+id/textView26"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSubTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(meters)"
@@ -298,7 +298,7 @@
 
             <TextView
                 android:id="@+id/textView27"
-                style="@style/Theme.SayariProject.TextAppearanceDimCards"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSubTitles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(meters)"
@@ -308,6 +308,7 @@
 
             <TextView
                 android:id="@+id/textView29"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSmallTitles"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -315,31 +316,30 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/ubuntu"
                 android:text="Maiden flight:"
-                android:textColor="@color/primaryColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
             <TextView
                 android:id="@+id/textView34"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSmallTitles"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/ubuntu"
                 android:text="Capability:"
-                android:textColor="@color/primaryColor"
                 app:layout_constraintEnd_toEndOf="@+id/maidenFlightTxt"
                 app:layout_constraintStart_toStartOf="@+id/maidenFlightTxt"
                 app:layout_constraintTop_toBottomOf="@+id/maidenFlightTxt" />
 
             <TextView
                 android:id="@+id/textView36"
+                style="@style/Theme.SayariProject.TextAppearanceSpacecraftSmallTitles"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/ubuntu"
                 android:text="Launcher:"
-                android:textColor="@color/primaryColor"
                 app:layout_constraintEnd_toEndOf="@+id/flightLifeTxt"
                 app:layout_constraintStart_toStartOf="@+id/flightLifeTxt"
                 app:layout_constraintTop_toBottomOf="@+id/flightLifeTxt" />
@@ -378,8 +378,11 @@
                 android:id="@+id/spaceCraftToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:visibility="visible"
+                style="@style/Theme.SayariProject.MaterialToolbar"
                 app:layout_collapseMode="pin"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationIcon="@drawable/ic_arrow_back"
@@ -389,6 +392,7 @@
                 android:id="@+id/craftImg"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
+                android:layout_marginTop="16dp"
                 android:src="@color/grey"
                 app:civ_border_color="@color/secondaryLightColor"
                 app:civ_border_width="1dp"

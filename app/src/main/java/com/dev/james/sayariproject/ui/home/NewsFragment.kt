@@ -24,6 +24,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentNewsBinding
 import com.dev.james.sayariproject.general_adapters.LoadingStateAdapter
 import com.dev.james.sayariproject.models.articles.Article
@@ -83,6 +84,7 @@ class NewsFragment : Fragment() {
         appBarConfiguration = AppBarConfiguration(
             navController.graph
         )
+        binding.newsTopAppBar.title = getString(R.string.application_name)
         binding.newsTopAppBar.setNavigationOnClickListener {
             navController.popBackStack()
         }

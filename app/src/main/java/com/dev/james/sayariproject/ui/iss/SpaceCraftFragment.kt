@@ -64,6 +64,8 @@ class SpaceCraftFragment : Fragment() {
               navController.popBackStack()
             }
 
+            spaceCraftToolbar.title = getString(R.string.application_name)
+
 
             loadImage(vehicle.spacecraft.vehicleConfig.imageUrl)
             vehicleNameTxt.text = vehicle.spacecraft.name
