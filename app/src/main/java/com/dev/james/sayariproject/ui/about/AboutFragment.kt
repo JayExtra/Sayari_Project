@@ -16,6 +16,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentAboutBinding
+import com.dev.james.sayariproject.utilities.TWITTER_ID
 import com.dev.james.sayariproject.utilities.TWITTER_PROFILE
 import com.dev.james.sayariproject.utilities.TWITTER_PROFILE_WEB
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,8 +70,11 @@ class AboutFragment : Fragment() {
 
     }
     private fun launchTwitter(){
-        val twitterAppIntent = Intent().apply {
-            this.putExtra(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=$TWITTER_PROFILE"))
+
+        val twitterAppIntent = Intent(Intent.ACTION_VIEW,).apply {
+            this.setPackage("com.twitter.android")
+            this.data = Uri.parse("https://twitter.com/${TWITTER_PROFILE}")
+            this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         val twitterWebIntent = Intent().apply {
             this.data = Uri.parse(TWITTER_PROFILE_WEB)

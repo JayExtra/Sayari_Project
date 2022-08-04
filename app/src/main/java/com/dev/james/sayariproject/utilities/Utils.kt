@@ -9,7 +9,8 @@ const val STARTING_OFFSET_INDEX = 0
 const val LAUNCHES_SEARCH_LOAD_SIZE = 50
 const val EVENTS_SEARCH_LOAD_SIZE = 50
 const val TWITTER_PROFILE_WEB = "https://twitter.com/JamesTravor"
-const val TWITTER_PROFILE = "@JamesTravor"
+const val TWITTER_PROFILE = "JamesTravor"
+const val TWITTER_ID = 823539812
 const val DEV_EMAIL = "murokijames21@gmail.com"
 
 const val WINDOW_OPEN_NOTIFICATION_ID = 1

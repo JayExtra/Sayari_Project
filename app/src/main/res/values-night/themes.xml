@@ -106,6 +106,17 @@
         <item name="android:textColor">@color/sub_grey</item>
     </style>
 
+    <style name="Theme.SayariProject.OutlinedTextField" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/box_stroke_color_night</item>
+        <item name="endIconDrawable">@drawable/ic_round_cancel</item>
+        <item name="endIconTint">@color/grey</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="errorEnabled">true</item>
+        <item name="errorIconDrawable">@drawable/ic_error</item>
+        <item name="startIconTint">@color/white</item>
+        <item name="hintTextColor">@color/box_stroke_color_night</item>
+    </style>
+
 
 
 

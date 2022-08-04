@@ -253,5 +253,16 @@
         <item name="android:tint">@color/primaryColor</item>
     </style>
 
+    <style name="Theme.SayariProject.OutlinedTextField" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/box_stroke_color</item>
+        <item name="endIconDrawable">@drawable/ic_round_cancel</item>
+        <item name="endIconTint">@color/primaryLightColor</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="errorEnabled">true</item>
+        <item name="errorIconDrawable">@drawable/ic_error</item>
+        <item name="startIconTint">@color/primaryLightColor</item>
+        <item name="hintTextColor">@color/box_stroke_color</item>
+    </style>
+
 
 </resources>
