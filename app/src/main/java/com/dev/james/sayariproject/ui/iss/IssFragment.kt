@@ -655,14 +655,12 @@ class IssFragment : Fragment() {
       val username = profileUrl.substring(profileUrl.lastIndexOf("/") + 1)
         Log.d("IssFrag", "goToTwitter: username = $username  ")
         try{
-            requireContext().packageManager.getPackageInfo("com.twitter.android", 0)
-            val twitterIntent = Intent().apply {
-                this.action = Intent.ACTION_VIEW
-                this.data = Uri.parse("twitter://user?screen_name=$username")
+            val twitterIntent = Intent(Intent.ACTION_VIEW).apply {
+                this.data = Uri.parse("https://twitter.com/$username")
                 this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             startActivity(twitterIntent)
-        }catch (e : PackageManager.NameNotFoundException) {
+        }catch (e : ActivityNotFoundException) {
             Log.d("IssFrag", "goToTwitter: no twitter app found. $e")
             val twitterWebIntent = Intent().apply {
                 this.data = Uri.parse(profileUrl)
@@ -697,36 +695,28 @@ class IssFragment : Fragment() {
 
     private fun goToInstagram(url : String){
         //start intent to instagram app , if not installed go to browser web app
-        val pm = requireContext().packageManager
-
         try{
-            if(pm.getPackageInfo("com.instagram.android",0) != null){
                 var newUrl = url
                 if(newUrl.endsWith("/")){
                     newUrl = url.substring(0,url.length - 1)
                 }
                 val username = newUrl.substring(newUrl.lastIndexOf("/") + 1)
                 Log.d("IssFrag", "goToInstagram: $username")
-                val instaIntent = Intent().apply{
-                    this.action = Intent.ACTION_VIEW
+                val instaIntent = Intent(Intent.ACTION_VIEW).apply{
                     this.data = Uri.parse("http://instagram.com/_u/$username")
-                    this.`package` = "com.instagram.android"
+                    this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
                 Toast.makeText(requireContext(), "opening instagram app", Toast.LENGTH_SHORT).show()
                 startActivity(instaIntent)
-            }
             
-        }catch ( ignored : PackageManager.NameNotFoundException){
-            Log.d("IssFrag", "goToInstagram: name not found exception $ignored ")
+        }catch ( e : ActivityNotFoundException) {
             val instaWebIntent = Intent().apply {
                 this.data = Uri.parse(url)
             }
             Toast.makeText(requireContext(), "opening instagram web", Toast.LENGTH_SHORT).show()
             startActivity(instaWebIntent)
         }
-           
 
     }
-
 
 }

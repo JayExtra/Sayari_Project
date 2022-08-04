@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentSendEmailBinding
 import com.dev.james.sayariproject.utilities.DEV_EMAIL
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +45,7 @@ class SendEmailFragment : Fragment(){
         emailToolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
+        emailToolbar.title = getString(R.string.compsose_txt)
 
         sendEmailButton.setOnClickListener {
             //start email sending process
