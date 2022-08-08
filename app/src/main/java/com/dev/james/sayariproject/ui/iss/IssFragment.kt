@@ -13,6 +13,7 @@ import android.transition.Transition
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -594,9 +595,10 @@ class IssFragment : Fragment() {
         val astroTwitter = bottomSheetView.findViewById<ImageView>(R.id.twitterIcon)
         val astroInsta = bottomSheetView.findViewById<ImageView>(R.id.instagramIcon)
         val astroWiki = bottomSheetView.findViewById<ImageView>(R.id.astroWikipediaImgView)
-        val closeDialog = bottomSheetView.findViewById<TextView>(R.id.closeDialogTxt)
+        val closeDialog = bottomSheetView.findViewById<Button>(R.id.closeDialogTxt)
         val totalFlightsTxt = bottomSheetView.findViewById<TextView>(R.id.totalFlightsCountTxt)
         val totalLandingsTxt = bottomSheetView.findViewById<TextView>(R.id.totalLandingsCountTxt)
+        val astroLearnMoreBtn = bottomSheetView.findViewById<Button>(R.id.astroLearnMore)
 
         //total count
         totalFlightsTxt.text = astronaut.flights.size.toString()
@@ -618,6 +620,9 @@ class IssFragment : Fragment() {
         closeDialog.setOnClickListener {
             //close dialog
             bottomSheetDialog.dismiss()
+        }
+        astroLearnMoreBtn.setOnClickListener{
+            goToWikiPage(astronaut.wiki)
         }
 
         astroInsta.setOnClickListener{
