@@ -81,4 +81,7 @@
     <string name="application_name">Sayari</string>
     <string name="thank_you_message">Thank you in advance for reaching out. Please leave a suggestion on improvement or ideas that you may have for this app. Also feel free to reach out for contracts or full rime roles. I shall try my best to respond as soon as I can.</string>
     <string name="compsose_txt">Compose</string>
+    <string name="watch_string">watch</string>
+    <string name="event_description_title_on_card">Event Description</string>
+    <string name="continue_scroll"><![CDATA[continue scroll >>>]]></string>
 </resources>

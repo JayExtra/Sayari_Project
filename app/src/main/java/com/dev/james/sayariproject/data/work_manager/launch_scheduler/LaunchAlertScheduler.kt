@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
 import androidx.core.os.ConfigurationCompat
 import com.dev.james.sayariproject.data.broadcast_receivers.launch.FifteenMinuteLaunchAlertReceiver
@@ -62,14 +63,20 @@ class LaunchAlertScheduler @Inject constructor(
         }
         val intent = Intent(context, MidnightAlertReceiver::class.java )
         val pendingIntent =
-            PendingIntent.getBroadcast(context, MIDNIGHT_NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(
+                context,
+                MIDNIGHT_NOTIFICATION_ID,
+                intent,
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+            )
 
         (context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager)?.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             pendingIntent
         )
-        Log.d("LaunchAlertScheduler", "midnight alarm scheduled for ${calendar.time} ")
+        val newTime = calendar.timeInMillis
+        Log.d("LaunchAlertScheduler", "midnight alarm scheduled for $newTime =>  ${calendar.time} ")
 
     }
 
@@ -108,8 +115,8 @@ class LaunchAlertScheduler @Inject constructor(
     private suspend fun setAlarm(windowStart: String, name: String, slug: String, id: String) {
 
         val thirtyMinuteSet = dataStoreManager.readBooleanValueOnce(DatastorePreferenceKeys.IS_THIRTY_MIN_ENABLED)
-        val fifteenMinuteSet = dataStoreManager.readBooleanValueOnce(DatastorePreferenceKeys.IS_THIRTY_MIN_ENABLED)
-        val fiveMinuteSet = dataStoreManager.readBooleanValueOnce(DatastorePreferenceKeys.IS_THIRTY_MIN_ENABLED)
+        val fifteenMinuteSet = dataStoreManager.readBooleanValueOnce(DatastorePreferenceKeys.IS_FIFTEEN_MIN_ENABLED)
+        val fiveMinuteSet = dataStoreManager.readBooleanValueOnce(DatastorePreferenceKeys.IS_FIVE_MIN_ENABLED)
 
         setLaunchWindowOpenAlarm(
             windowStart = windowStart ,
@@ -151,7 +158,12 @@ class LaunchAlertScheduler @Inject constructor(
             putExtra("launch_slug" , slug)
         }
 
-        val pendingIntent = PendingIntent.getBroadcast(context , WINDOW_OPEN_NOTIFICATION_ID , intent , PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context ,
+            WINDOW_OPEN_NOTIFICATION_ID ,
+            intent ,
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
         if (date != null) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , date , pendingIntent)
             Log.d("LaunchAlertScheduler", "launch alert set for: ${windowStart.toDate()}")
@@ -161,8 +173,8 @@ class LaunchAlertScheduler @Inject constructor(
 
 
     private fun setThirtyMinuteAlarm(windowStart : String , name: String , id: String , slug: String){
-        val date = windowStart.toDate()?.time?.plus(30 * 60 * 1000)
-        Log.d("LaunchAlertScheduler", "setAlarm: 30 min added : ${date?.let { Date(it).formatCurrentDate(context) }}")
+        val date = windowStart.toDate()?.time?.minus(30 * 60 * 1000)
+        Log.d("LaunchAlertScheduler", "setAlarm: 30 min before : ${date?.let { Date(it).formatCurrentDate(context) }}")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context , ThirtyMinuteLaunchAlertReceiver::class.java).apply {
             putExtra("launch_id" , id )
@@ -170,15 +182,19 @@ class LaunchAlertScheduler @Inject constructor(
             putExtra("launch_slug" , slug)
         }
 
-        val pendingIntent = PendingIntent.getBroadcast(context , THIRTY_MIN_LAUNCH_NOTIFICATION_ID , intent , PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(context,
+            THIRTY_MIN_LAUNCH_NOTIFICATION_ID ,
+            intent ,
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
         if (date != null) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , date , pendingIntent)
             Log.d("LaunchAlertScheduler", "launch alert set for: ${windowStart.toDate()}")
         }
     }
     private fun setFifteenMinuteAlarm(windowStart : String , name: String , id: String , slug: String){
-        val date = windowStart.toDate()?.time?.plus(15 * 60 * 1000)
-        Log.d("LaunchAlertScheduler", "setAlarm: 15 min added : ${date?.let { Date(it).formatCurrentDate(context) }}")
+        val date = windowStart.toDate()?.time?.minus(15 * 60 * 1000)
+        Log.d("LaunchAlertScheduler", "setAlarm: 15 min before : ${date?.let { Date(it).formatCurrentDate(context) }}")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context , FifteenMinuteLaunchAlertReceiver::class.java).apply {
             putExtra("launch_id" , id )
@@ -186,7 +202,11 @@ class LaunchAlertScheduler @Inject constructor(
             putExtra("launch_slug" , slug)
         }
 
-        val pendingIntent = PendingIntent.getBroadcast(context , FIFTEEN_MIN_LAUNCH_NOTIFICATION_ID , intent , PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(context ,
+            FIFTEEN_MIN_LAUNCH_NOTIFICATION_ID ,
+            intent ,
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
         if (date != null) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , date , pendingIntent)
             Log.d("LaunchAlertScheduler", "launch alert set for: ${windowStart.toDate()}")
@@ -194,7 +214,7 @@ class LaunchAlertScheduler @Inject constructor(
     }
 
     private fun setFiveMinuteAlarm(windowStart : String , name: String , id: String , slug: String){
-        val date = windowStart.toDate()?.time?.plus(5 * 60 * 1000)
+        val date = windowStart.toDate()?.time?.minus(5 * 60 * 1000)
         Log.d("LaunchAlertScheduler", "setAlarm: 15 min added : ${date?.let { Date(it).formatCurrentDate(context) }}")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context , FiveMinuteLaunchAlertReceiver::class.java).apply {
@@ -203,7 +223,12 @@ class LaunchAlertScheduler @Inject constructor(
             putExtra("launch_slug" , slug)
         }
 
-        val pendingIntent = PendingIntent.getBroadcast(context , FIVE_MIN_LAUNCH_NOTIFICATION_ID , intent , PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context ,
+            FIVE_MIN_LAUNCH_NOTIFICATION_ID ,
+            intent ,
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
         if (date != null) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , date , pendingIntent)
             Log.d("LaunchAlertScheduler", "launch alert set for: ${windowStart.toDate()}")
@@ -217,7 +242,6 @@ class LaunchAlertScheduler @Inject constructor(
             dataStoreManager.storeBooleanValue(DatastorePreferenceKeys.HAS_PERFORMED_SYNC , false)
         }else {
             Log.d("LaunchAlertScheduler", "The manifest is healthy. Launch list size => $launchListSize")
-
         }
     }
 

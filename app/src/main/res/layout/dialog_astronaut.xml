@@ -6,6 +6,41 @@
     android:layout_height="match_parent"
     android:background="@drawable/top_corner_radius">
 
+
+            <TextView
+                android:id="@+id/astroBioTxt"
+                style="@style/Theme.SayariProject.TextAppearancePara"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:maxLines="5"
+                android:ellipsize="end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/astroCountryTxt"
+                app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/astroLearnMore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/secondaryColor"
+        android:text="@string/learn_more_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/astroBioTxt"
+        app:layout_constraintVertical_bias="0.0" />
+
+
     <ImageView
         android:id="@+id/twitterIcon"
         android:layout_width="wrap_content"
@@ -39,8 +74,9 @@
         app:layout_constraintStart_toEndOf="@+id/instagramIcon"
         app:layout_constraintTop_toBottomOf="@+id/astroStatusTxt" />
 
-    <TextView
+    <Button
         android:id="@+id/closeDialogTxt"
+        style="@style/Theme.SayariProject.CustomTextButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -169,30 +205,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/closeDialogTxt" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="39dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/astroCountryTxt"
-        app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/astroBioTxt"
-                style="@style/Theme.SayariProject.TextAppearancePara"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

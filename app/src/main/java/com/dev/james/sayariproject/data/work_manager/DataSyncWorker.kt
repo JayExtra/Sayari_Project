@@ -42,15 +42,13 @@ class DataSyncWorker @AssistedInject constructor(
                     )
                 }
 
-                for (i in launchManifestList.indices){
                     try {
-                        dao.addLaunch(launchManifestList[i])
-                        if (i == launchManifestList.size - 1){
-                            dataStoreManager.storeBooleanValue(DatastorePreferenceKeys.HAS_PERFORMED_SYNC , true)
-                            return Result.success(
-                                workDataOf(SUCCESS_MESSAGE to "sync performed successfully")
-                            )
-                        }
+                        dao.addLaunch(launchManifestList)
+                        dataStoreManager.storeBooleanValue(DatastorePreferenceKeys.HAS_PERFORMED_SYNC , true)
+                        return Result.success(
+                            workDataOf(SUCCESS_MESSAGE to "sync performed successfully")
+                        )
+
                     }catch (e : Exception){
                         return Result.failure(
                             workDataOf(
@@ -58,7 +56,7 @@ class DataSyncWorker @AssistedInject constructor(
                             )
                         )
                     }
-                }
+
 
             }
 

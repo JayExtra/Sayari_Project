@@ -34,7 +34,7 @@ interface Dao {
 
     //add launch into database for notification scheduling
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addLaunch(launch : LaunchManifestItem)
+    suspend fun addLaunch(launch : List<LaunchManifestItem>)
 
     @Query("DELETE FROM launch_manifest_table WHERE id = :id ")
     suspend fun deleteLaunchItem(id: String)

@@ -81,7 +81,7 @@
                 android:fontFamily="@font/ubuntu_medium"
                 android:text="mission"
                 android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@+id/reminderFab"
+                app:layout_constraintEnd_toStartOf="@+id/viewEventFab"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/eventImage" />
 
@@ -171,7 +171,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/reminderFab"
+                android:id="@+id/viewEventFab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -182,7 +182,7 @@
                 app:elevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/eventImage"
-                app:srcCompat="@drawable/ic_notifications"
+                app:srcCompat="@drawable/ic_eye"
                 app:tint="@color/white"
                 tools:ignore="SpeakableTextPresentCheck" />
 

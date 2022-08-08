@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
@@ -53,7 +54,7 @@ class EventsFragment : Fragment() {
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private val eventsAdapter = EventsRecyclerAdapter { shareUrl , videoUrl , snackBarMessage  ->
+    private val eventsAdapter = EventsRecyclerAdapter { shareUrl , videoUrl , snackBarMessage , event  ->
         when {
             shareUrl!=null -> {
                 shareNewsOrVideoUrl(shareUrl)
@@ -63,6 +64,11 @@ class EventsFragment : Fragment() {
             }
             snackBarMessage!=null -> {
                 showSnackBar(snackBarMessage)
+            }
+            event!=null -> {
+                Toast.makeText(requireContext(), event.name, Toast.LENGTH_SHORT).show()
+                val action = EventsFragmentDirections.actionEventsFragment2ToEventsDetailsFragment(event)
+                findNavController().navigate(action)
             }
             else -> {
                 Log.d("EventsFrag", "No action invoked from adapter")
@@ -276,7 +282,7 @@ class EventsFragment : Fragment() {
                 }
 
                 eventsProgressBar.isVisible = loadState.refresh is LoadState.Loading
-                eventsRetryButton.isVisible = loadState.refresh is LoadState.Error && eventsAdapter.itemCount == 0
+               // eventsRetryButton.isVisible = loadState.refresh is LoadState.Error && eventsAdapter.itemCount == 0
 
                 val errorState = loadState.source.append as? LoadState.Error
                     ?: loadState.source.prepend as? LoadState.Error

@@ -81,7 +81,15 @@
         android:id="@+id/eventsFragment2"
         android:name="com.dev.james.sayariproject.ui.events.EventsFragment"
         android:label="fragment_events"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment2_to_eventsDetailsFragment"
+            app:destination="@id/eventsDetailsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
     <fragment
         android:id="@+id/issFragment2"
         android:name="com.dev.james.sayariproject.ui.iss.IssFragment"
@@ -157,4 +165,24 @@
         android:name="com.dev.james.sayariproject.ui.favourites.FavouritesFragment"
         android:label="fragment_favourites"
         tools:layout="@layout/fragment_favourites" />
+    <fragment
+        android:id="@+id/eventsDetailsFragment"
+        android:name="com.dev.james.sayariproject.ui.events.EventsDetailsFragment"
+        android:label="fragment_event_details"
+        tools:layout="@layout/fragment_event_details" >
+        <action
+            android:id="@+id/action_eventsDetailsFragment_to_eventsFragment2"
+            app:destination="@id/eventsFragment2"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
+        <argument
+            android:name="event"
+            app:argType="com.dev.james.sayariproject.models.events.Events"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="event_id"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>
