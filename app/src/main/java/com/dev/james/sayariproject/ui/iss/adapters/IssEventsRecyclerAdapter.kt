@@ -28,7 +28,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class IssEventsRecyclerAdapter(
-    private val action : (String? , String? , String?) -> Unit
+    private val action : (String? , String? , String? , Events?) -> Unit
 ) : ListAdapter<Events , IssEventsRecyclerAdapter.IssEventsViewHolder>(DiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IssEventsViewHolder {
@@ -59,21 +59,26 @@ class IssEventsRecyclerAdapter(
                     val shareUrl = events.newsUrl
                     if (shareUrl==null){
                         val message = "No article available yet for this event"
-                        action.invoke(null , null , message)
+                        action.invoke(null , null , message , null)
                     }else{
-                        action.invoke(events.newsUrl , null , null )
+                        action.invoke(events.newsUrl , null , null , null )
                     }
                 }
                 watchEventBtn.setOnClickListener {
                     if(events.webcast){
-                        action.invoke(null , events.videoUrl , null)
+                        action.invoke(null , events.videoUrl , null , null)
                     }else{
-                        action.invoke(null , null ,"No webcast currently available")
+                        action.invoke(null , null ,"No webcast currently available",null)
                     }
 
                     //action.invoke(null , events.videoUrl , null)
 
                 }
+
+                viewEventFab.setOnClickListener{
+                    action.invoke(null , null , null , events)
+                }
+
                 setUpExpandableCard(binding)
                 setupDate(events , binding)
                 loadImage(events , binding)

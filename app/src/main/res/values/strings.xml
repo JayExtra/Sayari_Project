@@ -84,4 +84,6 @@
     <string name="watch_string">watch</string>
     <string name="event_description_title_on_card">Event Description</string>
     <string name="continue_scroll"><![CDATA[continue scroll >>>]]></string>
+    <string name="vid_err_message">No stream url available yet</string>
+    <string name="share_err_mess">No news article on this event available yet</string>
 </resources>

@@ -32,12 +32,12 @@ class EventsViewModel @Inject constructor(
     private val _sState : MutableStateFlow<Event<Boolean>> = MutableStateFlow(Event(false))
     val sState get() = _sState
 
-    private val _chartDataState : MutableStateFlow<Event<List<Float>>> = MutableStateFlow(Event(listOf(0f)))
+    private val _chartDataState : MutableStateFlow<List<Float>> = MutableStateFlow(listOf(0f))
     val chartDataState get() = _chartDataState
 
-    private val _eventCountStateFlow : MutableStateFlow<Event<EventsThisMonthFavAgencies>> = MutableStateFlow(Event(
+    private val _eventCountStateFlow : MutableStateFlow<EventsThisMonthFavAgencies> = MutableStateFlow(
         EventsThisMonthFavAgencies(0 , 0)
-    ))
+    )
     val eventCountStateFlow get() = _eventCountStateFlow
 
     val uiState : StateFlow<UiState>
@@ -119,7 +119,7 @@ class EventsViewModel @Inject constructor(
         val chartData = calculateChartData(events)
         Log.d("EventsVm", "getEventsChartData: chart floats : ${chartData.toString()} from size: ${events.size} ")
         //post value to stateflow
-        _chartDataState.value = Event(chartData)
+        _chartDataState.value = chartData
     }
 
     private fun calculateChartData(events: List<Events>): List<Float> {
@@ -174,12 +174,12 @@ class EventsViewModel @Inject constructor(
             }
 
 
-            _eventCountStateFlow.value = Event(
+            _eventCountStateFlow.value =
                 EventsThisMonthFavAgencies(
                     thisMonth = filteredEvents.size ,
                     favouriteAgencies =  filteredByFavourites.size
                 )
-            )
+
 
         }catch (e : Exception){
 

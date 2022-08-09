@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
@@ -66,7 +65,7 @@ class EventsFragment : Fragment() {
                 showSnackBar(snackBarMessage)
             }
             event!=null -> {
-                Toast.makeText(requireContext(), event.name, Toast.LENGTH_SHORT).show()
+                Log.d("EventsFragment", "event selected => $event")
                 val action = EventsFragmentDirections.actionEventsFragment2ToEventsDetailsFragment(event)
                 findNavController().navigate(action)
             }
@@ -91,21 +90,20 @@ class EventsFragment : Fragment() {
         Log.d("EventsFrag", "shareNewsOrVideoUrl: video triggered ")
         videoUrl?.let {
             val vidId = extractVideoId(videoUrl)
-            launchYoutubeIntent(vidId[1])
-            Log.d("EventFrag", "goToWebCast: video array : $vidId")
-        }?: Log.d("EventFrag", "goToWebCast: no webcast available")
+            launchYoutubeIntent(videoUrl)
+            Log.d("EventsFragment", "goToWebCast: video array : $vidId")
+        }?: Log.d("EventsFragment", "goToWebCast: no webcast available")
 
     }
 
-    private fun launchYoutubeIntent(c: Char) {
-        val appIntent = Intent().apply {
-            this.action = Intent.ACTION_VIEW
-            this.putExtra(Intent.ACTION_VIEW , Uri.parse("vnd.youtube:$c"))
+    private fun launchYoutubeIntent(c: String?) {
+        val appIntent = Intent(Intent.ACTION_VIEW).apply {
+            this.data = Uri.parse(c)
+            this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
-        val webIntent = Intent().apply {
-            this.action = Intent.ACTION_VIEW
-            this.putExtra(Intent.ACTION_VIEW , Uri.parse("http://www.youtube.com/watch?v=$c"))
+        val webIntent = Intent( Intent.ACTION_VIEW).apply {
+            this.data =  Uri.parse(c)
         }
 
         try {
@@ -152,10 +150,8 @@ class EventsFragment : Fragment() {
 
     private fun collectChartDataStateFlow() {
         lifecycleScope.launchWhenStarted {
-            eventsViewModel.chartDataState.collect { event ->
-                event.getContentIfNotHandled()?.let { chart_data ->
+            eventsViewModel.chartDataState.collect { chart_data ->
                     setUpChartWithData(chart_data)
-                }
             }
         }
     }
@@ -232,8 +228,7 @@ class EventsFragment : Fragment() {
         eventsToolbar
         //load count animation
         lifecycleScope.launchWhenStarted {
-            eventsViewModel.eventCountStateFlow.collectLatest { event ->
-                event.getContentIfNotHandled()?.let { count ->
+            eventsViewModel.eventCountStateFlow.collectLatest { count ->
                     val animator = ValueAnimator.ofInt(0 , count.thisMonth)
                     animator.duration = 1000
                     animator.addUpdateListener { animation ->
@@ -251,7 +246,6 @@ class EventsFragment : Fragment() {
 
                     animator.start()
                     animator2.start()
-                }
 
             }
         }
