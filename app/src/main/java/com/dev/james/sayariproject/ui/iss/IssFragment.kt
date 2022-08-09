@@ -3,7 +3,6 @@ package com.dev.james.sayariproject.ui.iss
 import android.animation.ValueAnimator
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -85,7 +84,7 @@ class IssFragment : Fragment() {
         } ?: Log.d("IssFrag" , "No vehicle detected")
     }
 
-    private val eventsAdapter = IssEventsRecyclerAdapter { shareUrl, videoUrl, snackBarMessage ->
+    private val eventsAdapter = IssEventsRecyclerAdapter { shareUrl, videoUrl, snackBarMessage ,event ->
         when {
             shareUrl != null -> {
                 shareNewsOrVideoUrl(shareUrl)
@@ -95,6 +94,10 @@ class IssFragment : Fragment() {
             }
             snackBarMessage != null -> {
                 showSnackBar(snackBarMessage)
+            }
+            event != null -> {
+                val action  = IssFragmentDirections.actionIssFragment2ToEventsDetailsFragment(event)
+                findNavController().navigate(action)
             }
             else -> {
                 Log.d("IssFrag", "No action invoked from adapter")
@@ -118,24 +121,26 @@ class IssFragment : Fragment() {
         Log.d("EventsFrag", "shareNewsOrVideoUrl: video triggered ")
         videoUrl?.let {
             val vidId = extractVideoId(videoUrl)
-            launchYoutubeIntent(vidId[1])
+            launchYoutubeIntent(videoUrl)
             Log.d("IssFrag", "goToWebCast: video array : $vidId")
         } ?: Log.d("IssFrag", "goToWebCast: no webcast available")
 
     }
 
-    private fun launchYoutubeIntent(c: Char) {
-        val appIntent = Intent().apply {
-            this.putExtra(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$c"))
+    private fun launchYoutubeIntent(c: String?) {
+        val appIntent = Intent(Intent.ACTION_VIEW).apply {
+            this.data = Uri.parse(c)
+            this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        val webIntent = Intent().apply {
-           this.data = Uri.parse("http://www.youtube.com/watch?v=$c")
+
+        val webIntent = Intent( Intent.ACTION_VIEW).apply {
+            this.data =  Uri.parse(c)
         }
 
         try {
             requireContext().startActivity(appIntent)
-        } catch (e: ActivityNotFoundException) {
-            Log.d("IssFrag", "launchYoutubeIntent: ${e.localizedMessage} ")
+        }catch (e : ActivityNotFoundException){
+            Log.d("EventFrag", "launchYoutubeIntent: ${e.localizedMessage} ")
             requireContext().startActivity(webIntent)
         }
     }

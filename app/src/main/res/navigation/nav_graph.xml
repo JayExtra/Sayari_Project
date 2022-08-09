@@ -103,6 +103,13 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_issFragment2_to_eventsDetailsFragment"
+            app:destination="@id/eventsDetailsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/spaceCraftFragment"
@@ -184,5 +191,10 @@
             android:name="event_id"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_eventsDetailsFragment_to_issFragment2"
+            app:destination="@id/issFragment2"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
     </fragment>
 </navigation>

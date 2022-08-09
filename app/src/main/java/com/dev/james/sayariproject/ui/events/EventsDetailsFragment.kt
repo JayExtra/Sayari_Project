@@ -1,7 +1,11 @@
 package com.dev.james.sayariproject.ui.events
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +28,7 @@ import com.dev.james.sayariproject.databinding.FragmentEventDetailsBinding
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.ui.launches.launchdetails.AgencyListRecyclerAdapter
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -87,7 +92,36 @@ class EventsDetailsFragment : Fragment() {
         setUpEventsDescCard(event)
         setUpPartnersRv(event)
         setUpImage(event)
+        setUpButtons(event)
 
+    }
+
+    private fun FragmentEventDetailsBinding.setUpButtons(event : Events){
+
+        watchSteamBtn.setOnClickListener{
+            val message = getString(R.string.vid_err_message)
+            event.videoUrl?.let {
+                goToWebCast(it)
+            } ?: showSnackBarMessage(message)
+
+        }
+
+        shareEventBtn.setOnClickListener {
+            val message = getString(R.string.share_err_mess)
+        event.newsUrl?.let {
+            shareNewsOrVideoUrl(it)
+        } ?: showSnackBarMessage(message)
+        }
+
+
+    }
+
+    private fun showSnackBarMessage(message : String){
+        Snackbar.make(
+            binding.root ,
+            message ,
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun FragmentEventDetailsBinding.setUpEventsDetailsCard(event : Events){
@@ -97,7 +131,9 @@ class EventsDetailsFragment : Fragment() {
         eventTypeTxt.text = event.type.name
         eventDateTxt.text = event.date.convertDate(context = requireContext())
 
-        swipeTxt.isVisible = event.program[0].agencies.size > 1
+        if(event.program.isNotEmpty()){
+            swipeTxt.isVisible = event.program[0].agencies.size > 1
+        }
 
 
         livestreamImageIndicator.isVisible = event.videoUrl != null
@@ -121,7 +157,9 @@ class EventsDetailsFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = partnerAdapter
         }
-        partnerAdapter.submitList(event.program[0].agencies)
+        if(event.program.isNotEmpty()){
+            partnerAdapter.submitList(event.program[0].agencies)
+        }
     }
 
     private fun FragmentEventDetailsBinding.setUpImage(events : Events){
@@ -153,5 +191,45 @@ class EventsDetailsFragment : Fragment() {
         val anim = AnimationUtils.loadAnimation(requireContext() , R.anim.blink_anim)
         this.startAnimation(anim)
     }
+
+    private fun goToWebCast(videoUrl: String?) {
+        Log.d("EventsFrag", "shareNewsOrVideoUrl: video triggered ")
+        videoUrl?.let {
+            launchYoutubeIntent(videoUrl)
+        }?: Log.d("EventsFragment", "goToWebCast: no webcast available")
+
+    }
+
+    private fun launchYoutubeIntent(c: String?) {
+        val appIntent = Intent(Intent.ACTION_VIEW).apply {
+            this.data = Uri.parse(c)
+            this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        val webIntent = Intent( Intent.ACTION_VIEW).apply {
+            this.data =  Uri.parse(c)
+        }
+
+        try {
+            requireContext().startActivity(appIntent)
+        }catch (e : ActivityNotFoundException){
+            Log.d("EventFrag", "launchYoutubeIntent: ${e.localizedMessage} ")
+            requireContext().startActivity(webIntent)
+        }
+    }
+
+    private fun shareNewsOrVideoUrl(shareUrl: String?) {
+        Log.d("EventsFrag", "shareNewsOrVideoUrl: share url triggered ")
+        shareUrl?.let {
+            val shareIntent = Intent().apply{
+                this.action = Intent.ACTION_SEND
+                this.putExtra(Intent.EXTRA_TEXT , it)
+                this.type = "text/plain"
+            }
+            startActivity(shareIntent)
+        }
+    }
+
+
 
 }

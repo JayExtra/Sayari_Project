@@ -61,7 +61,7 @@ class EventsRecyclerAdapter(
                     }
                 }
                 watchEventBtn.setOnClickListener {
-                   if(events.webcast){
+                   if(!events.videoUrl.isNullOrBlank()){
                         action.invoke(null , events.videoUrl , null , null)
                     }else{
                         action.invoke(null , null ,"No webcast currently available" , null)
