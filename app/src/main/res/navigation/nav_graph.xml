@@ -197,4 +197,9 @@
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
     </fragment>
+    <fragment
+        android:id="@+id/supportUsFragment2"
+        android:name="com.dev.james.sayariproject.ui.support.SupportUsFragment"
+        android:label="fragment_support_us"
+        tools:layout="@layout/fragment_support_us" />
 </navigation>

@@ -435,6 +435,7 @@ class EventsFragment : Fragment() {
 
     private fun refreshList(onQueryChanged: (UiAction.Search) -> Unit) {
         onQueryChanged(UiAction.Search(query = ""))
+        eventsViewModel.getEventsForAppBar()
         hasSearched = false
         binding.eventsRecyclerView.scrollToPosition(0)
     }

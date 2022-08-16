@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.dev.james.sayariproject.di.modules.ApplicationScope
 import com.dev.james.sayariproject.models.discover.ActiveMissions
+import com.dev.james.sayariproject.models.events.ScheduledEventAlert
 import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.models.launch.LaunchManifestItem
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [ActiveMissions::class , Result::class , LaunchManifestItem::class] , version = 3)
+@Database(entities = [ActiveMissions::class , Result::class , LaunchManifestItem::class , ScheduledEventAlert::class] , version = 4)
 abstract class SayariDatabase : RoomDatabase() {
 
     abstract fun dbDao() : Dao

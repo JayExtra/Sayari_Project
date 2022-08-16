@@ -15,7 +15,7 @@ data class Events(
     val description : String,
     @SerializedName("webcast_live")
     val webcast : Boolean,
-    val location : String,
+    val location : String?,
     @SerializedName("news_url")
     val newsUrl : String?,
     @SerializedName("video_url")

@@ -146,16 +146,29 @@
                 android:id="@+id/twitterButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
                 android:backgroundTint="@color/twitter_button"
                 android:fontFamily="@font/ubuntu_medium"
                 android:text="twitter"
                 app:icon="@drawable/ic_twitter_icon"
                 app:iconGravity="textStart"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/gmailButton"
                 app:layout_constraintStart_toStartOf="@+id/gmailButton"
                 app:layout_constraintTop_toBottomOf="@+id/gmailButton" />
+
+            <Button
+                android:id="@+id/linkedInButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/linked_in_blue"
+                android:text="@string/linked_in"
+                app:iconGravity="textStart"
+                app:icon="@drawable/ic_icons8_linkedin_circled"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/twitterButton"
+                app:layout_constraintStart_toStartOf="@+id/twitterButton"
+                app:layout_constraintTop_toBottomOf="@+id/twitterButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

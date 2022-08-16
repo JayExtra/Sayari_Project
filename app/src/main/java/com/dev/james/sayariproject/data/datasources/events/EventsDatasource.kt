@@ -8,10 +8,10 @@ import com.dev.james.sayariproject.data.local.room.Dao
 import com.dev.james.sayariproject.data.remote.paging.EventsPagingSource
 import com.dev.james.sayariproject.data.remote.service.EventsApiService
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.events.ScheduledEventAlert
 import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.repository.TopArticlesBaseRepo
 import com.dev.james.sayariproject.utilities.EVENTS_SEARCH_LOAD_SIZE
-import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -37,6 +37,20 @@ class EventsDatasource @Inject constructor(
         val agencies = dao.favouriteAgenciesSnapshot()
         Log.d("EventsDataSource", "getFavouriteAgencies: $agencies")
         return agencies
+    }
+
+    override suspend fun getScheduledEvent(): List<ScheduledEventAlert> {
+        return dao.getEvents()
+    }
+
+    override suspend fun addEvent(scheduledEventAlert: ScheduledEventAlert): Int {
+        dao.addEvent(scheduledEventAlert)
+        val savedEvent = dao.getEvent(scheduledEventAlert.id)
+        return savedEvent.id
+    }
+
+    override suspend fun deleteScheduledEvent(id: Int) {
+        dao.deleteEvent(id)
     }
 
 

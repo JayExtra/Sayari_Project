@@ -1,4 +1,4 @@
-package com.dev.james.sayariproject.data.broadcast_receivers.launch
+package com.dev.james.sayariproject.data.broadcast_receivers.events
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,22 +6,18 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.dev.james.sayariproject.R
+import com.dev.james.sayariproject.utilities.EVENT_NOTIFICATION_ID
 import com.dev.james.sayariproject.utilities.NOTIFICATION_CHANNEL_ID
-import com.dev.james.sayariproject.utilities.THIRTY_MIN_LAUNCH_NOTIFICATION_ID
-import com.dev.james.sayariproject.utilities.WINDOW_OPEN_NOTIFICATION_ID
 import java.util.*
 
-class LaunchWindowOpenAlertReceiver : BroadcastReceiver() {
-
+class EventsAlertsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        //on receive i.e when the alarm hits at the required time a
-        //notification will be shown then the notification registered in the db
-        val launchId  = intent?.getStringExtra("launch_id")
-        val name = intent?.getStringExtra("launch_name")
-        val slug = intent?.getStringExtra("launch_slug")
+        val launchId  = intent?.getStringExtra("event_id")
+        val name = intent?.getStringExtra("event_name")
+        val slug = intent?.getStringExtra("event_slug")
         val time = Calendar.getInstance().time.toString()
 
-        showNotification(context = context , name =  name , slug =  slug)
+        showNotification(context , name , slug)
     }
 
     private fun showNotification(context: Context?,name: String?, slug: String?) {
@@ -33,7 +29,7 @@ class LaunchWindowOpenAlertReceiver : BroadcastReceiver() {
                 .build()
 
             with(NotificationManagerCompat.from(context)){
-                notify(WINDOW_OPEN_NOTIFICATION_ID , notBuilder)
+                notify(EVENT_NOTIFICATION_ID , notBuilder)
             }
         }
     }

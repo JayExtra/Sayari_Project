@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.core.os.ConfigurationCompat
+import com.dev.james.sayariproject.data.broadcast_receivers.events.EventsAlertsReceiver
 import com.dev.james.sayariproject.data.broadcast_receivers.launch.FifteenMinuteLaunchAlertReceiver
 import com.dev.james.sayariproject.data.broadcast_receivers.launch.FiveMinuteLaunchAlertReceiver
 import com.dev.james.sayariproject.data.broadcast_receivers.launch.LaunchWindowOpenAlertReceiver
@@ -18,6 +19,7 @@ import com.dev.james.sayariproject.data.broadcast_receivers.phone_reboot.PhoneRe
 import com.dev.james.sayariproject.data.local.datastore.DataStoreManager
 import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys
 import com.dev.james.sayariproject.data.local.room.Dao
+import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.models.launch.LaunchManifestItem
 import com.dev.james.sayariproject.utilities.*
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -167,6 +169,29 @@ class LaunchAlertScheduler @Inject constructor(
         if (date != null) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , date , pendingIntent)
             Log.d("LaunchAlertScheduler", "launch alert set for: ${windowStart.toDate()}")
+        }
+    }
+
+    override suspend fun setEventAlarm(event: Events){
+        val date = event.date.toDate()?.time
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent = Intent(context , EventsAlertsReceiver::class.java).apply {
+            putExtra("event_id" , event.id)
+            putExtra("event_name" , event.name)
+            putExtra("event_slug" , event.slug)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context ,
+            EVENT_NOTIFICATION_ID ,
+            intent,
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        )
+
+        if(date != null){
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , date , pendingIntent)
+            Log.d("LaunchAlertScheduler", "launch alert set for: ${event.date.toDate()}")
         }
     }
 

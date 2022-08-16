@@ -92,7 +92,7 @@ class EventsViewModel @Inject constructor(
     private fun searchEvents(queryString : String?) : Flow<PagingData<Events>> =
         repository.getEvents(queryString).cachedIn(viewModelScope)
 
-    private fun getEventsForAppBar() = viewModelScope.launch {
+     fun getEventsForAppBar() = viewModelScope.launch {
 
         when(val response = repository.getEventsTopAppbar()){
             is NetworkResource.Loading -> {

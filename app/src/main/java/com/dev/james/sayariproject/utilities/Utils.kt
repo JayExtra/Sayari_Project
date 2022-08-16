@@ -18,8 +18,11 @@ const val THIRTY_MIN_LAUNCH_NOTIFICATION_ID = 2
 const val FIFTEEN_MIN_LAUNCH_NOTIFICATION_ID = 3
 const val FIVE_MIN_LAUNCH_NOTIFICATION_ID = 4
 const val MIDNIGHT_NOTIFICATION_ID = 5
+const val EVENT_NOTIFICATION_ID = 6
 
 const val NOTIFICATION_CHANNEL_ID = "sayari_alert_channel"
 const val NOTIFICATION_CHANNEL_NAME =  "launch and events alerts"
 
 const val SAYARI_UNIQUE_WORK_REQUEST = "com.dev.james.sayariproject.sayari_datasync_launch_scheduler"
+
+const val BUY_ME_COFFEE_PAGE_LINK = "https://buymeacoffee.com/jayDroid254"

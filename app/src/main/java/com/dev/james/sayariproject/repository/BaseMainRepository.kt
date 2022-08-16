@@ -8,6 +8,7 @@ import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.events.ScheduledEventAlert
 import com.dev.james.sayariproject.models.favourites.AgencyResponse
 import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
@@ -66,5 +67,9 @@ interface BaseMainRepository {
     suspend fun deleteFavouriteAgency(id : Int)
 
     suspend fun getFavouriteAgencies() : List<Result>
+
+    suspend fun getEvents() : List<ScheduledEventAlert>
+    suspend fun addEvent(event : ScheduledEventAlert) : Int
+    suspend fun deleteEvent(id : Int)
 
 }
