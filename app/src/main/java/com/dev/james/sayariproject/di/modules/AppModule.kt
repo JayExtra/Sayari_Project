@@ -61,9 +61,9 @@ object AppModule {
     @Singleton
     fun providesArticleOkHttpClient(cache: Cache): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(2, TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
+            .writeTimeout(2, TimeUnit.MINUTES)
             .addInterceptor(cacheInterceptor)
             .cache(cache)
         if (BuildConfig.DEBUG) okHttpClient.addInterceptor(loggingInterceptor)
@@ -76,9 +76,9 @@ object AppModule {
     @Provides
     fun provideLaunchesOkHttpClient(cache: Cache):OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(2, TimeUnit.MINUTES)
+            .writeTimeout(2, TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
             .addInterceptor(cacheInterceptor)
             .cache(cache)
         if (BuildConfig.DEBUG) okHttpClient.addInterceptor(loggingInterceptor)
@@ -92,9 +92,9 @@ object AppModule {
     @Provides
     fun provideEventsOkhttpClient(cache :Cache):OkHttpClient{
         val okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(2, TimeUnit.MINUTES)
+            .writeTimeout(2, TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
             .addInterceptor(cacheInterceptor)
             .cache(cache)
         if (BuildConfig.DEBUG) okHttpClient.addInterceptor(loggingInterceptor)

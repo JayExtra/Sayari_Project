@@ -140,6 +140,11 @@ class MainActivity : AppCompatActivity() {
                     lockNavDrawer()
                     hideBottomNav()
                 }
+                R.id.supportUsFragment2 -> {
+                    hideTopBar()
+                    lockNavDrawer()
+                    hideBottomNav()
+                }
             }
         }
 

@@ -19,11 +19,11 @@
         android:icon="@drawable/ic_window"
         android:enabled="true"/>
 
-    <item
+  <!--  <item
         android:id="@+id/notificationsFragment"
         android:title="Notifications"
         android:icon="@drawable/ic_notifications"
-        android:enabled="true"/>
+        android:enabled="true"/>-->
 
 
 </menu>

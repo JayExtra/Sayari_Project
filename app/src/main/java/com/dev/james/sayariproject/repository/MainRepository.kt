@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.repository
 
+import android.util.Log
 import androidx.paging.PagingData
 import com.dev.james.sayariproject.data.datasources.discover.BaseDiscoverFragmentDatasource
 import com.dev.james.sayariproject.data.datasources.events.BaseEventsDatasource
@@ -15,6 +16,7 @@ import com.dev.james.sayariproject.models.astronaut.Astronaut
 import com.dev.james.sayariproject.models.discover.ActiveMissions
 import com.dev.james.sayariproject.models.events.EventResponse
 import com.dev.james.sayariproject.models.events.Events
+import com.dev.james.sayariproject.models.events.ScheduledEventAlert
 import com.dev.james.sayariproject.models.favourites.AgencyResponse
 import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.models.iss.IntSpaceStation
@@ -23,6 +25,7 @@ import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.RocketInstance
 import com.dev.james.sayariproject.utilities.NetworkResource
 import kotlinx.coroutines.flow.Flow
+import java.io.IOException
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
@@ -133,6 +136,23 @@ class MainRepository @Inject constructor(
 
     override suspend fun getFavouriteAgencies(): List<Result> {
         return eventsDatasource.getFavouriteAgencies()
+    }
+
+    override suspend fun getEvents(): List<ScheduledEventAlert> {
+        return eventsDatasource.getScheduledEvent()
+    }
+
+    override suspend fun addEvent(event: ScheduledEventAlert): Int {
+        return try {
+            eventsDatasource.addEvent(event)
+        }catch (e : IOException){
+            Log.d("MainRepository", "addEvent: ${e.localizedMessage}")
+            0
+        }
+    }
+
+    override suspend fun deleteEvent(id: Int) {
+        eventsDatasource.deleteScheduledEvent(id)
     }
 
 }

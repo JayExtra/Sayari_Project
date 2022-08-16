@@ -5,10 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dev.james.sayariproject.models.discover.ActiveMissions
+import com.dev.james.sayariproject.models.events.ScheduledEventAlert
 import com.dev.james.sayariproject.models.favourites.Result
 import com.dev.james.sayariproject.models.launch.LaunchManifestItem
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface Dao {
@@ -42,6 +42,22 @@ interface Dao {
     //get Launch list from db
     @Query("SELECT * FROM launch_manifest_table")
     suspend fun getLaunchManifest() : List<LaunchManifestItem>
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addEvent( scheduledEventAlert: ScheduledEventAlert )
+
+    @Query("SELECT * FROM scheduled_events_alerts")
+    suspend fun getEvents() : List<ScheduledEventAlert>
+
+
+    @Query("DELETE FROM scheduled_events_alerts WHERE id = :id ")
+    suspend fun deleteEvent(id : Int)
+
+    @Query("SELECT * FROM scheduled_events_alerts WHERE id = :id")
+    suspend fun getEvent(id : Int) : ScheduledEventAlert
+
+
 
 
 

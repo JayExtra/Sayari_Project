@@ -164,11 +164,13 @@ class UpcomingLaunchesFragment : Fragment() {
                     Log.d("UpcomigFrag", "bindList: isEmpty : $isEmpty")
                     searchErrorMessage.isVisible = true
                     hasSearched = false
+                    launchedProgress.isVisible = false
                 }else {
                     searchErrorMessage.isVisible = false
                 }
 
                 launchedProgress.isVisible = loadState.refresh is LoadState.Loading
+
                 //netErrMess.isInvisible = loadState.refresh is LoadState.Loading
                 retryBtn.isVisible = loadState.refresh is LoadState.Error && adapter.itemCount == 0
 

@@ -12,11 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentAboutBinding
-import com.dev.james.sayariproject.utilities.TWITTER_ID
 import com.dev.james.sayariproject.utilities.TWITTER_PROFILE
 import com.dev.james.sayariproject.utilities.TWITTER_PROFILE_WEB
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,7 +66,31 @@ class AboutFragment : Fragment() {
             navController.navigate(action)
         }
 
+        linkedInButton.setOnClickListener {
+            //navigate to linked in fragment
+            launchLinkedIn()
+        }
+
     }
+
+    private fun launchLinkedIn() {
+        val linkedInIntent = Intent(Intent.ACTION_VIEW,).apply {
+            this.setPackage("com.linkedin.android")
+            this.data = Uri.parse("https://www.linkedin.com/in/james-gitonga-3138b296/")
+            this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        val linkedInWebIntent = Intent().apply {
+            this.data = Uri.parse("https://www.linkedin.com/in/james-gitonga-3138b296/")
+        }
+
+        try {
+            requireContext().startActivity(linkedInIntent)
+        }catch (e : ActivityNotFoundException){
+            Log.d("AboutFragment", "launchTwiterIntent: ${e.localizedMessage} ")
+            requireContext().startActivity(linkedInWebIntent)
+        }
+    }
+
     private fun launchTwitter(){
 
         val twitterAppIntent = Intent(Intent.ACTION_VIEW,).apply {

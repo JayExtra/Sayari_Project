@@ -86,4 +86,8 @@
     <string name="continue_scroll"><![CDATA[continue scroll >>>]]></string>
     <string name="vid_err_message">No stream url available yet</string>
     <string name="share_err_mess">No news article on this event available yet</string>
+    <string name="linked_in">linked in</string>
+    <string name="buy_me_coffee">buy me coffee</string>
+    <string name="call_for_support">Call for Support!</string>
+    <string name="support_message">Hello there, I hope you are enjoying the application. You can support me by buying me coffee by clicking the button below, I will highly appreciate. The money will go into support for the application. Thank you!</string>
 </resources>

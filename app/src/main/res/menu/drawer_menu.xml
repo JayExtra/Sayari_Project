@@ -15,7 +15,7 @@
 
         <item
             android:title="Support us"
-            android:id="@+id/supportUsFragment"
+            android:id="@+id/supportUsFragment2"
             android:enabled="true"/>
         <item
             android:title="About"

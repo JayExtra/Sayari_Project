@@ -15,6 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -30,6 +35,8 @@ import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.ui.launches.launchdetails.AgencyListRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,6 +49,7 @@ class EventsDetailsFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val partnerAdapter = AgencyListRecyclerAdapter()
+    private val eventDetailsViewModel : EventDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +74,35 @@ class EventsDetailsFragment : Fragment() {
             eventItem?.let { binding.setUpUi(it) }
 
         }
+
+        collectEventsFromChannel()
         return binding.root
+    }
+
+    private fun collectEventsFromChannel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            eventDetailsViewModel.eventDetailsScreenChannel
+                .flowWithLifecycle(lifecycle , Lifecycle.State.STARTED).collect { event ->
+                    when(event){
+                        is EventDetailsViewModel.EventDetailsScreenEvents.SuccessFullAlertScheduling -> {
+                            Snackbar.make(
+                                binding.root ,
+                                "Alert set for ${event.eventName} event",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                        is EventDetailsViewModel.EventDetailsScreenEvents.FailedAlertScheduling -> {
+                            Snackbar.make(
+                                binding.root ,
+                                event.errorMess,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+
+            }
+        }
     }
 
     private fun FragmentEventDetailsBinding.setUpUi(event : Events){
@@ -112,6 +148,14 @@ class EventsDetailsFragment : Fragment() {
             shareNewsOrVideoUrl(it)
         } ?: showSnackBarMessage(message)
         }
+
+        setAlertFab.setOnClickListener {
+
+            eventDetailsViewModel.scheduleEventAlarm(event)
+
+        }
+
+
 
 
     }
@@ -229,7 +273,6 @@ class EventsDetailsFragment : Fragment() {
             startActivity(shareIntent)
         }
     }
-
 
 
 }

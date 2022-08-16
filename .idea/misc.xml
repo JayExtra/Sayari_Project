@@ -25,6 +25,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_happy.xml" value="0.11666666666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_home.xml" value="0.2786458333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_icon_twitter_dark.xml" value="0.15101351351351353" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_icons8_linkedin_circled.xml" value="0.2675" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_iinstagram.xml" value="0.18074324324324326" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_menu.xml" value="0.2786458333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/drawable/ic_neutral_emoji.xml" value="0.17598684210526316" />
@@ -56,11 +57,11 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/dummy_layout_builder.xml" value="0.17027027027027028" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_about.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_event_details.xml" value="0.264" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_events.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_events.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_favourites.xml" value="0.16578947368421051" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_home.xml" value="0.16" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_iss.xml" value="0.2" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_launch_details.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_iss.xml" value="0.4" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_launch_details.xml" value="0.23157894736842105" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_launches.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_news.xml" value="0.1736842105263158" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_notifications.xml" value="0.2625" />
@@ -69,6 +70,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_send_email.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_settings.xml" value="0.16578947368421051" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_spacecraft.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_support_us.xml" value="0.21547669944420692" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_upcoming_launches.xml" value="0.1712962962962963" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_upcoming_previous_launches.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/fragment_welcome_screen.xml" value="0.259375" />
@@ -84,13 +86,15 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_mission_card.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_news_card.xml" value="0.2625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_news_item.xml" value="0.536" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_notification_item.xml" value="0.21190375685943436" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/single_top_news_item.xml" value="0.4" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/top_news_item.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/welcome_screen_1.xml" value="0.2484375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/layout/welcome_screen_2.xml" value="0.24680851063829787" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/menu/app_bar_menu.xml" value="0.1" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/menu/bottom_nav_menu.xml" value="0.10925925925925926" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/menu/app_bar_menu.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/menu/bottom_nav_menu.xml" value="0.4" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/menu/drawer_menu.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/menu/events_toolbar_menu.xml" value="0.21274799493457155" />
         <entry key="..\:/Users/user/AndroidStudioProjects/SayariProject/app/src/main/res/menu/launches_app_bar_menu.xml" value="0.2625" />
       </map>
     </option>
