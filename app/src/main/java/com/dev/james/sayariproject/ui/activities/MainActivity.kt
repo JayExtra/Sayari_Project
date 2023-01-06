@@ -1,5 +1,7 @@
 package com.dev.james.sayariproject.ui.activities
 
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,16 +22,19 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
+import com.dev.james.sayariproject.data.broadcast_receivers.phone_reboot.PhoneRebootReceiver
 import com.dev.james.sayariproject.data.work_manager.DataSyncWorker
 import com.dev.james.sayariproject.data.work_manager.LaunchSchedulerWorker
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
 import com.dev.james.sayariproject.ui.activities.viewmodels.MainActivityViewModel
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.settings.SettingsFragment
+import com.dev.james.sayariproject.utilities.SAYARI_UNIQUE_PERIODIC_WORK_REQUEST
 import com.dev.james.sayariproject.utilities.SAYARI_UNIQUE_WORK_REQUEST
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,8 +47,12 @@ class MainActivity : AppCompatActivity() {
     private val activityViewModel : MainActivityViewModel by viewModels()
 
     private lateinit var workManager : WorkManager
-    private lateinit var dataSyncWorker: OneTimeWorkRequest
+    private lateinit var dataSyncWorker: PeriodicWorkRequest
     private lateinit var schedulerWorker : OneTimeWorkRequest
+
+    companion object {
+        const val TAG = "MainActivity"
+    }
 
 
     @Inject
@@ -54,6 +63,13 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_SayariProject)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val receiver = ComponentName(this, PhoneRebootReceiver::class.java)
+        this.packageManager.setComponentEnabledSetting(
+            receiver,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
 
         styleBottomNavBar()
 
@@ -240,8 +256,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initWorkProcess(){
+        Log.d(TAG, "initWorkProcess: work manager workers initialized ")
         workManager = WorkManager.getInstance(applicationContext)
-        dataSyncWorker = OneTimeWorkRequestBuilder<DataSyncWorker>()
+        dataSyncWorker = PeriodicWorkRequestBuilder<DataSyncWorker>(1 , TimeUnit.HOURS)
             .setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -258,11 +275,17 @@ class MainActivity : AppCompatActivity() {
             )
             .build()
 
+        workManager.enqueueUniquePeriodicWork(
+            SAYARI_UNIQUE_PERIODIC_WORK_REQUEST ,
+            ExistingPeriodicWorkPolicy.KEEP,
+            dataSyncWorker
+        )
+
         workManager.beginUniqueWork(
             SAYARI_UNIQUE_WORK_REQUEST ,
             ExistingWorkPolicy.KEEP,
-            dataSyncWorker
-        ).then(schedulerWorker).enqueue()
+            schedulerWorker
+        ).enqueue()
 
         observeWorkerStatus()
     }

@@ -22,15 +22,12 @@ class DataSyncWorker @AssistedInject constructor(
     @Assisted private val context : Context,
     @Assisted private val parameters : WorkerParameters,
     private val api : LaunchApiService ,
-    private val dao: Dao ,
-    private val dataStoreManager: DataStoreManager
+    private val dao: Dao
 ) : CoroutineWorker(context , parameters) {
     override suspend fun doWork(): Result {
 
         val apiResponse = api.getUpcomingLaunchesForSync(null , 50 , 0)
-        val hasPerformedSync = dataStoreManager.readBooleanValueOnce(DatastorePreferenceKeys.HAS_PERFORMED_SYNC)
 
-        if(!hasPerformedSync){
             apiResponse.body()?.let { body ->
 
                 val launchManifestList = body.launchList.map {
@@ -44,7 +41,6 @@ class DataSyncWorker @AssistedInject constructor(
 
                     try {
                         dao.addLaunch(launchManifestList)
-                        dataStoreManager.storeBooleanValue(DatastorePreferenceKeys.HAS_PERFORMED_SYNC , true)
                         return Result.success(
                             workDataOf(SUCCESS_MESSAGE to "sync performed successfully")
                         )
@@ -60,15 +56,6 @@ class DataSyncWorker @AssistedInject constructor(
 
             }
 
-        }else {
-            Log.d("DataSyncWorker", "already synced")
-            return Result.success(
-                workDataOf(
-                    SUCCESS_MESSAGE to "sync already performed"
-                )
-            )
-        }
-
         if(!apiResponse.isSuccessful){
             Log.d("DataSyncWorker", "doWork: error! failed network call  ")
             if(apiResponse.code().toString().startsWith("5")){
@@ -76,11 +63,7 @@ class DataSyncWorker @AssistedInject constructor(
                 Log.d("DataSyncWorker", "doWork: error! server error  ")
                 return Result.retry()
             }
-            return Result.failure(
-
-                workDataOf(ERROR_MESSAGE to "Network error")
-
-            )
+            return Result.retry()
         }
 
         return Result.failure(

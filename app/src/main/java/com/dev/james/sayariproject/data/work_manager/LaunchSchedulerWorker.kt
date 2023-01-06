@@ -38,9 +38,9 @@ class LaunchSchedulerWorker @AssistedInject constructor(
             )
         }else{
             Log.d("SchedulerWorker", "doWork: has fired once => $hasFiredOnce , success ")
-            return Result.failure(
+            return Result.success(
                 workDataOf(
-                    WorkerKeys.ERROR_MESSAGE to "worker has already fired once and sync performed"
+                    WorkerKeys.SUCCESS_MESSAGE to "worker has already fired once and scheduling performed"
                 )
             )
         }

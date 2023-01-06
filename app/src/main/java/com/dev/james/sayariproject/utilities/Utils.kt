@@ -14,15 +14,28 @@ const val TWITTER_ID = 823539812
 const val DEV_EMAIL = "murokijames21@gmail.com"
 
 const val WINDOW_OPEN_NOTIFICATION_ID = 1
-const val THIRTY_MIN_LAUNCH_NOTIFICATION_ID = 2
-const val FIFTEEN_MIN_LAUNCH_NOTIFICATION_ID = 3
-const val FIVE_MIN_LAUNCH_NOTIFICATION_ID = 4
+
+
 const val MIDNIGHT_NOTIFICATION_ID = 5
 const val EVENT_NOTIFICATION_ID = 6
 
-const val NOTIFICATION_CHANNEL_ID = "sayari_alert_channel"
-const val NOTIFICATION_CHANNEL_NAME =  "launch and events alerts"
+const val SAYARI_MAIN_NOTIFICATION_CHANNEL = "sayari_alert_channel"
+const val SAYARI_NOTIFICATION_CHANNEL_DESCRIPTION =  "launch and events alerts"
+
+const val THIRTY_MIN_LAUNCH_NOTIFICATION_ID = 2
+const val THIRTY_MIN_NOTIFICATION_CHANNEL = "30_min_alert_channel"
+const val THIRTY_MIN_NOTIFICATION_CHANNEL_DESCRIPTION =  "channel for 30 min alerts"
+
+const val FIFTEEN_MIN_LAUNCH_NOTIFICATION_ID = 3
+const val FIFTEEN_MIN_NOTIFICATION_CHANNEL = "15_min_alert_channel"
+const val FIFTEEN_MIN_NOTIFICATION_CHANNEL_DESCRIPTION =  "channel for 15 min alerts"
+
+const val FIVE_MIN_LAUNCH_NOTIFICATION_ID = 4
+const val FIVE_MIN_NOTIFICATION_CHANNEL = "5_min_alert_channel"
+const val FIVE_MIN_NOTIFICATION_CHANNEL_DESCRIPTION =  "channel for 5 min alerts"
+
 
 const val SAYARI_UNIQUE_WORK_REQUEST = "com.dev.james.sayariproject.sayari_datasync_launch_scheduler"
+const val SAYARI_UNIQUE_PERIODIC_WORK_REQUEST = "com.dev.james.sayariproject.sayari_datasync_launch_scheduler_periodic"
 
 const val BUY_ME_COFFEE_PAGE_LINK = "https://buymeacoffee.com/jayDroid254"

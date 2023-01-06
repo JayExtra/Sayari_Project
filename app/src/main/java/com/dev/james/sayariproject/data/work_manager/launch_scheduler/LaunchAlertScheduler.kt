@@ -46,12 +46,15 @@ class LaunchAlertScheduler @Inject constructor(
         Log.d("LaunchAlertScheduler", "initScheduler: available launches => $launchManifest")
 
         //2. schedules alarms available during that day
-        scheduleUpcomingLaunches(launchManifest)
-
+        if(launchManifest.isEmpty()) {
+            Log.d("LaunchAlertScheduler", "scheduleUpcomingLaunches: no launch found")
+        }else {
+            scheduleUpcomingLaunches(launchManifest)
+        }
         //3. sets the midnight alert for the next day to trigger the initScheduler again
         scheduleMidnightAlarm()
 
-        activatePhoneRebootReceiver()
+        //activatePhoneRebootReceiver()
     }
 
     private fun scheduleMidnightAlarm(){
@@ -84,11 +87,6 @@ class LaunchAlertScheduler @Inject constructor(
 
     //will schedule alarms for launches happening in that day
     private suspend fun scheduleUpcomingLaunches(launchManifest: List<LaunchManifestItem>) {
-       if(launchManifest.isEmpty()){
-           Log.d("LaunchAlertScheduler", "scheduleUpcomingLaunches: no launch found")
-           checkLaunchManifest()
-           return
-       }
 
         Log.d("LaunchAlertScheduler", "scheduleUpcomingLaunches: available ${launchManifest.size} ")
 
@@ -103,7 +101,7 @@ class LaunchAlertScheduler @Inject constructor(
 
         //check if launch manifest is healthy i.e launch items are greater than 10
         // otherwise refresh the launch manifest
-        checkLaunchManifest()
+        //checkLaunchManifest()
 
     }
 
@@ -260,24 +258,23 @@ class LaunchAlertScheduler @Inject constructor(
         }
     }
 
-    private suspend fun checkLaunchManifest(){
+   /* private suspend fun checkLaunchManifest(){
         val launchListSize = dao.getLaunchManifest().size
         if(launchListSize<= 10) {
             Log.d("LaunchAlertScheduler", "The manifest is not healthy. Launch list size => $launchListSize")
-            dataStoreManager.storeBooleanValue(DatastorePreferenceKeys.HAS_PERFORMED_SYNC , false)
         }else {
             Log.d("LaunchAlertScheduler", "The manifest is healthy. Launch list size => $launchListSize")
         }
-    }
+    }*/
 
-    private fun activatePhoneRebootReceiver(){
+    /*private fun activatePhoneRebootReceiver(){
         val receiver = ComponentName(context, PhoneRebootReceiver::class.java)
         context.packageManager.setComponentEnabledSetting(
             receiver,
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
             PackageManager.DONT_KILL_APP
         )
-    }
+    }*/
 
     //will format the date from API into local time
     private fun String.formatDateFromApi(context : Context) : String {
@@ -287,7 +284,7 @@ class LaunchAlertScheduler @Inject constructor(
             inputFormat.timeZone = TimeZone.getTimeZone("GMT")
             val passedDate: Date = inputFormat.parse(this) as Date
 
-            //Here you put how you want your date to be, this looks like this Tue,Nov 2, 2021, 12:23 pm
+            //Here you put how you want your date to be, this looks like this Tue,Nov 2, 2021
             val outputFormatDay = SimpleDateFormat("dd-MM-yyyy", currentLocale)
             outputFormatDay.timeZone = TimeZone.getDefault()
             val newDateString = outputFormatDay.format(passedDate)
@@ -303,7 +300,7 @@ class LaunchAlertScheduler @Inject constructor(
     private fun Date.formatCurrentDate(context : Context) : String {
         return try {
             val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
-            //Here you put how you want your date to be, this looks like this Tue,Nov 2, 2021, 12:23 pm
+            //Here you put how you want your date to be, this looks like this Tue,Nov 2, 2021
             val outputFormatDay = SimpleDateFormat("dd-MM-yyyy", currentLocale)
             outputFormatDay.timeZone = TimeZone.getDefault()
             val newDateString = outputFormatDay.format(this)
