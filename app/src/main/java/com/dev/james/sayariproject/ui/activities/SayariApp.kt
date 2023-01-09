@@ -7,9 +7,7 @@ import android.content.Context
 import android.os.Build
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import androidx.work.WorkerFactory
-import com.dev.james.sayariproject.utilities.NOTIFICATION_CHANNEL_ID
-import com.dev.james.sayariproject.utilities.NOTIFICATION_CHANNEL_NAME
+import com.dev.james.sayariproject.utilities.*
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -19,13 +17,40 @@ class SayariApp : Application()  , Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val channel = NotificationChannel(
-                NOTIFICATION_CHANNEL_ID ,
-                NOTIFICATION_CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+            val mainChannel = NotificationChannel(
+                SAYARI_MAIN_NOTIFICATION_CHANNEL ,
+                SAYARI_NOTIFICATION_CHANNEL_DESCRIPTION,
+                NotificationManager.IMPORTANCE_HIGH
             )
+            val thirtyMinChannel = NotificationChannel(
+                THIRTY_MIN_NOTIFICATION_CHANNEL ,
+                THIRTY_MIN_NOTIFICATION_CHANNEL_DESCRIPTION ,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            val fifteenMinChannel = NotificationChannel(
+                FIFTEEN_MIN_NOTIFICATION_CHANNEL ,
+                FIFTEEN_MIN_NOTIFICATION_CHANNEL_DESCRIPTION ,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            val fiveMinChannel = NotificationChannel(
+                FIVE_MIN_NOTIFICATION_CHANNEL ,
+                FIVE_MIN_NOTIFICATION_CHANNEL_DESCRIPTION ,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+
+            mainChannel.description = SAYARI_NOTIFICATION_CHANNEL_DESCRIPTION
+            thirtyMinChannel.description = THIRTY_MIN_NOTIFICATION_CHANNEL_DESCRIPTION
+            fifteenMinChannel.description = FIFTEEN_MIN_NOTIFICATION_CHANNEL_DESCRIPTION
+            fiveMinChannel.description =  FIVE_MIN_NOTIFICATION_CHANNEL_DESCRIPTION
+
+            val channelList = mutableListOf<NotificationChannel>()
+            channelList.add(mainChannel)
+            channelList.add(thirtyMinChannel)
+            channelList.add(fifteenMinChannel)
+            channelList.add(fiveMinChannel)
+
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE ) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+            notificationManager.createNotificationChannels(channelList)
         }
     }
 

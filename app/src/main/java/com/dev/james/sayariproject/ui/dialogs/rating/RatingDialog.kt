@@ -48,7 +48,7 @@ class RatingDialog @Inject constructor() : DialogFragment(R.layout.rating_dialog
     }
 
     private fun RatingDialogBinding.listenToObservables(){
-        ratingViewModel.ratingCount.observe(viewLifecycleOwner , { value ->
+        ratingViewModel.ratingCount.observe(viewLifecycleOwner) { value ->
             finalRating = value
             when (value) {
 
@@ -62,6 +62,6 @@ class RatingDialog @Inject constructor() : DialogFragment(R.layout.rating_dialog
                     emojiImageView.setImageResource(R.drawable.ic_happy)
                 }
             }
-        })
+        }
     }
 }

@@ -139,8 +139,6 @@
         <item name="colorControlNormal">#4D000000</item>
         <!--selected star-->
         <item name="colorControlActivated">@color/secondaryColor</item>
-
-
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
