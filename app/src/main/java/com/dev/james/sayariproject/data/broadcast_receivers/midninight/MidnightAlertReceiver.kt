@@ -8,6 +8,7 @@ import com.dev.james.sayariproject.data.work_manager.launch_scheduler.BaseLaunch
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,8 +18,10 @@ class MidnightAlertReceiver : BroadcastReceiver() {
     lateinit var launchAlertScheduler: BaseLaunchScheduler
     override fun onReceive(p0: Context?, p1: Intent?) {
        CoroutineScope(context = Dispatchers.IO).launch{
+           Log.d("MidnightReceiver", "inside scheduler coroutine scope")
            launchAlertScheduler.initScheduler()
        }
         Log.d("MidnightReceiver", "onReceive midnight alarm: hey I've been triggered!")
     }
+
 }

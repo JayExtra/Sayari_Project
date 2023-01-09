@@ -26,7 +26,7 @@ class PhoneRebootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("PhoneRebootRec", "onReceive: Reboot Received")
         if(intent?.action.equals("android.intent.action.BOOT_COMPLETED")){
-            CoroutineScope(context = Dispatchers.Default).launch {
+            CoroutineScope(context = Dispatchers.IO).launch {
                 launchAlertScheduler.initScheduler()
             }
            // val hasWorkerFiredOnce = runBlocking { dataStoreManager.readBooleanValueOnce(DatastorePreferenceKeys.HAS_LAUNCH_SCHEDULER_FIRED_ONCE) }
