@@ -9,6 +9,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.dev.james.sayariproject.utilities.*
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -16,6 +17,9 @@ class SayariApp : Application()  , Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+
+        setupTimber()
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val mainChannel = NotificationChannel(
                 SAYARI_MAIN_NOTIFICATION_CHANNEL ,
@@ -60,5 +64,9 @@ class SayariApp : Application()  , Configuration.Provider {
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
+
+    private fun setupTimber(){
+        Timber.plant(Timber.DebugTree())
+    }
 
 }

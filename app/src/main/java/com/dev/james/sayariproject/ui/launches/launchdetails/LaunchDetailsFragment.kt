@@ -338,7 +338,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
 
     }
 
-    private fun FragmentLaunchDetailsBinding.setUpToolbar(launchName: String, image: String){
+    private fun FragmentLaunchDetailsBinding.setUpToolbar(launchName: String, image: String?){
 
 
         (activity as AppCompatActivity).setSupportActionBar(launchToolbar)
@@ -354,6 +354,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         binding?.root?.let {
             Glide.with(it)
                 .load(image)
+                .placeholder(R.drawable.ic_image_placeholder)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .centerCrop()
                 .into(launchImageView)

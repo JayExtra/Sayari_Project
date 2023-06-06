@@ -22,7 +22,7 @@ data class LaunchList(
     val rocket : Rocket?,
     val mission : Mission?,
     val pad : LaunchPad,
-    val image : String,
+    val image : String?,
     val probability : Int?,
     @SerializedName("webcast_live")
     val stream : Boolean,

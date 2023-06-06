@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
 import androidx.core.view.isVisible
@@ -33,6 +35,10 @@ import com.dev.james.sayariproject.databinding.FragmentEventDetailsBinding
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.ui.iss.adapters.PartnersRecyclerView
 import com.dev.james.sayariproject.ui.launches.launchdetails.AgencyListRecyclerAdapter
+import com.dev.james.sayariproject.utilities.isDateFuture
+import com.dev.james.sayariproject.utilities.toDateObject
+import com.dev.james.sayariproject.utilities.toDateString
+import com.dev.james.sayariproject.utilities.toDateStringDateOnly
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -51,6 +57,7 @@ class EventsDetailsFragment : Fragment() {
     private val partnerAdapter = AgencyListRecyclerAdapter()
     private val eventDetailsViewModel : EventDetailsViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -105,6 +112,7 @@ class EventsDetailsFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun FragmentEventDetailsBinding.setUpUi(event : Events){
 
         //setup controller and navHostFragment
@@ -132,14 +140,23 @@ class EventsDetailsFragment : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun FragmentEventDetailsBinding.setUpButtons(event : Events){
 
         watchSteamBtn.setOnClickListener{
             val message = getString(R.string.vid_err_message)
-            event.videoUrl?.let {
-                goToWebCast(it)
-            } ?: showSnackBarMessage(message)
-
+            val eventDate = event.date.toDateStringDateOnly().toDateObject()
+            if(!eventDate.isDateFuture()){
+                event.videoUrl?.let {
+                    goToWebCast(it)
+                } ?: showSnackBarMessage(message)
+            }else {
+                Snackbar.make(
+                    binding.root ,
+                    "This event stream is not happening today" ,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
 
         shareEventBtn.setOnClickListener {
@@ -168,12 +185,13 @@ class EventsDetailsFragment : Fragment() {
         ).show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun FragmentEventDetailsBinding.setUpEventsDetailsCard(event : Events){
 
         eventTitleTxt.text = event.slug
         eventLocationTxt.text = event.location
         eventTypeTxt.text = event.type.name
-        eventDateTxt.text = event.date.convertDate(context = requireContext())
+        eventDateTxt.text = event.date.toDateString()
 
         if(event.program.isNotEmpty()){
             swipeTxt.isVisible = event.program[0].agencies.size > 1

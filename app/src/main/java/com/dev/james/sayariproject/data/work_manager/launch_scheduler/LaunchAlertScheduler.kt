@@ -4,7 +4,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.os.ConfigurationCompat
 import com.dev.james.sayariproject.data.broadcast_receivers.events.EventsAlertsReceiver
 import com.dev.james.sayariproject.data.broadcast_receivers.launch.FifteenMinuteLaunchAlertReceiver
@@ -29,6 +31,7 @@ object TimeConstants {
     const val FIVE_MINUTE_DIFFERENCE = 300000
 }
 
+@RequiresApi(Build.VERSION_CODES.M)
 class LaunchAlertScheduler @Inject constructor(
     private val dao : Dao,
     @ApplicationContext private val context : Context,
@@ -36,6 +39,7 @@ class LaunchAlertScheduler @Inject constructor(
     ) : BaseLaunchScheduler {
 
     private val currentDate = Calendar.getInstance().time
+    @RequiresApi(Build.VERSION_CODES.M)
     private val alarmManager : AlarmManager = context.getSystemService(AlarmManager::class.java)
    /* private val fakeManifestItemsList = listOf(
         LaunchManifestItem(
@@ -68,6 +72,7 @@ class LaunchAlertScheduler @Inject constructor(
         //activatePhoneRebootReceiver()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleMidnightAlarm(){
 
         //Set the alarm to start at approximately 00:00 a.m
@@ -126,6 +131,7 @@ class LaunchAlertScheduler @Inject constructor(
 
     //will set various alarms respective of preferences set by the user
     // i.e. one before thirty minutes , fifteen minutes or five minutes
+    @RequiresApi(Build.VERSION_CODES.M)
     private suspend fun setAlarm(windowStart: String, name: String, slug: String, id: String) {
 
         val thirtyMinuteSet = dataStoreManager.readBooleanValueOnce(DatastorePreferenceKeys.IS_THIRTY_MIN_ENABLED)
@@ -165,6 +171,7 @@ class LaunchAlertScheduler @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setLaunchWindowOpenAlarm(windowStart : String, name: String, id: String, slug: String){
         val date = windowStart.toDate()?.time
         Log.d("LaunchAlertScheduler", "setAlarm launch window: ${date?.let { Date(it).formatCurrentDate(context) }}")
@@ -189,6 +196,7 @@ class LaunchAlertScheduler @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override suspend fun setEventAlarm(event: Events){
         val date = event.date.toDate()?.time
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

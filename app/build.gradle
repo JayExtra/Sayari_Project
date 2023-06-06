@@ -1,19 +1,19 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id "androidx.navigation.safeargs.kotlin"
-    id 'dagger.hilt.android.plugin'
+    id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
+    id "androidx.navigation.safeargs.kotlin"
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.dev.james.sayariproject"
         minSdk 21
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "v1.0-alpha01"
 
@@ -40,53 +40,58 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '1.8'
     }
 
 }
 
 dependencies {
-    def nav_version = "2.4.1"
-    def recyclerview = "1.2.1"
+    def nav_version = "2.5.3"
+    def recyclerview = "1.3.0"
     def lifecycle = "2.2.0"
-    def roomVersion = "2.2.5"
+    def roomVersion = "2.5.1"
     def lottieVersion = "4.2.0"
     def hiltWorker = "1.0.0"
-    def workManagerVersion = "2.7.1"
-    def hiltVersion = "2.40"
+    def workManagerVersion = "2.8.1"
+    def hiltVersion = "2.44"
+    def hiltFragment = "1.0.0"
+    def okHttpVersion= "4.9.1"
+    def retrofitVersion = "2.9.0"
+    def glideVersion = "4.11.0"
+    def timberVersion = "5.0.1"
 
     //layouts + views + widgets
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Testing dependencies
-    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.3.0"
-    androidTestImplementation "androidx.test.espresso:espresso-accessibility:3.3.0"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:3.4.0"
-    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.5.1"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
-    androidTestImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.1.3"
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    androidTestImplementation "com.google.dagger:hilt-android-testing:2.28.3-alpha"
-    implementation "com.squareup.okhttp3:mockwebserver:4.7.2"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.44"
+    implementation "com.squareup.okhttp3:mockwebserver:4.10.0"
     //debugImplementation("androidx.fragment:fragment-testing:1.3.6")
-    testImplementation "androidx.fragment:fragment-testing:1.4.0"
-    testImplementation "androidx.test.ext:junit-ktx:1.1.3"
-    testImplementation "androidx.test:core-ktx:1.4.0"
+    testImplementation "androidx.fragment:fragment-testing:1.5.7"
+    testImplementation "androidx.test.ext:junit-ktx:1.1.5"
+    testImplementation "androidx.test:core-ktx:1.5.0"
     testImplementation "org.robolectric:robolectric:4.5.1"
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
     testImplementation "org.junit.vintage:junit-vintage-engine:5.7.1"
 
@@ -94,7 +99,7 @@ dependencies {
 
     // Instrumented Unit Tests
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.28.1'
-    androidTestImplementation "org.mockito:mockito-core:4.1.0"
+    androidTestImplementation "org.mockito:mockito-core:4.8.1"
 
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -104,53 +109,48 @@ dependencies {
     //recyclerview
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     // Coroutine Lifecycle Scopes
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:4.11.0"
 
     // Retrofit + GSON + OkHttp + logging Interceptor
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
     // Room
-    implementation "androidx.room:room-runtime:2.3.0-beta03"
-    kapt "androidx.room:room-compiler:2.3.0-beta03"
-    implementation "androidx.room:room-ktx:2.3.0-beta03"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
 
     // Fragment
-    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.7"
 
 
     // Dagger Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+    implementation "androidx.hilt:hilt-navigation-fragment:$hiltFragment"
     implementation "androidx.hilt:hilt-work:$hiltWorker"
 
     //work manager
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
 
     //paging
-    implementation 'androidx.paging:paging-common-ktx:3.0.1'
-    implementation 'androidx.paging:paging-runtime-ktx:3.0.1'
+    implementation 'androidx.paging:paging-common-ktx:3.1.1'
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
 
     //circle imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
@@ -177,13 +177,17 @@ dependencies {
     implementation 'androidx.palette:palette-ktx:1.0.0'
 
     //Leak canary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
     //MPchart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     //expandable tv
     implementation 'com.ms-square:expandableTextView:0.1.4'
+
+
+    //timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 
 
 }

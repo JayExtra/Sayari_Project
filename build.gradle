@@ -2,26 +2,21 @@
 buildscript {
 
     ext {
-        navigationVersion = "2.4.1"
+        navigationVersion = "2.5.3"
     }
 
-    repositories {
-        google()
-        mavenCentral()
-    }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
-        //dagger-hilt
-        classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.5"
-
         //navigation safe args
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
-
-
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+}
+plugins {
+    id 'com.android.application' version '7.2.1' apply false
+    id 'com.android.library' version '7.2.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
+    id 'com.google.dagger.hilt.android' version '2.44' apply false
 }
 
 task clean(type: Delete) {
