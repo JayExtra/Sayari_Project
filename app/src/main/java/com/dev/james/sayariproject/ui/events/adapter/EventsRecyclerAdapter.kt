@@ -1,5 +1,6 @@
 package com.dev.james.sayariproject.ui.events.adapter
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.transition.AutoTransition
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -21,7 +23,7 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleEventColorBinding
 import com.dev.james.sayariproject.models.events.Events
-import java.lang.reflect.Array.get
+import com.dev.james.sayariproject.utilities.toDateString
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -32,12 +34,15 @@ class EventsRecyclerAdapter(
     private val action : (String? , String? , String?,Events?) -> Unit
 ) : PagingDataAdapter<Events , EventsRecyclerAdapter.EventsViewHolder>(DiffCallback()) {
 
+    private lateinit var  context : Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsViewHolder {
         val binding = SingleEventColorBinding.inflate(LayoutInflater.from(parent.context) , parent , false)
         return EventsViewHolder(binding)
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
         val item = getItem(position)
+        context = holder.itemView.context
         if(item!=null){
          holder.bind(item)
         }
@@ -46,6 +51,7 @@ class EventsRecyclerAdapter(
     inner class EventsViewHolder(
         private val binding : SingleEventColorBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(events: Events){
             binding.apply {
                 missionSlug.text = events.name
@@ -75,7 +81,7 @@ class EventsRecyclerAdapter(
                 }
 
                 setUpExpandableCard(binding)
-                setupDate(events , binding)
+                setupDate(events , binding , context)
                 loadImage(events , binding)
                 checkWebCast(events , binding)
             }
@@ -138,35 +144,10 @@ class EventsRecyclerAdapter(
             }
         }
 
-        private fun setupDate(events: Events, binding: SingleEventColorBinding) {
+        @RequiresApi(Build.VERSION_CODES.O)
+        private fun setupDate(events: Events, binding: SingleEventColorBinding, context: Context) {
            binding.apply {
-               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                   // only for OREO and newer versions
-                   val dateFormat = ZonedDateTime.parse(events.date)
-
-                   val API_TIME_STAMP_PATTERN = "dd-MM-yyyy hh:mm a"
-
-                   val dateTimeFormatter : DateTimeFormatter =
-                       DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN, Locale.ROOT)
-
-
-                   val createdDateFormatted = dateFormat.withZoneSameInstant(ZoneId.of("Africa/Nairobi"))
-
-                   // val formattedDate1 = createdDateFormatted.format(DateTimeFormatter.ofPattern(API_TIME_STAMP_PATTERN))
-
-                   val formattedDate2 = createdDateFormatted.format(dateTimeFormatter)
-
-                   Log.d("ArticlesRv", "setUpDate: $formattedDate2 ")
-
-
-                   eventDate.text = formattedDate2
-               }else {
-                   val dateFormat : SimpleDateFormat =
-                       SimpleDateFormat("dd-MM-yyyy'T'h:mm a")
-                   val eDate : Date = dateFormat.parse(events.date)
-                   eventDate.text = eDate.toString()
-               }
+              eventDate.text = events.date.toDateString(context)
            }
         }
     }

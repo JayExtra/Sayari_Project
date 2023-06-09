@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.transition.Slide
 import android.transition.Transition
@@ -13,6 +14,7 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
@@ -33,6 +35,9 @@ import com.dev.james.sayariproject.databinding.FragmentEventsBinding
 import com.dev.james.sayariproject.general_adapters.LoadingStateAdapter
 import com.dev.james.sayariproject.models.events.Events
 import com.dev.james.sayariproject.ui.events.adapter.EventsRecyclerAdapter
+import com.dev.james.sayariproject.utilities.isDateFuture
+import com.dev.james.sayariproject.utilities.toDateObject
+import com.dev.james.sayariproject.utilities.toDateStringDateOnly
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -53,13 +58,21 @@ class EventsFragment : Fragment() {
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private val eventsAdapter = EventsRecyclerAdapter { shareUrl , videoUrl , snackBarMessage , event  ->
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val eventsAdapter = EventsRecyclerAdapter { shareUrl, videoUrl, snackBarMessage, event  ->
         when {
             shareUrl!=null -> {
                 shareNewsOrVideoUrl(shareUrl)
             }
             videoUrl!=null -> {
-                goToWebCast(videoUrl)
+                event?.let {
+                    if(it.date.toDateStringDateOnly().toDateObject().isDateFuture()){
+                        showSnackBar("No live stream available yet for this event.")
+                    }else{
+                        goToWebCast(videoUrl)
+                    }
+                }
+
             }
             snackBarMessage!=null -> {
                 showSnackBar(snackBarMessage)
@@ -129,6 +142,7 @@ class EventsFragment : Fragment() {
     private var hasSearched : Boolean? = null
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -205,6 +219,7 @@ class EventsFragment : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun FragmentEventsBinding.bindState(
         uiState : StateFlow<UiState>,
         pagingData : Flow<PagingData<Events>>,
@@ -251,6 +266,7 @@ class EventsFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun FragmentEventsBinding.bindList(
         uiState : StateFlow<UiState>,
         pagingData : Flow<PagingData<Events>>
@@ -378,6 +394,7 @@ class EventsFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUpUi() {
         //ui setup here
         binding.apply {

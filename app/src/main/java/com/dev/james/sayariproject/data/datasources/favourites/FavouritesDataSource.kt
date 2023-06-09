@@ -12,7 +12,7 @@ import javax.inject.Inject
 class FavouritesDataSource @Inject constructor(
     private val dao: Dao ,
     private val api : LaunchApiService
-) : BaseFavouritesDataSource , TopArticlesBaseRepo() {
+) : BaseFavouritesDataSource, TopArticlesBaseRepo() {
     //uses api to get agency
     override suspend fun getAgencyByName(name: String): NetworkResource<AgencyResponse>  = safeApiCall{
         api.getAgencyFromApi(name , DEFAULT_LIMIT , DEFAULT_OFFSET)

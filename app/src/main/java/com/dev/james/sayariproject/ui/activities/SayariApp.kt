@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.dev.james.sayariproject.utilities.*
+import com.dev.james.sayariproject.utilities.logging.CrashAndLog
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,7 +19,7 @@ class SayariApp : Application()  , Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        setupTimber()
+        CrashAndLog.setUpTimber()
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val mainChannel = NotificationChannel(

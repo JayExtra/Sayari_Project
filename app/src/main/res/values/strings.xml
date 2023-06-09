@@ -90,4 +90,15 @@
     <string name="buy_me_coffee">buy me coffee</string>
     <string name="call_for_support">Call for Support!</string>
     <string name="support_message">Hello there, I hope you are enjoying the application. You can support me by buying me coffee by clicking the button below, I will highly appreciate. The money will go into support for the application. Thank you!</string>
+    <string name="thank_you_mssg">Thank you for downloading and supporting this app! We truly appreciate your trust and belief in our vision. Your feedback is valuable, and we\'re committed to delivering the best user experience. We are grateful to have you as part of the Sayari community.The application is in its beta release and some features may be wonky. Please be patient as we work on the latest updates. However do not let this deter your sence of exploration, please explore the app and share your feedback!</string>
+    <string name="thank_you_ttl">Thank you!</string>
+    <string name="api_warning_ttl">A Quick reminder.</string>
+    <string name="api_warning_message">The launch information provided comes from the developer APIs. Therefore , the launch information may be stale (not updated) or not up to date in some scenarios. We are currently working to switch to up-to-date APIs that will provide accurate launch and event times. </string>
+
+    <string name="update_install_error_message">Could not download the update at the moment. Please try again later.</string>
+    <string name="update_error_title">Error installing update</string>
+
+    <string name="update_install_warning">Update Required</string>
+    <string name="update_install_warning_message">Dismissing this update will make you miss out on the latest features! This update will be shown again when app will be restarted.</string>
+
 </resources>

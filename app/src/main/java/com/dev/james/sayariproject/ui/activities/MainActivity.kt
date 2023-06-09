@@ -1,8 +1,11 @@
 package com.dev.james.sayariproject.ui.activities
 
+import android.Manifest
 import android.content.ComponentName
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,10 +13,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -27,15 +34,32 @@ import com.dev.james.sayariproject.data.work_manager.DataSyncWorker
 import com.dev.james.sayariproject.data.work_manager.LaunchSchedulerWorker
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
 import com.dev.james.sayariproject.ui.activities.viewmodels.MainActivityViewModel
+import com.dev.james.sayariproject.ui.dialogs.InformationDialog
+import com.dev.james.sayariproject.ui.dialogs.NotificationPermissionDialog
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.settings.SettingsFragment
 import com.dev.james.sayariproject.utilities.SAYARI_UNIQUE_PERIODIC_WORK_REQUEST
 import com.dev.james.sayariproject.utilities.SAYARI_UNIQUE_WORK_REQUEST
+import com.dev.james.sayariproject.utilities.UPDATE_REQUEST_CODE
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
+import com.google.android.play.core.ktx.isImmediateUpdateAllowed
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -43,6 +67,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private lateinit var appUpdateManager: AppUpdateManager
+    private val updateType = AppUpdateType.FLEXIBLE
 
     private val activityViewModel : MainActivityViewModel by viewModels()
 
@@ -52,17 +79,39 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "MainActivity"
+        const val MAIN_TOPIC = "communication"
     }
 
 
+
+  /*  private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {  isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            askNotificationPermission()
+        }
+    }*/
+
     @Inject
     lateinit var ratingDialog: RatingDialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_SayariProject)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        if (updateType == AppUpdateType.FLEXIBLE) {
+            appUpdateManager.registerListener(installStateUpdatedListener)
+        }
+
+        checkForAppUpdates()
+
+        subsrcibeToFcmTopic()
 
         val receiver = ComponentName(this, PhoneRebootReceiver::class.java)
         this.packageManager.setComponentEnabledSetting(
@@ -179,6 +228,119 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun subsrcibeToFcmTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic(
+            MAIN_TOPIC
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("MainActivity", "subscribeToFCMTopic: subscribed to topic successfully ")
+            } else {
+                Log.d("MainActivity", "subscribeToFCMTopic: failed to subscribe to topic")
+            }
+        }
+    }
+
+    /*private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when {
+                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                        PackageManager.PERMISSION_GRANTED -> {
+                    // FCM SDK (and your app) can post notifications.
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                    // TODO: display an educational UI explaining to the user the features that will be enabled
+                    //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                    //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                    //       If the user selects "No thanks," allow the user to continue without notifications.
+
+                    val rationaleDialog = NotificationPermissionDialog(
+                        onRelaunchPermissions = {
+                            //ask for permission again
+                            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        }
+                    )
+                    rationaleDialog.show(
+                        supportFragmentManager ,
+                        NotificationPermissionDialog.TAG
+                    )
+                }
+              *//*  !shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) &&
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+                        PackageManager.PERMISSION_GRANTED -> {
+
+                    Toast.makeText(this, "Sending to settings screen", Toast.LENGTH_SHORT).show()
+
+                }*//*
+                else -> {
+                    // Directly ask for the permission
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+        }
+    }*/
+
+    private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            // show snackbar
+            Snackbar.make(
+                binding.root,
+                "Update downloaded successfully. Re-launching the app in 5 seconds",
+                Snackbar.LENGTH_LONG
+            ).show()
+
+            lifecycleScope.launch {
+                delay(5.seconds)
+                appUpdateManager.completeUpdate()
+            }
+        }
+
+        if (state.installStatus() == InstallStatus.FAILED) {
+            val dialog = InformationDialog.newInstance(
+                title = R.string.update_error_title ,
+                message = R.string.update_install_error_message ,
+                onCloseDialog = { }
+            )
+            dialog.show(
+                supportFragmentManager,
+                InformationDialog.TAG
+            )
+        }
+
+        if (state.installStatus() == InstallStatus.CANCELED) {
+            // show dialog
+            val dialog = InformationDialog.newInstance(
+                title = R.string.update_install_warning,
+                message = R.string.update_install_warning_message ,
+                onCloseDialog = {}
+            )
+            dialog.show(
+                supportFragmentManager,
+                InformationDialog.TAG
+            )
+        }
+    }
+
+    private fun checkForAppUpdates() {
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+            val isUpdateAvailable = info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+            val isUpdateAllowed = when (updateType) {
+                AppUpdateType.FLEXIBLE -> info.isFlexibleUpdateAllowed
+                AppUpdateType.IMMEDIATE -> info.isImmediateUpdateAllowed
+                else -> false
+            }
+
+            if (isUpdateAvailable && isUpdateAllowed) {
+                appUpdateManager.startUpdateFlowForResult(
+                    info,
+                    updateType,
+                    this,
+                    UPDATE_REQUEST_CODE
+                )
+            }
+        }
+    }
+
     private fun observePreferences() {
         activityViewModel.checkSavedPreferences.observe(this) {
             if (it.nightDarkStatus) {
@@ -254,6 +416,28 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         initWorkProcess()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (updateType == AppUpdateType.FLEXIBLE) {
+            appUpdateManager.unregisterListener(installStateUpdatedListener)
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == UPDATE_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                Timber.tag("MainActivity").d("Something went wrong with updating the app.")
+            }
+            if (resultCode == RESULT_CANCELED) {
+                Timber.tag("MainActivity").d("Update cancelled")
+            }
+        }
+    }
+
+
 
     private fun initWorkProcess(){
         Log.d(TAG, "initWorkProcess: work manager workers initialized ")

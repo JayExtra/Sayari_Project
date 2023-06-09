@@ -15,7 +15,7 @@ import javax.inject.Inject
 class DiscoverFragmentDatasource @Inject constructor(
     private val newsApiService: NewsApiService,
     private val dao: Dao
-) : BaseDiscoverFragmentDatasource , TopArticlesBaseRepo() {
+) : BaseDiscoverFragmentDatasource, TopArticlesBaseRepo() {
     override suspend fun getFilteredNews(filter: String) = safeApiCall {
         newsApiService.getNewsArticles(
             query = filter,

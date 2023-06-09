@@ -23,6 +23,7 @@ import com.bumptech.glide.request.target.Target
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.SingleLauchItemBinding
 import com.dev.james.sayariproject.models.launch.LaunchList
+import com.dev.james.sayariproject.utilities.toDateString
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -62,7 +63,7 @@ class LaunchesRecyclerAdapter(
                 launchCardTitle.text = launch.name
                 launchCardDesc.text = launch.serviceProvider?.name
                 orbitTxt.text = launch.mission?.orbit?.abbrev
-                dateTxt.text = launch.startWindow.formatDateFromApi(context)
+                dateTxt.text = launch.startWindow.toDateString(context)
                 val padName = launch.pad.name
                 val location = launch.pad.location.name
 
@@ -119,7 +120,7 @@ class LaunchesRecyclerAdapter(
 
         }
 
-
+/*
         //will format the date from API into local time
         private fun String.formatDateFromApi(context : Context) : String {
             return try {
@@ -145,7 +146,7 @@ class LaunchesRecyclerAdapter(
             val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
             parser.timeZone = timeZone
             return parser.parse(this )
-        }
+        }*/
 
         private fun setUpImage(launch: LaunchList, binding: SingleLauchItemBinding) {
 

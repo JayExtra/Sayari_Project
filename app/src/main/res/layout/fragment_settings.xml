@@ -57,12 +57,11 @@
                 android:id="@+id/favCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:buttonTint="@color/secondaryColor"
                 android:checked="false"
                 app:layout_constraintBottom_toBottomOf="@+id/textView50"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/notificationsSwitch"
                 app:layout_constraintTop_toTopOf="@+id/textView50" />
 
             <ImageView
@@ -128,14 +127,14 @@
                 style="@style/Theme.SayariProject.TextAppearanceHeadings"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/nots_from_fav_txt"
                 android:textColor="@color/primaryLightColor"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/favCheckBox"
                 app:layout_constraintStart_toStartOf="@+id/textView49"
-                app:layout_constraintTop_toBottomOf="@+id/textView49" />
+                app:layout_constraintTop_toBottomOf="@+id/textView61" />
 
             <TextView
                 android:id="@+id/textView54"
@@ -359,6 +358,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/lightDarkModeTxt"
                 tools:ignore="DuplicateSpeakableTextCheck" />
+
+            <TextView
+                android:id="@+id/textView61"
+                style="Theme.SayariProject.TextAppearanceHeadings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Allow notifications"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/textView49"
+                app:layout_constraintTop_toBottomOf="@+id/textView49" />
+
+            <Switch
+                android:id="@+id/notificationsSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:buttonTint="#FF5722"
+                android:fontFamily="@font/ubuntu_medium"
+                android:text="No"
+                app:layout_constraintBottom_toBottomOf="@+id/textView61"
+                app:layout_constraintEnd_toEndOf="@+id/divider8"
+                app:layout_constraintTop_toTopOf="@+id/textView61" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

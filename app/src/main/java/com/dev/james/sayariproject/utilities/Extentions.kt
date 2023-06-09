@@ -1,8 +1,10 @@
 package com.dev.james.sayariproject.utilities
 
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.os.ConfigurationCompat
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
@@ -13,16 +15,30 @@ import java.net.SocketTimeoutException
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 import javax.net.ssl.SSLException
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun String.toDateString(): String {
-    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
-    val date = formatter.parse(this)
-    val dateFormatter = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault())
-    return dateFormatter.format(date)
+fun String.toDateString(context : Context): String {
+    return try {
+        val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
+        val inputFormat =
+            java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        inputFormat.timeZone = TimeZone.getTimeZone("GMT")
+        val passedDate: Date = inputFormat.parse(this) as Date
+
+        //Here you put how you want your date to be, this looks like this Tue,Nov 2, 2021, 12:23 pm
+        val outputFormatDay =
+            java.text.SimpleDateFormat("yyyy-MM-dd hh:mm aaa", currentLocale)
+        outputFormatDay.timeZone = TimeZone.getDefault()
+        val newDateString = outputFormatDay.format(passedDate)
+        newDateString
+    } catch (_: Exception) {
+        "00:00:00"
+    }
 }
 @RequiresApi(Build.VERSION_CODES.O)
 fun String.toDateStringDateOnly(): String {

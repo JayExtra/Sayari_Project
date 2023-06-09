@@ -15,6 +15,8 @@ const val DEV_EMAIL = "murokijames21@gmail.com"
 
 const val WINDOW_OPEN_NOTIFICATION_ID = 1
 
+const val UPDATE_REQUEST_CODE = 7789
+
 
 const val MIDNIGHT_NOTIFICATION_ID = 5
 const val EVENT_NOTIFICATION_ID = 6

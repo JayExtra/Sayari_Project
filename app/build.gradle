@@ -5,6 +5,9 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
     id "androidx.navigation.safeargs.kotlin"
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+
 }
 
 android {
@@ -188,6 +191,15 @@ dependencies {
 
     //timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    //in app updates
+    implementation "com.google.android.play:app-update-ktx:2.1.0"
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
+    implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.firebase:firebase-crashlytics-ktx"
 
 
 }

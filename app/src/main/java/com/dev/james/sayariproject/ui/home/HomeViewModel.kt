@@ -17,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: BaseMainRepository,
+    private val datastoreRepository: DatastoreRepository ,
     private val savedStateHandle: SavedStateHandle
 )  : ViewModel() {
 
@@ -29,6 +30,14 @@ class HomeViewModel @Inject constructor(
         MutableLiveData()
     val latestArticlesLiveData get() = _latestArticlesLiveData
 
+    val hasShownWelcomeDialog = datastoreRepository
+        .readHasShownWelcomeMessage()
+        .stateIn(
+            viewModelScope ,
+            SharingStarted.WhileSubscribed(5000) ,
+            initialValue = false
+        )
+
 
 
     lateinit var uiState : StateFlow<UiState>
@@ -36,6 +45,10 @@ class HomeViewModel @Inject constructor(
     lateinit var pagingDataFlow : Flow<PagingData<Article>>
 
     lateinit var accept: (UiAction) -> Unit
+
+    fun hasShownDialog(value : Boolean) = viewModelScope.launch {
+        datastoreRepository.setHasShownWelcomeMessage(true)
+    }
 
     fun getAllNews(queryReceived: String?) {
         var queryPassed = ""

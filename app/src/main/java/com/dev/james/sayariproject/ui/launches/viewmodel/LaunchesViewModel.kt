@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.RocketInstance
 import com.dev.james.sayariproject.repository.BaseMainRepository
+import com.dev.james.sayariproject.repository.DatastoreRepository
 import com.dev.james.sayariproject.utilities.Event
 import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LaunchesViewModel @Inject constructor(
     private val repository : BaseMainRepository ,
+    private val datastoreRepository: DatastoreRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -30,6 +32,15 @@ class LaunchesViewModel @Inject constructor(
 
   //  private var _navigateToLaunchDetails : MutableLiveData<LaunchList> = MutableLiveData()
     //val navigateToLaunchDetails get() = _navigateToLaunchDetails
+
+    val hasShownApiMessage = datastoreRepository.readHasShownApiMessage()
+        .stateIn(viewModelScope , SharingStarted.WhileSubscribed(5000) , false)
+
+    fun setHasShownApiMessageStatus(value : Boolean) {
+        viewModelScope.launch {
+            datastoreRepository.setHasShownApiMessage(value)
+        }
+    }
 
     fun receiveQuery(query: String?) {
         _queryPassed.value = Event(query)

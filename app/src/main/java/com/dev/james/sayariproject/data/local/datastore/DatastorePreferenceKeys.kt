@@ -10,6 +10,15 @@ object DatastorePreferenceKeys {
     val HAS_FINISHED_ON_BOARDING : Preferences.Key<Boolean> =
         booleanPreferencesKey("has_finished_on_boarding")
 
+    val HAS_SHOWN_WELCOME_DIALOG : Preferences.Key<Boolean> =
+        booleanPreferencesKey("has_shown_welcome")
+
+    val HAS_SHOWN_API_MESSAGE : Preferences.Key<Boolean> =
+        booleanPreferencesKey("has_shown_api_message")
+
+    val SHOULD_SHOW_NOTIFICATIONS : Preferences.Key<Boolean> =
+        booleanPreferencesKey("should_show_notifications")
+
     //value for dark and light mode
     val IS_DARK_MODE_ENABLED : Preferences.Key<Boolean> =
         booleanPreferencesKey("is_dark_mode_enabled")

@@ -44,7 +44,9 @@ class SupportUsFragment : Fragment() {
 
     private fun openBuyMeCoffeePage(){
         val pageIntent = Intent().apply {
+            this.action = Intent.ACTION_VIEW
             this.data = Uri.parse(BUY_ME_COFFEE_PAGE_LINK)
+            this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         requireContext().startActivity(pageIntent)
     }

@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class LaunchesDataSource @Inject constructor(
     private var launchesApi : LaunchApiService
-) : LaunchesBaseDatasource , TopArticlesBaseRepo() {
+) : LaunchesBaseDatasource, TopArticlesBaseRepo() {
 
     override fun getLaunches(query: String, fragmentId : Int): Flow<PagingData<LaunchList>> {
         return Pager(

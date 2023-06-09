@@ -12,7 +12,7 @@ import javax.inject.Inject
 class IssDataSource @Inject constructor(
     private val api : LaunchApiService ,
     private val eventsApi : EventsApiService
-) : BaseIssDataSource , TopArticlesBaseRepo() {
+) : BaseIssDataSource, TopArticlesBaseRepo() {
     override suspend fun getSpaceStation(id: Int) = safeApiCall {
         api.getSpaceStation(id)
     }

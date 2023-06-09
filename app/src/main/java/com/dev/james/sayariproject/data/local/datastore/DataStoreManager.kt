@@ -13,9 +13,11 @@ import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.
 import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_FIVE_MIN_ENABLED
 import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_FROM_FAVOURITE_AGENCIES_ENABLED
 import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.IS_THIRTY_MIN_ENABLED
+import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.SHOULD_SHOW_NOTIFICATIONS
 import com.dev.james.sayariproject.data.local.datastore.DatastorePreferenceKeys.STORE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -46,6 +48,22 @@ class DataStoreManager @Inject constructor(
         }
     }
 
+     fun readBooleanValueAsFlow(
+        key: Preferences.Key<Boolean>
+    ): Flow<Boolean> {
+        return context.dataStore.data.map {
+            it[key] ?: false
+        }.catch { exception ->
+            if (exception is IOException) {
+                Timber.e(
+                    "DataStoreManager readBooleanValueAsFlow error =>" +
+                            exception.localizedMessage
+                )
+                emit(false)
+            }
+        }
+    }
+
     suspend fun readBooleanValueOnce(key : Preferences.Key<Boolean>) =
         context.dataStore.data.first()[key] ?: false
 
@@ -62,10 +80,10 @@ class DataStoreManager @Inject constructor(
              val thirtyMinutesValue = preferences[IS_THIRTY_MIN_ENABLED] ?: true
              val fifteenMinutesValue = preferences[IS_FIFTEEN_MIN_ENABLED] ?: false
              val fiveMinutesValue = preferences[IS_FIVE_MIN_ENABLED] ?: true
+            val shouldShowNotifications = preferences[SHOULD_SHOW_NOTIFICATIONS] ?: false
 
          AllPreferences(dayNightModeValue , favouriteAgenciesValue ,
-         thirtyMinutesValue , fifteenMinutesValue , fiveMinutesValue)
-
+         thirtyMinutesValue , fifteenMinutesValue , fiveMinutesValue , shouldShowNotifications)
          }
 
 
@@ -75,5 +93,6 @@ data class AllPreferences(
     val favouriteAgencies : Boolean,
     val thirtyMinStatus : Boolean,
     val fifteenMinStatus : Boolean,
-    val fiveMinStatus : Boolean
+    val fiveMinStatus : Boolean ,
+    val showNotifications : Boolean
 )

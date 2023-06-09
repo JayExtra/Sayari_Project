@@ -6,11 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.RocketInstance
 import com.dev.james.sayariproject.repository.BaseMainRepository
+import com.dev.james.sayariproject.repository.DatastoreRepository
 import com.dev.james.sayariproject.utilities.NetworkResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,6 +36,8 @@ class LaunchDetailsViewModel @Inject constructor(
         val rocketResponse = repository.getRocketInstance(id)
         _rocketInstanceResponse.value = rocketResponse
     }
+
+
 
     fun getAgencyResponse(id : Int) = viewModelScope.launch {
         val agencyResponse = repository.getAgency(id)

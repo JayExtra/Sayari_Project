@@ -26,6 +26,9 @@ class SettingsViewModel @Inject constructor(
     fun setThirtyMinValue(value : Boolean) = viewModelScope.launch {
         datastoreRepository.setThrityMinIntervalStatus(value)
     }
+    fun setNotificationStatus(value: Boolean) = viewModelScope.launch {
+        datastoreRepository.saveNotificationStatus(value)
+    }
     fun setFifteenMinuteStatus(value : Boolean) = viewModelScope.launch {
         datastoreRepository.setFifteenMinIntervalStatus(value)
     }

@@ -187,11 +187,10 @@ class EventsDetailsFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun FragmentEventDetailsBinding.setUpEventsDetailsCard(event : Events){
-
         eventTitleTxt.text = event.slug
         eventLocationTxt.text = event.location
         eventTypeTxt.text = event.type.name
-        eventDateTxt.text = event.date.toDateString()
+        eventDateTxt.text = event.date.toDateString(requireContext())
 
         if(event.program.isNotEmpty()){
             swipeTxt.isVisible = event.program[0].agencies.size > 1

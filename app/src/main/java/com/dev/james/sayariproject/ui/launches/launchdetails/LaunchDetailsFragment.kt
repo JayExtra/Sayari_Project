@@ -21,6 +21,8 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -34,10 +36,12 @@ import com.dev.james.sayariproject.databinding.FragmentLaunchDetailsBinding
 import com.dev.james.sayariproject.models.launch.Agency
 import com.dev.james.sayariproject.models.launch.LaunchList
 import com.dev.james.sayariproject.models.launch.Mission
+import com.dev.james.sayariproject.ui.dialogs.InformationDialog
 import com.dev.james.sayariproject.utilities.NetworkResource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -72,6 +76,9 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
         getAgencyDetails(args)
         return binding?.root
     }
+
+
+
 
     private fun getAgencyDetails(args: LaunchList) {
         //get agency details
@@ -412,7 +419,7 @@ class LaunchDetailsFragment : Fragment(R.layout.fragment_launch_details) {
             val currentLocale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
             inputFormat.timeZone = TimeZone.getTimeZone("GMT")
-            val passedDate: Date = inputFormat.parse(this)
+            val passedDate: Date = inputFormat.parse(this) as Date
 
             //Here you put how you want your date to be, this looks like this Tue,Nov 2, 2021, 12:23 pm
             val outputFormatDay = SimpleDateFormat("EEE, MMM d, yyyy, hh:mm aaa", currentLocale)

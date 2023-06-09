@@ -18,7 +18,7 @@ import javax.inject.Inject
 class EventsDatasource @Inject constructor(
     private val eventsApi : EventsApiService,
     private val dao : Dao
-) : BaseEventsDatasource , TopArticlesBaseRepo(){
+) : BaseEventsDatasource, TopArticlesBaseRepo(){
 
     override fun getEvents(query: String?): Flow<PagingData<Events>> {
         return Pager(

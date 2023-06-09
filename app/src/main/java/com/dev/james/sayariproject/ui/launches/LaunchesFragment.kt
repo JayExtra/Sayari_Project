@@ -10,6 +10,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -18,6 +20,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.dev.james.sayariproject.BuildConfig
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentLaunchesBinding
+import com.dev.james.sayariproject.ui.dialogs.InformationDialog
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesViewpagerAdapter
 import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
@@ -25,6 +28,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -62,6 +66,8 @@ class LaunchesFragment : Fragment() {
         }
 
         binding.newsTopAppBar.title = getString(R.string.application_name)
+
+        collectApiDialogStatus()
 
         initMaterialTransitions()
 
@@ -130,6 +136,31 @@ class LaunchesFragment : Fragment() {
         return binding.root
 
     }
+
+    private fun collectApiDialogStatus(){
+        lifecycleScope.launch {
+            mLaunchesViewModel.hasShownApiMessage
+                .flowWithLifecycle(lifecycle , Lifecycle.State.CREATED)
+                .collectLatest { hasShownDialog ->
+                    if(!hasShownDialog){
+                        val apiDialog = InformationDialog.newInstance(
+                            title = R.string.api_warning_ttl ,
+                            message = R.string.api_warning_message ,
+                            onCloseDialog = {
+                                mLaunchesViewModel.setHasShownApiMessageStatus(true)
+                            }
+                        )
+                        apiDialog.show(
+                            childFragmentManager ,
+                            InformationDialog.TAG
+                        )
+                    }
+                }
+        }
+    }
+
+
+
 
     private fun initMaterialTransitions() {
         enterTransition = MaterialFadeThrough()

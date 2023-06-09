@@ -26,7 +26,9 @@ import com.dev.james.sayariproject.data.local.room.Dao
 import com.dev.james.sayariproject.data.local.room.SayariDatabase
 import com.dev.james.sayariproject.data.remote.service.LaunchApiService
 import com.dev.james.sayariproject.data.remote.service.NewsApiService
+import com.dev.james.sayariproject.repository.BaseDataStoreRepository
 import com.dev.james.sayariproject.repository.BaseMainRepository
+import com.dev.james.sayariproject.repository.DatastoreRepository
 import com.dev.james.sayariproject.repository.MainRepository
 import com.dev.james.sayariproject.utilities.ARTICLE_BASE_URL
 import com.dev.james.sayariproject.utilities.LAUNCH_BASE_URL
@@ -174,6 +176,16 @@ object AppModule {
         @ApplicationContext appContext : Context
     ) : DataStoreManager {
         return DataStoreManager(appContext)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatastoreManagerRepo(
+        dataStoreManager: DataStoreManager
+    ) : BaseDataStoreRepository {
+        return DatastoreRepository(
+            dataStoreManager
+        )
     }
 
     //provide database
