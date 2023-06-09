@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "602482725502",
+    "project_id": "sayari-mobile-app",
+    "storage_bucket": "sayari-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602482725502:android:2e5d85c9e211a35c7dbe2f",
+        "android_client_info": {
+          "package_name": "com.dev.james.sayariproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602482725502-7q6vkjrpfj00nlda630gs42d95323q76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-oquCOVJNUDIbOLM2FIYkb55qmiaVMQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602482725502-7q6vkjrpfj00nlda630gs42d95323q76.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
