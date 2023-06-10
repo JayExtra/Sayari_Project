@@ -30,16 +30,29 @@ class LaunchesViewModel @Inject constructor(
     private val _rocketInstanceResponse : MutableStateFlow<NetworkResource<RocketInstance>> = MutableStateFlow(NetworkResource.Loading)
     val rocketInstanceResponse get() = _rocketInstanceResponse.asStateFlow()
 
+    private val _hasShownApiMessage : MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val hasShownApiMessage get() = _hasShownApiMessage
+
   //  private var _navigateToLaunchDetails : MutableLiveData<LaunchList> = MutableLiveData()
     //val navigateToLaunchDetails get() = _navigateToLaunchDetails
 
-    val hasShownApiMessage = datastoreRepository.readHasShownApiMessage()
-        .stateIn(viewModelScope , SharingStarted.WhileSubscribed(5000) , false)
+    init {
+        getDialogStatus()
+    }
+
 
     fun setHasShownApiMessageStatus(value : Boolean) {
         viewModelScope.launch {
             datastoreRepository.setHasShownApiMessage(value)
         }
+    }
+
+    private fun getDialogStatus() = viewModelScope.launch{
+        datastoreRepository.readHasShownApiMessage().
+                distinctUntilChanged()
+            .collect {
+                _hasShownApiMessage.value = it
+            }
     }
 
     fun receiveQuery(query: String?) {

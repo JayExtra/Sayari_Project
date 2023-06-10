@@ -27,8 +27,12 @@ import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,6 +45,7 @@ class LaunchesFragment : Fragment() {
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val mLaunchesViewModel : LaunchesViewModel by viewModels()
+    private var job : Job? = null
 
     @Inject
     lateinit var ratingDialog: RatingDialog
@@ -141,7 +146,10 @@ class LaunchesFragment : Fragment() {
         lifecycleScope.launch {
             mLaunchesViewModel.hasShownApiMessage
                 .flowWithLifecycle(lifecycle , Lifecycle.State.CREATED)
+                .distinctUntilChanged()
+               // .drop(1)
                 .collectLatest { hasShownDialog ->
+                    Timber.tag("LaunchesFragment").d("has shown api dialog => $hasShownDialog")
                     if(!hasShownDialog){
                         val apiDialog = InformationDialog.newInstance(
                             title = R.string.api_warning_ttl ,

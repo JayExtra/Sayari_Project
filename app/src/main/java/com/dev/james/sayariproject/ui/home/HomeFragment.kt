@@ -105,11 +105,11 @@ class HomeFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
+    /*override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
+*/
     private fun launchBrowser(url: String?) {
         url?.let {
             Toast.makeText(requireContext(), "Opening browser...", Toast.LENGTH_LONG).show()

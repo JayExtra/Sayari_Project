@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.FLEXIBLE
 
@@ -340,7 +339,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun observePreferences() {
         activityViewModel.checkSavedPreferences.observe(this) {
             if (it.nightDarkStatus) {
