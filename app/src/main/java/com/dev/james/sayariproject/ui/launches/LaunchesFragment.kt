@@ -24,6 +24,7 @@ import com.dev.james.sayariproject.ui.dialogs.InformationDialog
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.launches.adapters.LaunchesViewpagerAdapter
 import com.dev.james.sayariproject.ui.launches.viewmodel.LaunchesViewModel
+import com.dev.james.sayariproject.utilities.showDialog
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
@@ -151,17 +152,24 @@ class LaunchesFragment : Fragment() {
                 .collectLatest { hasShownDialog ->
                     Timber.tag("LaunchesFragment").d("has shown api dialog => $hasShownDialog")
                     if(!hasShownDialog){
-                        val apiDialog = InformationDialog.newInstance(
-                            title = R.string.api_warning_ttl ,
+                        requireContext().showDialog(
+                            title =  R.string.api_warning_ttl ,
                             message = R.string.api_warning_message ,
-                            onCloseDialog = {
+                            onClose = {
                                 mLaunchesViewModel.setHasShownApiMessageStatus(true)
+                            }
+                        )
+
+                       /* val apiDialog = InformationDialog.newInstance(
+                            title = ,
+                            message =  ,
+                            onCloseDialog = {
                             }
                         )
                         apiDialog.show(
                             childFragmentManager ,
                             InformationDialog.TAG
-                        )
+                        )*/
                     }
                 }
         }

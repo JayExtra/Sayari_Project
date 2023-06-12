@@ -32,8 +32,8 @@ class DiscoverViewModel @Inject constructor(
     private val _missionsListFlow :  MutableStateFlow<List<ActiveMissions>> = MutableStateFlow(emptyList())
     val missionsList get() = _missionsListFlow.asStateFlow()
 
-    private lateinit var storedQuery : String
-    private lateinit var storedMissionQuery : String
+    private var storedQuery : String? = null
+    private var storedMissionQuery : String? = null
 
   //  private lateinit var missionsFlow : LiveData<List<ActiveMissions>>
 
@@ -56,7 +56,6 @@ class DiscoverViewModel @Inject constructor(
         Log.d("DiscoverVm", "getFilteredResults: $initialQuery ")
 
        if(initialQuery == "Sun"){
-
            val articles = repository.getFilteredNews(SUN_QUERY)
            _newsList.value = NetworkResource.Loading
            _newsList.value = articles

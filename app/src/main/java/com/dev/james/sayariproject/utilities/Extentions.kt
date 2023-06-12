@@ -5,6 +5,7 @@ import android.icu.text.SimpleDateFormat
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.os.ConfigurationCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
@@ -120,4 +121,14 @@ fun Int.mapResponseCodeToErrorMessage(): String = when (this) {
     in 400..499 -> "Hmm..something seems wrong on your end. Please check your network connection and try again later."
     in 500..600 -> "Oh , something seems wrong on our end. Please be patient as we fix things."
     else -> "Could not establish connection at the moment. Please be patient as we work through it."
+}
+fun Context.showDialog(title : Int, message : Int , onClose : () -> Unit ){
+    MaterialAlertDialogBuilder(this)
+        .setTitle(title)
+        .setMessage(message)
+        .setPositiveButton("Okay"
+        ) { dialog, _ ->
+            onClose()
+            dialog.dismiss() }
+        .show()
 }

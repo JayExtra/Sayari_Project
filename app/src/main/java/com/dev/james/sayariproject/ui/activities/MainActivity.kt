@@ -2,6 +2,7 @@ package com.dev.james.sayariproject.ui.activities
 
 import android.Manifest
 import android.content.ComponentName
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -12,6 +13,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,13 +36,12 @@ import com.dev.james.sayariproject.data.work_manager.DataSyncWorker
 import com.dev.james.sayariproject.data.work_manager.LaunchSchedulerWorker
 import com.dev.james.sayariproject.databinding.ActivityMainBinding
 import com.dev.james.sayariproject.ui.activities.viewmodels.MainActivityViewModel
-import com.dev.james.sayariproject.ui.dialogs.InformationDialog
-import com.dev.james.sayariproject.ui.dialogs.NotificationPermissionDialog
 import com.dev.james.sayariproject.ui.dialogs.rating.RatingDialog
 import com.dev.james.sayariproject.ui.settings.SettingsFragment
 import com.dev.james.sayariproject.utilities.SAYARI_UNIQUE_PERIODIC_WORK_REQUEST
 import com.dev.james.sayariproject.utilities.SAYARI_UNIQUE_WORK_REQUEST
 import com.dev.james.sayariproject.utilities.UPDATE_REQUEST_CODE
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.snackbar.Snackbar
@@ -295,27 +296,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (state.installStatus() == InstallStatus.FAILED) {
-            val dialog = InformationDialog.newInstance(
+
+            showDialog(
                 title = R.string.update_error_title ,
-                message = R.string.update_install_error_message ,
-                onCloseDialog = { }
-            )
-            dialog.show(
-                supportFragmentManager,
-                InformationDialog.TAG
+                message =  R.string.update_install_error_message
             )
         }
 
         if (state.installStatus() == InstallStatus.CANCELED) {
             // show dialog
-            val dialog = InformationDialog.newInstance(
-                title = R.string.update_install_warning,
-                message = R.string.update_install_warning_message ,
-                onCloseDialog = {}
-            )
-            dialog.show(
-                supportFragmentManager,
-                InformationDialog.TAG
+
+            showDialog(
+                title = R.string.update_install_warning ,
+                message = R.string.update_install_warning_message
             )
         }
     }
@@ -338,6 +331,15 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private fun showDialog(title : Int, message : Int){
+        MaterialAlertDialogBuilder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Okay"
+            ) { dialog, _ -> dialog.dismiss() }
+            .show()
     }
     private fun observePreferences() {
         activityViewModel.checkSavedPreferences.observe(this) {

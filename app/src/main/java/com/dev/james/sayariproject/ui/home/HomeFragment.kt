@@ -38,6 +38,8 @@ import com.dev.james.sayariproject.ui.dialogs.NotificationPermissionDialog
 import com.dev.james.sayariproject.ui.home.adapters.HomeViewPagerAdapter
 import com.dev.james.sayariproject.ui.home.adapters.LatestArticlesRecyclerAdapter
 import com.dev.james.sayariproject.utilities.NetworkResource
+import com.dev.james.sayariproject.utilities.showDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
@@ -173,18 +175,14 @@ class HomeFragment : Fragment() {
                 .collectLatest { hasShownDialog ->
                     Timber.tag("HomeScreen").d("has shown dialog => $hasShownDialog")
                     if (!hasShownDialog) {
-                        val welcomeDialog = InformationDialog.newInstance(
-                            title = R.string.thank_you_ttl,
-                            message = R.string.thank_you_mssg,
-                            onCloseDialog = {
+                        requireContext().showDialog(
+                            title = R.string.thank_you_ttl ,
+                            message = R.string.thank_you_mssg ,
+                            onClose = {
                                 homeViewModel.hasShownDialog(true)
                                 hasAskedNotificationPermissionFirst = true
                                 askNotificationPermission()
                             }
-                        )
-                        welcomeDialog.show(
-                            childFragmentManager,
-                            InformationDialog.TAG
                         )
                     }
                 }
