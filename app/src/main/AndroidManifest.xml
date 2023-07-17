@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.dev.james.sayariproject">
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:name=".ui.activities.SayariApp"
@@ -29,43 +20,57 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".notifications.firebase.messaging.SayariFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/sayari_app_icon_png" />
+
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
+
             <!-- If you are using androidx.startup to initialize other components -->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+
         <receiver android:name=".data.broadcast_receivers.launch.FifteenMinuteLaunchAlertReceiver" />
         <receiver android:name=".data.broadcast_receivers.launch.FiveMinuteLaunchAlertReceiver" />
         <receiver android:name=".data.broadcast_receivers.launch.LaunchWindowOpenAlertReceiver" />
         <receiver android:name=".data.broadcast_receivers.launch.ThirtyMinuteLaunchAlertReceiver" />
         <receiver android:name=".data.broadcast_receivers.midninight.MidnightAlertReceiver" />
-        <receiver android:name=".data.broadcast_receivers.phone_reboot.PhoneRebootReceiver"
+        <receiver
+            android:name=".data.broadcast_receivers.phone_reboot.PhoneRebootReceiver"
             android:enabled="false"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/sayari_logo2" />
-
+        <service
+            android:name=".notifications.firebase.messaging.SayariFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

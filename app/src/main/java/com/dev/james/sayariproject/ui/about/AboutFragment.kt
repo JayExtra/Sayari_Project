@@ -20,7 +20,7 @@ import com.dev.james.sayariproject.utilities.TWITTER_PROFILE_WEB
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AboutFragment : Fragment() {
+class AboutFragment : Fragment(R.layout.fragment_about) {
     private var _binding : FragmentAboutBinding? = null
     private val binding get() = _binding
     private lateinit var navController: NavController

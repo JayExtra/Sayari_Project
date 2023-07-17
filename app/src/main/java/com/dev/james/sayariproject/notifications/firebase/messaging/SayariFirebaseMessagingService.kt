@@ -68,7 +68,7 @@ class SayariFirebaseMessagingService : FirebaseMessagingService() {
                 val notification = NotificationCompat.Builder(
                     applicationContext ,  SAYARI_MAIN_NOTIFICATION_CHANNEL
                 ).setSmallIcon(
-                    R.drawable.sayari_logo2
+                    R.drawable.sayari_app_icon_png
                 ).setContentTitle(
                     title
                 ).setContentText(body)

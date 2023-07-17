@@ -20,6 +20,9 @@ const val UPDATE_REQUEST_CODE = 7789
 
 const val MIDNIGHT_NOTIFICATION_ID = 5
 const val EVENT_NOTIFICATION_ID = 6
+const val PRIVACY_POLICY_LINK = "https://www.freeprivacypolicy.com/live/e5b8ffb9-4873-4c0c-95d9-df49ddf4b96a"
+
+
 
 const val SAYARI_MAIN_NOTIFICATION_CHANNEL = "sayari_alert_channel"
 const val SAYARI_NOTIFICATION_CHANNEL_DESCRIPTION =  "launch and events alerts"

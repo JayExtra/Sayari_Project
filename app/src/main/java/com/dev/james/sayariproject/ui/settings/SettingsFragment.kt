@@ -21,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import com.dev.james.sayariproject.R
 import com.dev.james.sayariproject.databinding.FragmentSettingsBinding
 import com.dev.james.sayariproject.ui.settings.viewmodel.SettingsViewModel
+import com.dev.james.sayariproject.utilities.PRIVACY_POLICY_LINK
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,6 +97,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 lightDarkModeTxt.text = "Light mode"
                 lightDarkModeImg.setImageResource(R.drawable.ic_baseline_light_mode)
             }
+        }
+
+        privacyPolicyBtn.setOnClickListener {
+            val intent = Intent().apply {
+                this.action = Intent.ACTION_VIEW
+                this.data = Uri.parse(PRIVACY_POLICY_LINK)
+            }
+            startActivity(intent)
         }
 
         notificationsSwitch.setOnCheckedChangeListener { switch, isChecked ->

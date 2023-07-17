@@ -18,7 +18,7 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 1
-        versionName "v1.0-alpha01"
+        versionName "v1.0.0-beta01"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,6 +41,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        benchmark {
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['release']
+            debuggable false
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -49,6 +54,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.dev.james.sayariproject'
 
 }
 
@@ -200,6 +206,9 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-messaging-ktx"
     implementation "com.google.firebase:firebase-crashlytics-ktx"
+
+    //baseline profiles
+    implementation "androidx.profileinstaller:profileinstaller:1.3.1"
 
 
 }

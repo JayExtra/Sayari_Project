@@ -101,4 +101,7 @@
     <string name="update_install_warning">Update Required</string>
     <string name="update_install_warning_message">Dismissing this update will make you miss out on the latest features! This update will be shown again when app will be restarted.</string>
 
+    <string name="copyright">\u2117 2023 – 2030 copyright</string>
+
+
 </resources>
