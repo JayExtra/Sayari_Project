@@ -54,7 +54,7 @@ It exposes those data streams which are relevant to the View. Moreover, it serve
 
 ## App screenshots:
 
-![Home](s_sh7.jpg)
+![Home](s_sh7.jpg) ![Upcoming Launches](s_sh4.jpg)
 
 
 
