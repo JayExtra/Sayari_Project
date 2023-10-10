@@ -54,8 +54,11 @@ It exposes those data streams which are relevant to the View. Moreover, it serve
 
 ## App screenshots:
 
-![Home](s_sh7.jpg)  ![Upcoming Launches](s_sh4.jpg)
-
+<p align="center">
+  <img alt="Light" src="s_sh7.jpg" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="s_sh4.jpg" width="45%">
+</p>
 
 
 
