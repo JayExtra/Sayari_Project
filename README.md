@@ -54,7 +54,7 @@ It exposes those data streams which are relevant to the View. Moreover, it serve
 
 ## App screenshots:
 
-![Home](s_sh.jpg)
+![Home](Sayari_Project/s_sh.jpg)
 
 
 
