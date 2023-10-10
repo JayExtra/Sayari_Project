@@ -52,6 +52,9 @@ It exposes those data streams which are relevant to the View. Moreover, it serve
 13. Mock Web Server - for simulating network calls and responses during unit tests.[read more here :point_right:](https://github.com/square/okhttp/tree/master/mockwebserver)
 14. Google truth library - for making assertions during unit and instrumented tests.[read more here :point_right:](https://truth.dev/)
 
+## App screenshots:
+
+![Home](s_sh.jpg)
 
 
 
