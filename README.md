@@ -58,6 +58,17 @@ It exposes those data streams which are relevant to the View. Moreover, it serve
   <img alt="Light" src="s_sh7.jpg" width="30%">
 &nbsp; &nbsp; &nbsp; &nbsp;
   <img alt="Dark" src="s_sh4.jpg" width="30%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+    <img alt="Dark" src="s_sh5.jpg" width="30%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+<img alt="Dark" src="s_sh2.jpg" width="30%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+<img alt="Dark" src="s_sh1.jpg" width="30%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+<img alt="Dark" src="s_sh3.jpg" width="30%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+<img alt="Dark" src="s_sh6.jpg" width="30%">
+
 </p>
 
 
