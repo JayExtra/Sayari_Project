@@ -55,9 +55,9 @@ It exposes those data streams which are relevant to the View. Moreover, it serve
 ## App screenshots:
 
 <p align="center">
-  <img alt="Light" src="s_sh7.jpg" width="45%">
+  <img alt="Light" src="s_sh7.jpg" width="30%">
 &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Dark" src="s_sh4.jpg" width="45%">
+  <img alt="Dark" src="s_sh4.jpg" width="30%">
 </p>
 
 
