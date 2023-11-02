@@ -18,3 +18,5 @@ dependencyResolutionManagement {
 rootProject.name = "Sayari Project"
 include ':app'
 include ':benchmark'
+include ':micro_benchmark'
+include ':benchmarkable'

@@ -22,6 +22,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    
 
     buildTypes {
         // This benchmark buildType is used for benchmarking, and should function like your
